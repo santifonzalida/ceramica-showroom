@@ -1,2 +1,2 @@
-# showroom_back
+# Ceramica Showroom
 NestJS app
