@@ -1,27 +1,37 @@
 import { useEffect, useState } from "react";
 import { EmptyState } from './emptyState';
 import { TableCategories } from './table';
+import { Spinner } from "./spinner";
 
 const CategoryCRUD = () => {
 
     useEffect(() => {
-        fetch('https://localhost:3001/Categories')
+        setShowSpinner(true);
+        fetch('https://long-lime-indri-wig.cyclic.cloud/Categories')
             .then(response => response.json()
             .then(data => {
-                setCategorias(data)
-            }));
+                setCategorias(data.data)
+                setShowSpinner(false);
+            })).catch(error => {
+                setCategorias([]);
+                setShowSpinner(false);
+                throw new Error("No se pudo obtener las categorias.") 
+            });
     },[])
 
     const [mostrarCrear, setMostrarCrear] = useState(false);
     const [categorias, setCategorias]= useState([]);
+    const [showSpinner, setShowSpinner] = useState(true);
 
     const renderResults = () => {
+        if(showSpinner) {
+            return <Spinner />
+        }
         if(categorias.length > 0){
-            return (<TableCategories/>);
+            return (<TableCategories data={categorias}/>);
         } else if(!mostrarCrear){
             return <EmptyState />
         }
-        
     }
 
     return (
