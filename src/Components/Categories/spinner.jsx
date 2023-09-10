@@ -1,22 +1,14 @@
+import { ArrowPathIcon } from "@heroicons/react/24/solid"
+
 const Spinner = () => {
     return (
-        <div className="shadow rounded-md w-full">
-            <div className="animate-pulse flex space-x-4">
-                <table className="w-full bg-white">
-                    <thead>
-                        <tr>
-                            <th className="border p-4">ID</th>
-                            <th className="border p-4">Nombre</th>
-                            <th className="border p-4">Acciones</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td colspan="3" className="text-center p-5">Cargando...</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+        <div className="rounded-md">
+            <h2 className="flex items-center justify-center gap-2 text-lg">Buscando resultados 
+                <div className="flex animate-spin h-5 w-5 mr-3 ">
+                    <ArrowPathIcon />
+                </div>  
+            </h2>
+            
         </div>
     )
 }

@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { EmptyState } from './emptyState';
 import { TableCategories } from './table';
 import { Spinner } from "./spinner";
+import { CreateCategory } from "./createCategory";
 
 const CategoryCRUD = () => {
 
@@ -45,16 +46,7 @@ const CategoryCRUD = () => {
                     </div>
                     
                     <div className={`${mostrarCrear ? '' : 'hidden'} row`}>
-                        <div className="mx-auto p-8">
-                            <label htmlFor="nombre" className="block text-gray-700 text-sm font-bold mb-2">Nombre:</label>
-                            <input
-                                id="nombre"
-                                className="border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                type="text"
-                                placeholder="Ingresa el nombre aquí" />
-                                <button className="bg-blue-500 text-white px-2 py-1 ml-5 rounded">Guardar</button>
-                                <button className="bg-red-500 text-white px-2 py-1 ml-5 rounded" onClick={() => setMostrarCrear(false)}>Cancelar</button>
-                        </div>
+                        <CreateCategory mostrarCrear={setMostrarCrear}/>
                     </div>
                     {renderResults()}
                 </div>
