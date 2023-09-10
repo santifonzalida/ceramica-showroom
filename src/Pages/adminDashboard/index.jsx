@@ -1,6 +1,5 @@
 import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { CameraIcon, XMarkIcon } from '@heroicons/react/24/solid';
 import { CategoryCRUD } from "../../Components/Categories";
 import { LoginContext } from "../../Context/loginContext";
 
