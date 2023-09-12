@@ -8,10 +8,12 @@ const CategoryCRUD = () => {
 
     useEffect(() => {
         setShowSpinner(true);
-        fetch('https://long-lime-indri-wig.cyclic.cloud/Categories')
+        fetch('https://long-lime-indri-wig.cyclic.cloud/Categories', {method: 'GET',headers: { 'Content-Type': 'application/json ' }})
             .then(response => response.json()
             .then(data => {
-                setCategorias(data.data)
+                if(data.data.length > 0){
+                    setCategorias(data.data);
+                }
                 setShowSpinner(false);
             })).catch(error => {
                 setCategorias([]);
@@ -29,7 +31,7 @@ const CategoryCRUD = () => {
             return <Spinner />
         }
         if(categorias.length > 0){
-            return (<TableCategories data={categorias}/>);
+            return <TableCategories data={categorias} setCategory={setCategorias}/>;
         } else if(!mostrarCrear){
             return <EmptyState />
         }
@@ -46,7 +48,7 @@ const CategoryCRUD = () => {
                     </div>
                     
                     <div className={`${mostrarCrear ? '' : 'hidden'} row`}>
-                        <CreateCategory mostrarCrear={setMostrarCrear}/>
+                        <CreateCategory mostrarCrear={setMostrarCrear} setCategory={setCategorias} categorias={categorias}/>
                     </div>
                     {renderResults()}
                 </div>
