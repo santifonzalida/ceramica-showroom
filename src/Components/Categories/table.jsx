@@ -4,8 +4,6 @@ import { PencilIcon } from '@heroicons/react/24/solid'
 
 const TableCategories = (props) => {
 
-    console.log(props.data);
-
     const [showSpinner, setShowSpinner] = useState(false);
     const [mostrarEditar, setMostrarEditar] = useState({show:false, id: 0});
     const [error, setError] = useState(null);
@@ -100,7 +98,7 @@ const TableCategories = (props) => {
                                 Editar
                             </button>
                             <button 
-                                className={`${mostrarEditar.show ? '' : 'hidden'} ${showSpinner ? 'cursor-not-allowed' : ''} bg-blue-500 text-white px-2 py-1 rounded gap-3`}
+                                className={`${mostrarEditar.show && mostrarEditar.id == categoria._id ? '' : 'hidden'} ${showSpinner ? 'cursor-not-allowed' : ''} bg-blue-500 text-white px-2 py-1 rounded gap-3`}
                                 onClick={() => modificar(categoria._id, categoria.name)}
                                 disabled={showSpinner}>
                                 Guardar
@@ -113,7 +111,7 @@ const TableCategories = (props) => {
                                     Eliminar
                             </button>
                             <button 
-                                className={`${mostrarEditar.show ? '' : 'hidden'} ${showSpinner ? 'cursor-not-allowed' : ''} bg-red-500 text-white px-2 py-1 rounded ml-2`} 
+                                className={`${mostrarEditar.show && mostrarEditar.id == categoria._id ? '' : 'hidden'} ${showSpinner ? 'cursor-not-allowed' : ''} bg-red-500 text-white px-2 py-1 rounded ml-2`} 
                                 onClick={() => setMostrarEditar({show:false, id: 0})}
                                 required={showSpinner}>
                                     Cancelar
