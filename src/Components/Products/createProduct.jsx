@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { PhotoIcon } from '@heroicons/react/24/solid'
+import { CheckIcon, ArrowPathIcon } from '@heroicons/react/24/solid';
 
 const CreateProduct = ({setMostrarCrear}) => {
 
@@ -10,6 +10,8 @@ const CreateProduct = ({setMostrarCrear}) => {
         stock: '',
         imagen: '',
       });
+      const [imagenes, setImagenes] = useState(['', '', '']);
+      const [isImageLoading, setIsImageLoading] = useState([false, true, false]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -26,10 +28,10 @@ const CreateProduct = ({setMostrarCrear}) => {
         console.log(producto);
     };
 
-    const [imagenes, setImagenes] = useState(['', '', '']); // Inicialmente, 3 elementos vacíos
-
     const handleImagenChange = (e, index) => {
+    
       const archivo = e.target.files[0];
+      const {size, type, name} = e.target.files[0];
       if(archivo) {
         const reader = new FileReader();
         reader.onload = (event) => {
@@ -84,7 +86,13 @@ const CreateProduct = ({setMostrarCrear}) => {
                             {imagenes.map((imagen, index) => (
                             <div key={index} className="bg-white p-4 rounded-lg border border-gray-300 flex flex-col items-center justify-center">
                                 {imagen ? (
-                                    <img src={imagen} alt={`Imagen ${index}`} className="max-h-36 max-w-full rounded-md" />
+                                    <figure className="relative mb-2 w-full h-4/5">
+                                        <img src={imagen} alt={`Imagen ${index}`} className="w-full h-full object-cover rounded-lg"/>
+                                        <div className="absolute top-0 right-0 flex justify-center items-center bg-white w-6 h-6 rounded-full m-2 p-1" >
+                                            <CheckIcon className={`${isImageLoading[index] ? 'hidden' : ''} text- h-6 w-6 text-green-600`}></CheckIcon>
+                                            <ArrowPathIcon className={`${isImageLoading[index] ? 'animate-spin' : 'hidden'} h-6 w-6 text-black"`}></ArrowPathIcon>
+                                        </div>
+                                    </figure>
                                 ) : (
                                 <div className="text-4xl text-gray-400">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -99,7 +107,7 @@ const CreateProduct = ({setMostrarCrear}) => {
                                     className="hidden"
                                     id={`imagenInput-${index}`}
                                 />
-                                <label htmlFor={`imagenInput-${index}`} className={`${imagen ? 'hidden' : ''} mt-2 cursor-pointer text-blue-500`}>
+                                <label htmlFor={`imagenInput-${index}`} className="mt-2 cursor-pointer text-blue-500">
                                     Cargar Imagen
                                 </label>
                             </div>
