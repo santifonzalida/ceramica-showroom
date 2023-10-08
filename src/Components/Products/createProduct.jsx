@@ -8,8 +8,9 @@ const CreateProduct = ({setMostrarCrear}) => {
         descripcion: '',
         precio: '',
         stock: '',
-        imagen: '',
+        images: [],
       });
+      const [error, setError] = useState(null);
       const [imagenes, setImagenes] = useState(['', '', '']);
       const [isImageLoading, setIsImageLoading] = useState([false, true, false]);
 
@@ -29,21 +30,54 @@ const CreateProduct = ({setMostrarCrear}) => {
     };
 
     const handleImagenChange = (e, index) => {
-    
-      const archivo = e.target.files[0];
       const {size, type, name} = e.target.files[0];
-      if(archivo) {
+
+      if(size && type && name) {
         const reader = new FileReader();
         reader.onload = (event) => {
             const nuevasImagenes = [...imagenes];
             nuevasImagenes[index] = event.target.result;
             setImagenes(nuevasImagenes);
+            const imageB64 = event.target.result.split(',')[1];
+            guardarImagen( imageB64, name, type, size, index);
         };
-        reader.readAsDataURL(archivo);
-        console.log(reader);
+        reader.readAsDataURL(e.target.files[0]);
       }
-      
     };
+
+    const guardarImagen = (imageB64, nombre, extension, size, loadingIndex) => {
+        const loadingArray = [...isImageLoading];
+        loadingArray[loadingIndex] = true;
+        setIsImageLoading(loadingArray);
+
+        let request = {data: imageB64, name: nombre, extention: extension, size: size};
+
+        fetch('https://long-lime-indri-wig.cyclic.cloud/Firebase/guardarImagenes', 
+            {
+                method: 'POST', 
+                body: JSON.stringify(request),
+                headers: { 'Content-Type': 'application/json' },
+            })
+            .then(response => response.json()
+            .then(data => {
+                const newProduct = {...producto};
+                const newImage = { name: nombre, imageUrl: data.data, extention: extension, size: size };
+                newProduct.images.push(newImage);
+                setProducto(newProduct);
+                console.log(producto);
+
+                loadingArray[loadingIndex] = false;
+                setIsImageLoading(loadingArray);
+            })).catch(error => {
+                setError(error)
+                console.log(error);
+                loadingArray[loadingIndex] = false;
+                setIsImageLoading(loadingArray);
+            }
+        );
+    }    
+
+
 
     return (
         <div className="mx-auto mt-10 p-4 border rounded-lg shadow-lg">
