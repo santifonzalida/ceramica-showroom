@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { CheckIcon, ArrowPathIcon } from '@heroicons/react/24/solid';
+import { CheckIcon, ArrowPathIcon, XCircleIcon } from '@heroicons/react/24/solid';
 
 const CreateProduct = ({setMostrarCrear}) => {
 
@@ -11,6 +11,7 @@ const CreateProduct = ({setMostrarCrear}) => {
         images: [],
       });
       const [error, setError] = useState(null);
+      const [imagenesError, setImagenesError] = useState([null, null, null])
       const [imagenes, setImagenes] = useState(['', '', '']);
       const [isImageLoading, setIsImageLoading] = useState([false, true, false]);
 
@@ -46,6 +47,9 @@ const CreateProduct = ({setMostrarCrear}) => {
     };
 
     const guardarImagen = (imageB64, nombre, extension, size, loadingIndex) => {
+        const newImagenesError = [...imagenesError];
+        newImagenesError[loadingIndex] = null;
+
         const loadingArray = [...isImageLoading];
         loadingArray[loadingIndex] = true;
         setIsImageLoading(loadingArray);
@@ -58,19 +62,24 @@ const CreateProduct = ({setMostrarCrear}) => {
                 body: JSON.stringify(request),
                 headers: { 'Content-Type': 'application/json' },
             })
-            .then(response => response.json()
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Se produjo un error al subir el archivo.')
+                }
+                return response.json()
+            })
             .then(data => {
                 const newProduct = {...producto};
                 const newImage = { name: nombre, imageUrl: data.data, extention: extension, size: size };
                 newProduct.images.push(newImage);
                 setProducto(newProduct);
                 console.log(producto);
-
+                
                 loadingArray[loadingIndex] = false;
                 setIsImageLoading(loadingArray);
-            })).catch(error => {
-                setError(error)
-                console.log(error);
+            }).catch(error => {
+                newImagenesError[loadingIndex] = error;
+                setImagenesError(newImagenesError);
                 loadingArray[loadingIndex] = false;
                 setIsImageLoading(loadingArray);
             }
@@ -123,8 +132,9 @@ const CreateProduct = ({setMostrarCrear}) => {
                                     <figure className="relative mb-2 w-full h-4/5">
                                         <img src={imagen} alt={`Imagen ${index}`} className="w-full h-full object-cover rounded-lg"/>
                                         <div className="absolute top-0 right-0 flex justify-center items-center bg-white w-6 h-6 rounded-full m-2 p-1" >
-                                            <CheckIcon className={`${isImageLoading[index] ? 'hidden' : ''} text- h-6 w-6 text-green-600`}></CheckIcon>
+                                            <CheckIcon className={`${imagenesError[index] || isImageLoading[index] ? 'hidden' : ''} h-6 w-6 text-green-600`}></CheckIcon>
                                             <ArrowPathIcon className={`${isImageLoading[index] ? 'animate-spin' : 'hidden'} h-6 w-6 text-black"`}></ArrowPathIcon>
+                                            <XCircleIcon className={`${imagenesError[index] ? '' : 'hidden'} h-6 w-6 fill-red-700 cursor-pointer`}></XCircleIcon>
                                         </div>
                                     </figure>
                                 ) : (
@@ -141,9 +151,15 @@ const CreateProduct = ({setMostrarCrear}) => {
                                     className="hidden"
                                     id={`imagenInput-${index}`}
                                 />
+                                <label className={`${imagenesError[index] ? '' : 'hidden'} text-red-600 mt-2`}>
+                                    <small>
+                                        {imagenesError[index] ? imagenesError[index].message : ''}
+                                    </small>
+                                </label>
                                 <label htmlFor={`imagenInput-${index}`} className="mt-2 cursor-pointer text-blue-500">
                                     Cargar Imagen
                                 </label>
+                                
                             </div>
                             ))}
                         </div>
