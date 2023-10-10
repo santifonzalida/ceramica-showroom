@@ -13,7 +13,7 @@ const CreateProduct = ({setMostrarCrear}) => {
       const [error, setError] = useState(null);
       const [imagenesError, setImagenesError] = useState([null, null, null])
       const [imagenes, setImagenes] = useState(['', '', '']);
-      const [isImageLoading, setIsImageLoading] = useState([false, true, false]);
+      const [isImageLoading, setIsImageLoading] = useState([false, false, false]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -32,27 +32,39 @@ const CreateProduct = ({setMostrarCrear}) => {
 
     const handleImagenChange = (e, index) => {
       const {size, type, name} = e.target.files[0];
-
-      if(size && type && name) {
-        const reader = new FileReader();
-        reader.onload = (event) => {
-            const nuevasImagenes = [...imagenes];
-            nuevasImagenes[index] = event.target.result;
-            setImagenes(nuevasImagenes);
-            const imageB64 = event.target.result.split(',')[1];
-            guardarImagen( imageB64, name, type, size, index);
-        };
-        reader.readAsDataURL(e.target.files[0]);
+      if ((size / (1024 * 1024)) <= 2){
+        if (size && type && name) {
+            const reader = new FileReader();
+            reader.onload = (event) => {
+                const nuevasImagenes = [...imagenes];
+                nuevasImagenes[index] = event.target.result;
+                setImagenes(nuevasImagenes);
+                const imageB64 = event.target.result.split(',')[1];
+                guardarImagen( imageB64, name, type, size, index);
+            };
+            reader.readAsDataURL(e.target.files[0]);
+          }
+      }else {
+        const newImagenesError = [...imagenesError];
+        newImagenesError[index] = {message: 'La imagen seleccionada supera los 2MB.'};
+        setImagenesError(newImagenesError);
       }
     };
 
-    const guardarImagen = (imageB64, nombre, extension, size, loadingIndex) => {
+    const resetStates = (index) => {
         const newImagenesError = [...imagenesError];
-        newImagenesError[loadingIndex] = null;
+        newImagenesError[index] = null;
+        setImagenesError(newImagenesError);
 
         const loadingArray = [...isImageLoading];
-        loadingArray[loadingIndex] = true;
+        loadingArray[index] = true;
         setIsImageLoading(loadingArray);
+    }
+
+
+    const guardarImagen = (imageB64, nombre, extension, size, productIndex) => {
+        
+        resetStates(productIndex);
 
         let request = {data: imageB64, name: nombre, extention: extension, size: size};
 
@@ -75,12 +87,16 @@ const CreateProduct = ({setMostrarCrear}) => {
                 setProducto(newProduct);
                 console.log(producto);
                 
-                loadingArray[loadingIndex] = false;
+                const loadingArray = [...isImageLoading];
+                loadingArray[productIndex] = false;
                 setIsImageLoading(loadingArray);
             }).catch(error => {
-                newImagenesError[loadingIndex] = error;
+                const newImagenesError = [...imagenesError];
+                newImagenesError[productIndex] = error;
                 setImagenesError(newImagenesError);
-                loadingArray[loadingIndex] = false;
+
+                const loadingArray = [...isImageLoading];
+                loadingArray[productIndex] = false; 
                 setIsImageLoading(loadingArray);
             }
         );
