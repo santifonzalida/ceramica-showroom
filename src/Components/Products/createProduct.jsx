@@ -39,7 +39,6 @@ const CreateProduct = ({setMostrarCrear}) => {
             ...producto,
             [name]: value,
         });
-        console.log(producto);
     };
 
     const handleSubmit = (e) => {
@@ -101,10 +100,9 @@ const CreateProduct = ({setMostrarCrear}) => {
             })
             .then(data => {
                 const newProduct = {...producto};
-                const newImage = { name: nombre, imageUrl: data.data, extention: extension, size: size };
+                const newImage = { name: nombre, imageUrl: data.data[0], extention: extension, size: size };
                 newProduct.images.push(newImage);
                 setProducto(newProduct);
-                console.log(producto);
                 
                 const loadingArray = [...isImageLoading];
                 loadingArray[productIndex] = false;
@@ -162,6 +160,7 @@ const CreateProduct = ({setMostrarCrear}) => {
                         className="w-full px-4 py-2 border rounded-md shadow-sm focus:outline-none focus:border-blue-500"
                         value={producto.idCategoria}
                         onChange={handleChange}
+                        required
                     >
                     <option value="">Seleccione una categoria</option>
                         {
