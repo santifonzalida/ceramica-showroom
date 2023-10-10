@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { CheckIcon, ArrowPathIcon, XCircleIcon } from '@heroicons/react/24/solid';
 
 const CreateProduct = ({setMostrarCrear}) => {
@@ -9,11 +9,29 @@ const CreateProduct = ({setMostrarCrear}) => {
         precio: '',
         stock: '',
         images: [],
+        idCategoria: 0
       });
-      const [error, setError] = useState(null);
       const [imagenesError, setImagenesError] = useState([null, null, null])
       const [imagenes, setImagenes] = useState(['', '', '']);
       const [isImageLoading, setIsImageLoading] = useState([false, false, false]);
+      const [categorias, setCategorias] = useState([]);
+
+      useEffect(() => {
+        
+        fetch(
+            'https://long-lime-indri-wig.cyclic.cloud/Categories', {method: 'GET',headers: { 'Content-Type': 'application/json ' }})
+            .then(response => response.json()
+            .then(data => {
+                if(data.data.length > 0){
+                    setCategorias(data.data);
+                }
+               
+            })).catch(error => {
+                setCategorias([]);
+                throw new Error("No se pudo obtener las categorias.") 
+            });
+    },[])
+
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -102,8 +120,6 @@ const CreateProduct = ({setMostrarCrear}) => {
         );
     }    
 
-
-
     return (
         <div className="mx-auto mt-10 p-4 border rounded-lg shadow-lg">
             <h1 className="text-2xl font-semibold mb-4">Agregar Producto</h1>
@@ -135,6 +151,31 @@ const CreateProduct = ({setMostrarCrear}) => {
                         required
                     ></textarea>
                 </div>
+                <div className="mb-4">
+                    <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="categoria">
+                        Categoria
+                    </label>
+
+                    <select
+                        id="categoria"
+                        name="categoria"
+                        className="w-full px-4 py-2 border rounded-md shadow-sm focus:outline-none focus:border-blue-500"
+                        value={producto.idCategoria}
+                        onChange={handleChange}
+                    >
+                    <option value="">Selecciona una categoria</option>
+                    {
+                        categorias.map((categoria, index) => (
+                            <option key={index} value={categoria._id}>
+                                {categoria.name}
+                            </option>
+                        ))
+                    }
+                </select>
+
+
+                </div>
+
                 <div className="mb-4">
                     <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="precio">
                         Seleccionar imágenes
