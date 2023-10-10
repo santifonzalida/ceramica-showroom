@@ -9,7 +9,7 @@ const CreateProduct = ({setMostrarCrear}) => {
         precio: '',
         stock: '',
         images: [],
-        idCategoria: 0
+        idCategoria: ''
       });
       const [imagenesError, setImagenesError] = useState([null, null, null])
       const [imagenes, setImagenes] = useState(['', '', '']);
@@ -39,6 +39,7 @@ const CreateProduct = ({setMostrarCrear}) => {
             ...producto,
             [name]: value,
         });
+        console.log(producto);
     };
 
     const handleSubmit = (e) => {
@@ -152,35 +153,31 @@ const CreateProduct = ({setMostrarCrear}) => {
                     ></textarea>
                 </div>
                 <div className="mb-4">
-                    <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="categoria">
+                    <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="idCategoria">
                         Categoria
                     </label>
-
                     <select
-                        id="categoria"
-                        name="categoria"
+                        id="idCategoria"
+                        name="idCategoria"
                         className="w-full px-4 py-2 border rounded-md shadow-sm focus:outline-none focus:border-blue-500"
                         value={producto.idCategoria}
                         onChange={handleChange}
                     >
-                    <option value="">Selecciona una categoria</option>
-                    {
-                        categorias.map((categoria, index) => (
-                            <option key={index} value={categoria._id}>
-                                {categoria.name}
-                            </option>
-                        ))
-                    }
-                </select>
-
-
+                    <option value="">Seleccione una categoria</option>
+                        {
+                            categorias.map((categoria, index) => (
+                                <option key={index} value={categoria._id}>
+                                    {categoria.name}
+                                </option>
+                            ))
+                        }
+                    </select>
                 </div>
 
                 <div className="mb-4">
                     <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="precio">
                         Seleccionar imágenes
                     </label>
-
                     <div className="bg-gray-100 p-4">
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                             {imagenes.map((imagen, index) => (
@@ -216,7 +213,6 @@ const CreateProduct = ({setMostrarCrear}) => {
                                 <label htmlFor={`imagenInput-${index}`} className="mt-2 cursor-pointer text-blue-500">
                                     Cargar Imagen
                                 </label>
-                                
                             </div>
                             ))}
                         </div>
