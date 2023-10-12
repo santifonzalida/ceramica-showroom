@@ -17,7 +17,6 @@ const CreateProduct = ({setMostrarCrear}) => {
       const [categorias, setCategorias] = useState([]);
 
       useEffect(() => {
-        
         fetch(
             'https://long-lime-indri-wig.cyclic.cloud/Categories', {method: 'GET',headers: { 'Content-Type': 'application/json ' }})
             .then(response => response.json()
@@ -43,9 +42,35 @@ const CreateProduct = ({setMostrarCrear}) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        // Aquí puedes manejar el envío del formulario o guardar los datos
-        // producto en tu estado global o base de datos.
         console.log(producto);
+        let {nombre, descripcion, idCategoria, images, precio, stock} = producto;
+        let request = { 
+            name: nombre,
+            description: descripcion,
+            price: 0,
+            stock: 0,
+            category: idCategoria
+        }
+
+        fetch('https://long-lime-indri-wig.cyclic.cloud/Products', 
+            {
+                method: 'POST', 
+                body: JSON.stringify(request),
+                headers: { 'Content-Type': 'application/json' },
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Se produjo un error al guardar el producto.')
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log(data);
+            }).catch(error => {
+                console.log(error);
+            }
+        );
+
     };
 
     const handleImagenChange = (e, index) => {
