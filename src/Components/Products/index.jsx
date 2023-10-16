@@ -1,9 +1,36 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { CreateProduct } from './createProduct';
+import { TableProducts } from "./table";
 
 const ProductsCRUD = () => {
 
     const [mostrarCrear, setMostrarCrear] = useState(false);
+    const [productos, setProductos] = useState([]);
+    const [showSpinner, setShowSpinner] = useState(false);
+    const [error, setError] = useState(null);
+
+    useEffect(() => {
+        setShowSpinner(true);
+        fetch('https://long-lime-indri-wig.cyclic.cloud/Products', {method: 'GET',headers: { 'Content-Type': 'application/json ' }})
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Se produjo un error al obtener los productos.')
+                }
+                return response.json();
+            })
+            .then(data => {
+                if(data.data.length > 0){
+                    setProductos(data.data);
+                }
+                setShowSpinner(false);
+                console.log(productos);
+            }).catch(error => {
+                setProductos([]);
+                setShowSpinner(false);
+                setError(error);
+                throw new Error("No se pudo obtener los productos." + error) 
+            });
+    },[]);
 
     return (
         <div>
@@ -17,6 +44,9 @@ const ProductsCRUD = () => {
                     
                     <div className={`${mostrarCrear ? '' : 'hidden'} row`}>
                         <CreateProduct setMostrarCrear={setMostrarCrear}/>
+                    </div>
+                    <div>
+                        <TableProducts products={productos} />
                     </div>
                     
                 </div>

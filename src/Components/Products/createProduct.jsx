@@ -44,11 +44,13 @@ const CreateProduct = ({setMostrarCrear}) => {
         e.preventDefault();
         console.log(producto);
         let {nombre, descripcion, idCategoria, images, precio, stock} = producto;
+        
         let request = { 
             name: nombre,
             description: descripcion,
-            price: 0,
-            stock: 0,
+            price: precio,
+            stock: stock,
+            images: images,
             category: idCategoria
         }
 
