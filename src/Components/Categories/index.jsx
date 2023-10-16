@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import { EmptyState } from './emptyState';
+import { EmptyState } from '../Common/EmptyState';
 import { TableCategories } from './table';
-import { Spinner } from "./spinner";
+import { Spinner } from "../Common/Spinner";
 import { CreateCategory } from "./createCategory";
 
 const CategoryCRUD = () => {

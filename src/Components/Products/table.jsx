@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Modal } from "../Modal";
+import { Modal } from "../Common/Modal";
 
 const TableProducts = ({products})=> {
     const [showSpinner, setShowSpinner] = useState(false);
@@ -24,8 +24,7 @@ const TableProducts = ({products})=> {
     };
 
     const handleCancelarEliminar = () => {
-    // Aquí, simplemente cierra el modal
-    setShowModal(false);
+        setShowModal(false);
     };
 
     return (

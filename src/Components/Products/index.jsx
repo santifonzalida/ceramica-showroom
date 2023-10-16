@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { CreateProduct } from './createProduct';
 import { TableProducts } from "./table";
+import { Spinner } from '../Common/Spinner';
 
 const ProductsCRUD = () => {
 
@@ -23,7 +24,6 @@ const ProductsCRUD = () => {
                     setProductos(data.data);
                 }
                 setShowSpinner(false);
-                console.log(productos);
             }).catch(error => {
                 setProductos([]);
                 setShowSpinner(false);
@@ -36,23 +36,25 @@ const ProductsCRUD = () => {
         <div>
             <div className="bg-gray-100 font-sans">
                 <div className="container mx-auto p-8">
-                    
                     <div className="flex items-center mb-2" >
                         <h1 className="text-3xl font-semibold">Lista de Productos</h1>
                         <button className={`${mostrarCrear ? 'hidden' : ''} bg-blue-500 text-white px-2 py-1 ml-5 rounded`} onClick={() => setMostrarCrear(true)}>Nuevo</button>
                     </div>
-                    
-                    <div className={`${mostrarCrear ? '' : 'hidden'} row`}>
-                        <CreateProduct setMostrarCrear={setMostrarCrear}/>
-                    </div>
-                    <div className={`${mostrarCrear ? 'hidden' : 'row'}`}>
-                        <TableProducts products={productos} />
-                    </div>
-                    
+                    { showSpinner ? <Spinner /> : 
+                        <div>
+                            <div className={`${mostrarCrear ? '' : 'hidden'} row`}>
+                                <CreateProduct setMostrarCrear={setMostrarCrear}/>
+                            </div>
+                            <div className={`${mostrarCrear ? 'hidden' : 'row'}`}>
+                                <TableProducts products={productos} />
+                            </div>
+                        </div>
+                    }
                 </div>
             </div>
         </div>
     );
+    
 }
 
 export { ProductsCRUD };
