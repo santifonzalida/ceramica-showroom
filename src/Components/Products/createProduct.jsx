@@ -24,7 +24,6 @@ const CreateProduct = ({setMostrarCrear}) => {
                 if(data.data.length > 0){
                     setCategorias(data.data);
                 }
-               
             })).catch(error => {
                 setCategorias([]);
                 throw new Error("No se pudo obtener las categorias.") 
@@ -42,16 +41,14 @@ const CreateProduct = ({setMostrarCrear}) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log(producto);
-        let {nombre, descripcion, idCategoria, images, precio, stock} = producto;
-        
+
         let request = { 
-            name: nombre,
-            description: descripcion,
-            price: precio,
-            stock: stock,
-            images: images,
-            category: idCategoria
+            name: producto.nombre,
+            description: producto.descripcion,
+            price: producto.precio,
+            stock: producto.stock,
+            images: producto.images,
+            category: producto.idCategoria
         }
 
         fetch('https://long-lime-indri-wig.cyclic.cloud/Products', 
@@ -275,7 +272,7 @@ const CreateProduct = ({setMostrarCrear}) => {
                 </div>
                 <div className="mb-6 text-right">
                     <button
-                        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                        className={` ${isImageLoading.some(x => x) ? 'cursor-not-allowed disabled' : ''} bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline`}
                         type="submit"
                     >
                         Agregar Producto

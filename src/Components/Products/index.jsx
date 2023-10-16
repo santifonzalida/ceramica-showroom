@@ -45,7 +45,7 @@ const ProductsCRUD = () => {
                     <div className={`${mostrarCrear ? '' : 'hidden'} row`}>
                         <CreateProduct setMostrarCrear={setMostrarCrear}/>
                     </div>
-                    <div>
+                    <div className={`${mostrarCrear ? 'hidden' : 'row'}`}>
                         <TableProducts products={productos} />
                     </div>
                     
