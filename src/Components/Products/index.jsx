@@ -43,10 +43,10 @@ const ProductsCRUD = () => {
                     { showSpinner ? <Spinner /> : 
                         <div>
                             <div className={`${mostrarCrear ? '' : 'hidden'} row`}>
-                                <CreateProduct setMostrarCrear={setMostrarCrear}/>
+                                <CreateProduct setMostrarCrear={setMostrarCrear} products={productos} setProducts={setProductos}/>
                             </div>
                             <div className={`${mostrarCrear ? 'hidden' : 'row'}`}>
-                                <TableProducts products={productos} />
+                                <TableProducts products={productos} setProducts={setProductos} />
                             </div>
                         </div>
                     }

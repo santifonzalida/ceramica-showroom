@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { CheckIcon, ArrowPathIcon, XCircleIcon } from '@heroicons/react/24/solid';
 
-const CreateProduct = ({setMostrarCrear}) => {
+const CreateProduct = ({setMostrarCrear, products, setProducts}) => {
 
     const [producto, setProducto] = useState({
         nombre: '',
@@ -14,6 +14,7 @@ const CreateProduct = ({setMostrarCrear}) => {
       const [imagenesError, setImagenesError] = useState([null, null, null])
       const [imagenes, setImagenes] = useState(['', '', '']);
       const [isImageLoading, setIsImageLoading] = useState([false, false, false]);
+      const [isLoading, setIsLoading] = useState(false);
       const [categorias, setCategorias] = useState([]);
 
       useEffect(() => {
@@ -41,6 +42,7 @@ const CreateProduct = ({setMostrarCrear}) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        setIsLoading(true);
 
         let request = { 
             name: producto.nombre,
@@ -65,8 +67,16 @@ const CreateProduct = ({setMostrarCrear}) => {
             })
             .then(data => {
                 console.log(data);
+                let productos = [...products];
+                let newProduct = data.data;
+                productos.push(newProduct);
+                setProducts(productos);
+                setMostrarCrear(false);
+                setIsLoading(false)
+                resetProduct();
             }).catch(error => {
                 console.log(error);
+                setIsLoading(false);
             }
         );
 
@@ -103,11 +113,20 @@ const CreateProduct = ({setMostrarCrear}) => {
         setIsImageLoading(loadingArray);
     }
 
+    const resetProduct = () => {
+        setProducto({
+            nombre: '',
+            descripcion: '',
+            precio: '',
+            stock: '',
+            images: [],
+            idCategoria: ''
+          });
+    }
+
 
     const guardarImagen = (imageB64, nombre, extension, size, productIndex) => {
-        
         resetStates(productIndex);
-
         let request = {data: imageB64, name: nombre, extention: extension, size: size};
 
         fetch('https://long-lime-indri-wig.cyclic.cloud/Firebase/guardarImagenes', 
@@ -270,15 +289,15 @@ const CreateProduct = ({setMostrarCrear}) => {
                         required
                     />
                 </div>
-                <div className="mb-6 text-right">
-                    <button
-                        className={` ${isImageLoading.some(x => x) ? 'cursor-not-allowed disabled' : ''} bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline`}
-                        type="submit"
-                    >
-                        Agregar Producto
-                    </button>
+                <div className="flex mb-6 justify-end">
+                {
+                    isLoading 
+                        ? <button className="flex cursor-not-allowed disabled bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline`">Agregar producto<ArrowPathIcon className='flex h-5 w-5 ml-2 mt-1 animate-spin'/></button>
+                        : <button className={` ${isImageLoading.some(x => x) ? 'cursor-not-allowed disabled' : ''} bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline`}
+                            type="submit" >Agregar Producto </button>
+                }
                     <button 
-                        className="bg-red-500 text-white font-bold py-2 px-4 rounded hover:bg-red-700 ml-5"
+                        className={`${isImageLoading.some(x => x) ? 'cursor-not-allowed disabled' : ''} bg-red-500 text-white font-bold py-2 px-4 rounded hover:bg-red-700 ml-5`}
                         onClick={() => setMostrarCrear(false)}>Cancelar</button>
                 </div>
             </form>

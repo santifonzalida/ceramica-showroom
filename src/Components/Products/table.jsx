@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Modal } from "../Common/Modal";
 
-const TableProducts = ({products})=> {
+const TableProducts = ({products, setProducts})=> {
     const [showSpinner, setShowSpinner] = useState(false);
     const [error, setError] = useState(null);
     const [showModal, setShowModal] = useState(false);
@@ -20,7 +20,37 @@ const TableProducts = ({products})=> {
       };
 
     const handleConfirmEliminar = () => {
-        setShowModal(false);
+        setShowSpinner(true);
+        let request = { productId: productoSeleccionado._id };
+
+        fetch('https://long-lime-indri-wig.cyclic.cloud/Products', 
+            {
+                method: 'DELETE', 
+                body: JSON.stringify(request),
+                headers: { 'Content-Type': 'application/json' },
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Se produjo un error al eliminar el producto.')
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log(data);
+                let p = [...products];
+                let index = p.findIndex(product => product._id == productoSeleccionado._id);
+                if(index > -1) {
+                    p.splice(index,1);
+                    setProducts(p);
+                }
+                setShowSpinner(false);
+                setShowModal(false);
+            }).catch(error => {
+                console.log(error);
+                setShowSpinner(false);
+                setShowModal(false);
+            }
+        );
     };
 
     const handleCancelarEliminar = () => {
@@ -61,9 +91,11 @@ const TableProducts = ({products})=> {
             </table>
             <Modal
                 isOpen={showModal}
-                message={`¿Estás seguro de que deseas eliminar el producto ${productoSeleccionado ? productoSeleccionado.name : ''}?`}
+                title={`¿Estás seguro de que deseas eliminar el producto ${productoSeleccionado ? productoSeleccionado.name : ''}?`}
+                message={'Al confirmar se eliminaran todas las imagenes asociadas.'}
                 onCancel={handleCancelarEliminar}
                 onConfirm={handleConfirmEliminar}
+                showSpinner={showSpinner}
             />
         </div>
         
