@@ -35,10 +35,10 @@ import { createContext, useState, useEffect } from "react";
     const [searchByTitle, setSearchByTitle] = useState(null);
 
     useEffect(() => {
-        fetch('https://api.escuelajs.co/api/v1/products?offset=0&limit=20')
+        fetch('https://long-lime-indri-wig.cyclic.cloud/Products')
             .then(response => response.json()
             .then(data => {
-                setProducts(data)
+                setProducts(data.data)
             }));
     },[])
 

@@ -24,7 +24,7 @@ function Home() {
     }else {
       return (
         context.products?.map((product) => (
-          <Card key={product.id} data={product}/>
+          <Card key={product._id} data={product}/>
         ))
       )
     }

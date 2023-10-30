@@ -25,7 +25,7 @@ const Card = (data) => {
     }
 
     const renderIcon = (idProduct) => {
-        const isInCart = context.cartProducts.filter((product) => product.id === idProduct).length > 0;
+        const isInCart = context.cartProducts.filter((product) => product._id === idProduct).length > 0;
 
         if(isInCart){
             return (
@@ -49,11 +49,11 @@ const Card = (data) => {
                     <span className="absolute bottom-0 left-0 bg-white/60 rounded-lg text-black text-xs m-2 px-3 py-0.5">{data.data.category.name}</span>
                     <img 
                         className="w-full h-full object-cover rounded-lg" 
-                        src={data.data.images[0]} 
-                        alt={data.data.description}
+                        src={data.data.images[0].imageUrl} 
+                        alt={data.data.images[0].name}
                         onClick={() => openProductDetail(data.data)} 
                     />
-                    {renderIcon(data.data.id)}
+                    {renderIcon(data.data._id)}
                 </figure>
             ) : (
                 <div className="animate-pulse flex">
@@ -64,11 +64,11 @@ const Card = (data) => {
                 </div>
             )}
             <p className="flex justify-between">
-                <span className="text-sm font-light truncate pt-1" onClick={() => openProductDetail(data.data)}>{data.data.title}</span>
+                <span className="text-sm font-light truncate pt-1" onClick={() => openProductDetail(data.data)}>{data.data.name}</span>
                 <span className="text-lg font-medium">${data.data.price}</span>
             </p>
             <img
-                src={data.data.images[0]}
+                src={data.data.images[0].imageUrl}
                 alt="hidden image"
                 style={{display: 'none'}}
                 onLoad={handleImageLoad}
