@@ -5,7 +5,7 @@ import { ArrowPathIcon } from '@heroicons/react/24/solid';
 const SignUp = (props) => {
 
     const context = useContext(LoginContext);
-    const [newUser, setNewUser] = useState({avatar: 'http://example.com', role:"customer", name: '', email: '', password: ''});
+    const [newUser, setNewUser] = useState({avatarUrl: 'http://example.com', role:"customer", fullName: '', email: '', password: ''});
     const [success, setSuccess] = useState(false);
 
     const showSignUpPage =() => {
@@ -23,7 +23,7 @@ const SignUp = (props) => {
                 setSuccess(true);
                 setTimeout(() => {
                     props.updateState(false);
-                    setNewUser({avatar: 'http://example.com', role:"customer", name: '', email: '', password: ''});
+                    setNewUser({avatarUrl: 'http://example.com', role:"customer", email: '', password: '', fullName: ''});
                     setSuccess(false);
                 },1500);
             }
@@ -55,10 +55,10 @@ const SignUp = (props) => {
                 <p>Complete name:</p>
                 <input
                     type="text"
-                    value={newUser.name}
+                    value={newUser.fullName}
                     placeholder='name'
                     className='rounded-lg border border-black w-80 p-4 mb-4 focus:outline-none'
-                    onChange={(event) => setNewUser({...newUser, name: event.target.value})} 
+                    onChange={(event) => setNewUser({...newUser, fullName: event.target.value})} 
                 />
                 <p>Email:</p>
                 <input

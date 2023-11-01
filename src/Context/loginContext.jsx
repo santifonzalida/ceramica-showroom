@@ -23,21 +23,21 @@ export const LoginContextProvider = ({children}) => {
             body: JSON.stringify({...credentials})
         };
 
-        const response = await fetch('https://api.escuelajs.co/api/v1/auth/login', requestOptions);
+        const response = await fetch('https://long-lime-indri-wig.cyclic.cloud/auth/login', requestOptions);
         return await response.json();
     }
 
     const getUserInfo = async() => {
         setIsLoading(true);
-        const token = localStorage.getItem("tokens").access_token;
+        const user = localStorage.getItem("user");
         const requestOptions = {
             method: 'GET',
             headers: { 
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`},
+                'Authorization': `Bearer ${user.access_token}`},
         };
 
-        const response = await fetch('https://api.escuelajs.co/api/v1/auth/profile', requestOptions);
+        const response = await fetch(`https://long-lime-indri-wig.cyclic.cloud/users/${user.userId}`, requestOptions);
         return await response.json();
     }
 
@@ -57,18 +57,22 @@ export const LoginContextProvider = ({children}) => {
             body: JSON.stringify({...newUSer})
         };
 
-        const response = await fetch('https://api.escuelajs.co/api/v1/users', requestOptions);
+        const response = await fetch('https://long-lime-indri-wig.cyclic.cloud/users', requestOptions);
         return await response.json();
     }
 
     const updateUserInformation = async() => {
+        const userStorage = localStorage.getItem("user");
+        const bodyRequest = {"avatarUrl": user.avatarUrl};
         const requestOptions = {
             method: 'PUT',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({...user})
+            headers: { 'Content-Type': 'application/json',
+                'Authorization': `Bearer ${userStorage.access_token}`
+            },
+            body: JSON.stringify(bodyRequest)
         };
 
-        const response = await fetch(`https://api.escuelajs.co/api/v1/users/${user.id}`, requestOptions);
+        const response = await fetch(`https://long-lime-indri-wig.cyclic.cloud/users/${userStorage.userId}`, requestOptions);
         return await response.json();
     }
 

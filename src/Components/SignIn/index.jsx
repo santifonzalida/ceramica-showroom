@@ -17,13 +17,12 @@ const SignIn = (props) => {
             if(data.statusCode == 401) {
                 context.setIsUserLogin(false);
                 context.setError({...data, message:[], from: 'login'});
-            } else if(data.access_token) {
+            } else if(data.data.access_token) {
                 setSuccess(true);
+                localStorage.saveItem("user", data.data);
                 context.setIsUserLogin(true);
-                localStorage.saveItem("tokens", data);
-                context.setIsUserLogin(true);
-                navigate('/my-account');
                 context.setError(null);
+                navigate('/my-account');
             }
             context.setIsLoading(false);
         });
