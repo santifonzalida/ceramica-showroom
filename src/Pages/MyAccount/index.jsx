@@ -37,7 +37,7 @@ function MyAccount() {
         <div className="max-w-lg mx-auto my-10 bg-zinc-80 rounded-lg p-5">
         <div className="relative">
           <img className="w-40 h-40 rounded-full mx-auto" src={context.user?.avatarUrl} alt="User avatar" />
-          <CameraIcon className="absolute top-1/2 left-1/2 ml-10 mb-5 text-black py-2 px-4 w-16 h-16 opacity-90 mt-4 ml-5 bg-stone-400 rounded-full" onClick={() => setShowModal(true)}> </CameraIcon>
+          <CameraIcon className="absolute top-1/2 left-1/2 mb-5 text-black py-2 px-4 w-16 h-16 opacity-90 mt-4 ml-5 bg-stone-400 rounded-full" onClick={() => setShowModal(true)}> </CameraIcon>
         </div>
         <h2 className="text-center text-2xl font-semibold mt-3">{context.user?.name}</h2>
         <p className="text-center text-gray-600 mt-1">{context.user?.email} - {context.user?.role}</p>
