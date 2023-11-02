@@ -48,7 +48,7 @@ function MyAccount() {
         </div>
         <div className="mt-5">
           <h3 className="text-xl font-semibold">Bio</h3>
-          <p className="text-gray-600 mt-2">{context.user?.name} is a software engineer with over 10 years of experience in developing web and mobile applications. He is skilled in JavaScript, React, and Node.js.</p>
+          <p className="text-gray-600 mt-2">{context.user?.fullName} is a software engineer with over 10 years of experience in developing web and mobile applications. He is skilled in JavaScript, React, and Node.js.</p>
         </div>
       </div>
       :
