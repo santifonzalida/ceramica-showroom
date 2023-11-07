@@ -16,8 +16,7 @@ const TableProducts = ({products, setProducts})=> {
             setError('no se encontro el producto seleccionado');
             console.error(error);
         }
-        
-      };
+    };
 
     const handleConfirmEliminar = () => {
         setShowSpinner(true);

@@ -29,7 +29,7 @@ export const LoginContextProvider = ({children}) => {
 
     const getUserInfo = async() => {
         setIsLoading(true);
-        const user = localStorage.getItem("user");
+        const user = JSON.parse(localStorage.getItem("user"));
         const requestOptions = {
             method: 'GET',
             headers: { 
@@ -62,7 +62,7 @@ export const LoginContextProvider = ({children}) => {
     }
 
     const updateUserInformation = async() => {
-        const userStorage = localStorage.getItem("user");
+        const userStorage = JSON.parse(localStorage.getItem("user"));
         const bodyRequest = {"avatarUrl": user.avatarUrl};
         const requestOptions = {
             method: 'PUT',

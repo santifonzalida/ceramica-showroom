@@ -1,20 +1,26 @@
 import { useState } from "react";
 import { PencilIcon } from '@heroicons/react/24/solid'
-
+import { Modal } from "../Common/Modal";
 
 const TableCategories = (props) => {
 
     const [showSpinner, setShowSpinner] = useState(false);
+    const [showModal, setShowModal] = useState(false);
     const [mostrarEditar, setMostrarEditar] = useState({show:false, id: 0});
+    const [categoriaSeleccionada, setCategoriaSeleccionada] = useState(null);
     const [error, setError] = useState(null);
 
-    const eliminar = (id) => {
+    const handleConfirmEliminar = () => {
         setShowSpinner(true);
-        fetch(`https://long-lime-indri-wig.cyclic.cloud/Categories/${id}`,
-            {
-                method: 'DELETE',
-                headers: { 'Content-Type': 'application/json' },
-            })
+        const userStorage = JSON.parse(localStorage.getItem("user"));
+        const requestOptions = {
+            method: 'DELETE',
+            headers: { 'Content-Type': 'application/json',
+                'Authorization': `Bearer ${userStorage.access_token}`
+            },
+        };
+
+        fetch(`https://long-lime-indri-wig.cyclic.cloud/Categories/${categoriaSeleccionada._id}`, requestOptions)
             .then(response => response.json()
                 .then(data => {
                     if (data && data.data) {
@@ -26,6 +32,7 @@ const TableCategories = (props) => {
                         }
                     }
                     setShowSpinner(false);
+                    setShowModal(false);
                 })).catch(error => {
                     setError(error)
                     setShowSpinner(false);
@@ -73,7 +80,23 @@ const TableCategories = (props) => {
         props.setCategory(categorias);
     }
 
+    const handleEliminar = (categoriaId) => {
+        setShowModal(true);
+        const cat = props.data.find(categoria => categoria._id == categoriaId);
+        if(cat){
+            setCategoriaSeleccionada(cat);
+        }else {
+            setError('no se encontro la categoria seleccionada.');
+            console.error(error);
+        }
+    };
+    
+    const handleCancelarEliminar = () => {
+        setShowModal(false);
+    }
+
     return (
+    <div>
         <table className="w-full bg-white">
             <thead>
                 <tr>
@@ -106,7 +129,7 @@ const TableCategories = (props) => {
                             
                             <button 
                                 className={`${mostrarEditar.show ? 'hidden' : ''} ${showSpinner ? 'cursor-not-allowed' : ''} bg-red-500 text-white px-2 py-1 rounded ml-2`} 
-                                onClick={() => eliminar(categoria._id)}
+                                onClick={() => handleEliminar(categoria._id)}
                                 required={showSpinner}>
                                     Eliminar
                             </button>
@@ -121,6 +144,15 @@ const TableCategories = (props) => {
                 ))}
             </tbody>
         </table>
+        <Modal
+            isOpen={showModal}
+            title={`¿Estás seguro de que deseas eliminar la categoria ${categoriaSeleccionada ? categoriaSeleccionada.name : ''}?`}
+            message={'Al confirmar se eliminara definitivamente la categoria.'}
+            onCancel={handleCancelarEliminar}
+            onConfirm={handleConfirmEliminar}
+            showSpinner={showSpinner}
+        />
+    </div>
     );
 }
 

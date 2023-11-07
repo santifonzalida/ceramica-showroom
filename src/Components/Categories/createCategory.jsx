@@ -9,13 +9,14 @@ const CreateCategory = (props) => {
 
     const create = () => {
         setShowSpinner(true);
+        const userStorage = JSON.parse(localStorage.getItem("user"));
         let request = {name: nombreCategoria, image: 'http://fakeurl.com/img'};
 
         fetch('https://long-lime-indri-wig.cyclic.cloud/Categories', 
             {
                 method: 'POST', 
                 body: JSON.stringify(request),
-                headers: { 'Content-Type': 'application/json' },
+                headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${userStorage.access_token}` },
             })
             .then(response => response.json()
             .then(data => {
