@@ -43,6 +43,7 @@ const CreateProduct = ({setMostrarCrear, products, setProducts}) => {
     const handleSubmit = (e) => {
         e.preventDefault();
         setIsLoading(true);
+        const userStorage = JSON.parse(localStorage.getItem("user"));
 
         let request = { 
             name: producto.nombre,
@@ -57,7 +58,7 @@ const CreateProduct = ({setMostrarCrear, products, setProducts}) => {
             {
                 method: 'POST', 
                 body: JSON.stringify(request),
-                headers: { 'Content-Type': 'application/json' },
+                headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${userStorage.access_token}` },
             })
             .then(response => {
                 if (!response.ok) {
@@ -128,12 +129,13 @@ const CreateProduct = ({setMostrarCrear, products, setProducts}) => {
     const guardarImagen = (imageB64, nombre, extension, size, productIndex) => {
         resetStates(productIndex);
         let request = {data: imageB64, name: nombre, extention: extension, size: size};
-
+        const userStorage = JSON.parse(localStorage.getItem("user"));
+        
         fetch('https://long-lime-indri-wig.cyclic.cloud/Firebase/guardarImagenes', 
             {
                 method: 'POST', 
                 body: JSON.stringify(request),
-                headers: { 'Content-Type': 'application/json' },
+                headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${userStorage.access_token}` },
             })
             .then(response => {
                 if (!response.ok) {

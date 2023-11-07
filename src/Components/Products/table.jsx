@@ -21,12 +21,13 @@ const TableProducts = ({products, setProducts})=> {
     const handleConfirmEliminar = () => {
         setShowSpinner(true);
         let request = { productId: productoSeleccionado._id };
+        const userStorage = JSON.parse(localStorage.getItem("user"));
 
         fetch('https://long-lime-indri-wig.cyclic.cloud/Products', 
             {
                 method: 'DELETE', 
                 body: JSON.stringify(request),
-                headers: { 'Content-Type': 'application/json' },
+                headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${userStorage.access_token}` },
             })
             .then(response => {
                 if (!response.ok) {
