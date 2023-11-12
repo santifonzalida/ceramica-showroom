@@ -1,7 +1,9 @@
 import { useState } from "react";
 import { Modal } from "../Common/Modal";
+import { useLocalStorage } from "../../Context/useLocalStorage";
 
 const TableProducts = ({products, setProducts})=> {
+    const localStorage = useLocalStorage();
     const [showSpinner, setShowSpinner] = useState(false);
     const [error, setError] = useState(null);
     const [showModal, setShowModal] = useState(false);
@@ -21,7 +23,7 @@ const TableProducts = ({products, setProducts})=> {
     const handleConfirmEliminar = () => {
         setShowSpinner(true);
         let request = { productId: productoSeleccionado._id };
-        const userStorage = JSON.parse(localStorage.getItem("user"));
+        const userStorage = localStorage.getItem('user');
 
         fetch('https://long-lime-indri-wig.cyclic.cloud/Products', 
             {
@@ -74,7 +76,7 @@ const TableProducts = ({products, setProducts})=> {
                             <td className="border text-center">{producto.name}</td>
                             <td className="border p-4 text-center">
                                 <button 
-                                    className="bg-blue-500 text-white px-2 py-1 rounded gap-3">
+                                    className="bg-blue-500 text-white px-2 py-1 rounded gap-3 cursor-not-allowed" disabled>
                                     Editar
                                 </button>
                                 

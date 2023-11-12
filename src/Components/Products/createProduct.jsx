@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
 import { CheckIcon, ArrowPathIcon, XCircleIcon } from '@heroicons/react/24/solid';
-
+import { useLocalStorage } from '../../Context/useLocalStorage';
 const CreateProduct = ({setMostrarCrear, products, setProducts}) => {
 
+    const localStorage = useLocalStorage();
     const [producto, setProducto] = useState({
         nombre: '',
         descripcion: '',
@@ -43,7 +44,7 @@ const CreateProduct = ({setMostrarCrear, products, setProducts}) => {
     const handleSubmit = (e) => {
         e.preventDefault();
         setIsLoading(true);
-        const userStorage = JSON.parse(localStorage.getItem("user"));
+        const userStorage = localStorage.getItem('user');
 
         let request = { 
             name: producto.nombre,
@@ -129,7 +130,7 @@ const CreateProduct = ({setMostrarCrear, products, setProducts}) => {
     const guardarImagen = (imageB64, nombre, extension, size, productIndex) => {
         resetStates(productIndex);
         let request = {data: imageB64, name: nombre, extention: extension, size: size};
-        const userStorage = JSON.parse(localStorage.getItem("user"));
+        const userStorage = localStorage.getItem('user');
         
         fetch('https://long-lime-indri-wig.cyclic.cloud/Firebase/guardarImagenes', 
             {

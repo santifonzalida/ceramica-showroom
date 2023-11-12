@@ -1,15 +1,17 @@
 import { useState } from "react";
+import { useLocalStorage } from "../../Context/useLocalStorage";
 import { ArrowPathIcon } from '@heroicons/react/24/solid'
 
 const CreateCategory = (props) => {
 
+    const localStorage = useLocalStorage();
     const [nombreCategoria, setNombreCategoria] = useState("")
     const [showSpinner, setShowSpinner] = useState(false);
     const [error, setError] = useState(false);
 
     const create = () => {
         setShowSpinner(true);
-        const userStorage = JSON.parse(localStorage.getItem("user"));
+        const userStorage = localStorage.getItem('user');
         let request = {name: nombreCategoria, image: 'http://fakeurl.com/img'};
 
         fetch('https://long-lime-indri-wig.cyclic.cloud/Categories', 

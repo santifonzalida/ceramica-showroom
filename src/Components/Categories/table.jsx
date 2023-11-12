@@ -1,9 +1,11 @@
 import { useState } from "react";
+import { useLocalStorage } from "../../Context/useLocalStorage";
 import { PencilIcon } from '@heroicons/react/24/solid'
 import { Modal } from "../Common/Modal";
 
 const TableCategories = (props) => {
 
+    const localStorage = useLocalStorage();
     const [showSpinner, setShowSpinner] = useState(false);
     const [showModal, setShowModal] = useState(false);
     const [mostrarEditar, setMostrarEditar] = useState({show:false, id: 0});
@@ -12,7 +14,7 @@ const TableCategories = (props) => {
 
     const handleConfirmEliminar = () => {
         setShowSpinner(true);
-        const userStorage = JSON.parse(localStorage.getItem("user"));
+        const userStorage = localStorage.getItem('user');
         const requestOptions = {
             method: 'DELETE',
             headers: { 'Content-Type': 'application/json',
@@ -41,12 +43,13 @@ const TableCategories = (props) => {
     }
 
     const modificar = (id, nombre) => {
+        const userStorage = localStorage.getItem('user');
         let request = { name: nombre, image: 'http://imagen.ejemplo.com'};
 
         fetch(`https://long-lime-indri-wig.cyclic.cloud/Categories/${id}`,
             {
                 method: 'PUT',
-                headers: { 'Content-Type': 'application/json' },
+                headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${userStorage.access_token}`},
                 body: JSON.stringify(request),
             })
             .then(response => response.json()

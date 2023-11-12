@@ -29,7 +29,7 @@ export const LoginContextProvider = ({children}) => {
 
     const getUserInfo = async() => {
         setIsLoading(true);
-        const user = JSON.parse(localStorage.getItem("user"));
+        const user = localStorage.getItem('user');
         const requestOptions = {
             method: 'GET',
             headers: { 
