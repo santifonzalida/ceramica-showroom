@@ -22,11 +22,7 @@ const SignIn = (props) => {
                 localStorage.saveItem("user", data.data);
                 context.setIsUserLogin(true);
                 context.setError(null);
-                if(data.data.role == 'customer'){
-                    navigate('/my-account');
-                }else if(data.data.role == 'godAdmin'){
-                    navigate('/dashboard');
-                }
+                navigate(data.data.nativateTo);
             }
             context.setIsLoading(false);
         });

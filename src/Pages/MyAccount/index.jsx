@@ -40,7 +40,7 @@ function MyAccount() {
           <CameraIcon className="absolute top-1/2 left-1/2 mb-5 text-black py-2 px-4 w-16 h-16 opacity-90 mt-4 ml-5 bg-stone-400 rounded-full" onClick={() => setShowModal(true)}> </CameraIcon>
         </div>
         <h2 className="text-center text-2xl font-semibold mt-3">{context.user?.name}</h2>
-        <p className="text-center text-gray-600 mt-1">{context.user?.email} - {context.user?.role}</p>
+        <p className="text-center text-gray-600 mt-1">{context.user?.email}</p>
         <div className="flex justify-center mt-5">
           <a href="#" className="text-blue-500 hover:text-blue-700 mx-3">Twitter</a>
           <a href="#" className="text-blue-500 hover:text-blue-700 mx-3">LinkedIn</a>
