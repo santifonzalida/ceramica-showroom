@@ -22,7 +22,7 @@ const SignIn = (props) => {
                 localStorage.saveItem("user", data.data);
                 context.setIsUserLogin(true);
                 context.setError(null);
-                navigate(data.data.nativateTo);
+                navigate(data.data.navigateTo);
             }
             context.setIsLoading(false);
         });
