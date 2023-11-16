@@ -1,6 +1,7 @@
-import { useContext } from "react"
-import { Card } from "../../Components/Card"
-import { Layout } from "../../Components/Layout"
+import { useContext } from "react";
+import { Spinner } from "../../Components/Common/Spinner";
+import { Card } from "../../Components/Card";
+import { Layout } from "../../Components/Layout";
 import { ProductDetail } from "../../Components/ProductDetail";
 import { ShoppingCartContext } from "../../Context";
 
@@ -13,20 +14,36 @@ function Home() {
       if(context.filteredProducts?.length > 0){
         return(
           context.filteredProducts?.map((product) => (
-            <Card key={product.id} data={product}/>
+            <div className="grid grid-cols-2 md:gap-4 md:grid-cols-4 w-full max-w-screen-lg">
+              <Card key={product.id} data={product}/>
+            </div>
           ))
         )
       }else {
         return(
-          <div>We dont have anything to show :(</div>
+          <div className="grid grid-cols-2 md:gap-4 md:grid-cols-4 w-full max-w-screen-lg">
+            <div>We dont have anything to show :(</div>
+          </div>
         )
       }
     }else {
-      return (
-        context.products?.map((product) => (
-          <Card key={product._id} data={product}/>
-        ))
-      )
+      if(context.products && context.products.length > 0){
+        return (
+          <div className="grid grid-cols-2 md:gap-4 md:grid-cols-4 w-full max-w-screen-lg">
+            {context.products?.map((product) => (
+              <Card key={product._id} data={product}/> 
+            ))}
+          </div>
+        )
+        
+      }else {
+        return (
+          <div className="grid grid-cols-1 md:gap-4 md:grid-cols-1 w-full max-w-screen-lg">
+            <Spinner />
+          </div>
+        )
+      }
+      
     }
   }
 
@@ -40,11 +57,9 @@ function Home() {
         placeholder="Search a product" 
         className="rounded-lg border border-black w-80 p-4 mb-4 focus:outline-none"
         onChange={(event) => context.setSearchByTitle(event.target.value)} />
-      <div className="grid grid-cols-2 md:gap-4 md:grid-cols-4 w-full max-w-screen-lg">
         {
           renderView()
         }
-      </div>
       <ProductDetail />
     </Layout>
   )
