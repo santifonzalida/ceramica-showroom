@@ -37,7 +37,7 @@ const SignIn = (props) => {
             </button>
             );
         } else {
-          return (<button className='bg-black py-3 text-white w-full rounded-lg ' onClick={() => login()}>Sing in</button>);
+          return (<button className='bg-black py-3 text-white w-full rounded-lg' onClick={() => login()} >Sing in</button>);
         }
     }
 
@@ -66,6 +66,7 @@ const SignIn = (props) => {
                     value={credential.password}
                     className='rounded-lg border border-black w-80 p-4 mb-4 focus:outline-none'
                     onChange={(event) => setCredential({...credential, password: event.target.value})}
+                    onKeyPress={(e) => e.key == 'Enter' ? login() : ''}
                 />
             </div>
             <div className='flex items-center justify-center relative w-80 mb-4'>
@@ -81,8 +82,6 @@ const SignIn = (props) => {
                     Invalid username or password...
                 </p>
             </div>
-            
-            
         </div>
     );
 }
