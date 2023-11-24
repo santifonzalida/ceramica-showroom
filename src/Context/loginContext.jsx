@@ -78,7 +78,7 @@ export const LoginContextProvider = ({children}) => {
 
     const timeRenderErrorMessage = () => {
         setTimeout(() => {
-            setError(false);
+            setError(null);
         },5000);
     }
         

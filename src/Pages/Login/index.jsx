@@ -14,10 +14,10 @@ function Login() {
   return (
     <Layout>
       <div className={`${!isSignUpOpen ? '' : 'hidden'}`} >
-        <SignIn updateState={updateState}/>
+        <SignIn updateState={updateState} isSignUpOpen={isSignUpOpen}/>
       </div>
       <div className={`${isSignUpOpen ? '' : 'hidden'}`}>
-        <SignUp updateState={updateState}/>
+        <SignUp updateState={updateState} isSignUpOpen={isSignUpOpen}/>
       </div>
     </Layout>
   )

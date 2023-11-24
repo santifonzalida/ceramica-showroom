@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react';
+import { useContext, useRef, useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
 import { useLocalStorage } from "../../Context/useLocalStorage";
 import { ArrowPathIcon } from '@heroicons/react/24/solid'
@@ -6,6 +6,11 @@ import { LoginContext } from '../../Context/loginContext';
 
 const SignIn = (props) => {
 
+    useEffect(() => {
+        usernameRef.current.focus();
+    },[props.isSignUpOpen])
+
+    const usernameRef = useRef();
     const navigate = useNavigate();
     const localStorage = useLocalStorage();
     const context = useContext(LoginContext);
@@ -32,12 +37,12 @@ const SignIn = (props) => {
     const renderLoginButton = () => {
         if(context.isLoading) {
           return (  
-            <button className='flex items-center justify-center bg-black py-3 text-white w-full rounded-lg' disabled >Loading...
+            <button className='flex items-center justify-center bg-black py-3 text-white w-full rounded-lg' disabled >Cargando...
               <ArrowPathIcon className="animate-spin h-6 w-6"/>
             </button>
             );
         } else {
-          return (<button className='bg-black py-3 text-white w-full rounded-lg' onClick={() => login()} >Sing in</button>);
+          return (<button className='bg-black py-3 text-white w-full rounded-lg' onClick={() => login()} >Iniciar sesión</button>);
         }
     }
 
@@ -48,18 +53,19 @@ const SignIn = (props) => {
     return (
         <div>
             <div className='flex items-center relative w-80 mb-4'>
-                <h1 className='font-medium text-xl'>Welcome back</h1>
+                <h1 className='font-medium text-xl'>Bienvenido</h1>
             </div>
             <div className="mt-5">
-                <p>Username:</p>
+                <p>Nombre de usuario:</p>
                 <input
                     type="text"
                     placeholder='username'
                     value={credential.username}
                     className='rounded-lg border border-black w-80 p-4 mb-4 focus:outline-none'
-                    onChange={(event) => setCredential({...credential, email: event.target.value})} 
+                    onChange={(event) => setCredential({...credential, email: event.target.value})}
+                    ref={usernameRef}
                 />
-                <p>Password:</p>
+                <p>Contraseña:</p>
                 <input
                     type="password"
                     placeholder='password'
@@ -74,12 +80,12 @@ const SignIn = (props) => {
             </div>
             <a className="cursor-pointer" onClick={showSignUpPage}>
                 <p className="text-md italic underline">
-                    Create new account
+                    Crear una nueva cuenta
                 </p>
             </a>
             <div className={`${!success && context.error?.from == 'login' ? 'flex' : 'hidden'}  items-center justify-center relative w-80 mb-4 bg-red-500 rounded-lg`}>
                 <p>
-                    Invalid username or password...
+                    Nombre de usuario o contraseña invalidos...
                 </p>
             </div>
         </div>

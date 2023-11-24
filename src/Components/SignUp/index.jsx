@@ -1,9 +1,14 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { LoginContext } from "../../Context/loginContext";
 import { ArrowPathIcon } from '@heroicons/react/24/solid';
 
 const SignUp = (props) => {
 
+    useEffect(() => {
+        nombreRef.current.focus();
+    },[props.isSignUpOpen])
+
+    const nombreRef = useRef()
     const context = useContext(LoginContext);
     const [newUser, setNewUser] = useState({avatarUrl: 'http://example.com', role:"customer", fullName: '', email: '', password: ''});
     const [success, setSuccess] = useState(false);
@@ -34,31 +39,32 @@ const SignUp = (props) => {
     const renderCreateButton = () => {
         if(context.isLoading) {
           return (  
-            <button className='flex items-center justify-center bg-black py-3 text-white w-full rounded-lg' disabled >Loading...
+            <button className='flex items-center justify-center bg-black py-3 text-white w-full rounded-lg' disabled >Cargando...
               <ArrowPathIcon className="animate-spin h-6 w-6"/>
             </button>
             );
         }else if(success){
-            return (<button className='bg-lime-600 py-3 text-black w-full rounded-lg ' disabled>Success!</button>);
+            return (<button className='bg-lime-600 py-3 text-black w-full rounded-lg ' disabled>Correcto!</button>);
         } else {
-          return (<button className='bg-black py-3 text-white w-full rounded-lg ' onClick={create}>Create</button>);
+          return (<button className='bg-black py-3 text-white w-full rounded-lg ' onClick={create}>Crear</button>);
         } 
     }
 
     return (
         <div>
             <div className="flex items-center">
-                <button className="text-md italic underline mr-5" onClick={showSignUpPage}> {'<'} back</button>
-                <h2 className="flex text-xl font-medium text-left">Create new user</h2>
+                <button className="text-md italic underline mr-5" onClick={showSignUpPage}> {'<'} volver</button>
+                <h2 className="flex text-xl font-medium text-left">Crear nuevo usuario</h2>
             </div>
             <div className="mt-5">
-                <p>Complete name:</p>
+                <p>Nombre completo:</p>
                 <input
                     type="text"
                     value={newUser.fullName}
                     placeholder='name'
                     className='rounded-lg border border-black w-80 p-4 mb-4 focus:outline-none'
-                    onChange={(event) => setNewUser({...newUser, fullName: event.target.value})} 
+                    onChange={(event) => setNewUser({...newUser, fullName: event.target.value})}
+                    ref={nombreRef}
                 />
                 <p>Email:</p>
                 <input
@@ -68,7 +74,7 @@ const SignUp = (props) => {
                     className='rounded-lg border border-black w-80 p-4 mb-4 focus:outline-none'
                     onChange={(event) => setNewUser({...newUser, email: event.target.value})} 
                 />
-                <p>Password:</p>
+                <p>Contraseña:</p>
                 <input
                     type="password"
                     value={newUser.password}
@@ -77,13 +83,13 @@ const SignUp = (props) => {
                 />
             </div>
             {renderCreateButton()}
-            <div className={`${!success && context.error?.from == 'createUser' ? 'flex' : 'hidden'}  items-center justify-center relative w-80 mb-4 bg-red-500 rounded-lg`}>
+            <div className={`${!success && context.error?.from == 'createUser' ? 'flex' : 'hidden'}  items-center justify-center relative w-80 mb-4 bg-red-500 rounded-lg pb-2`}>
                 <ol>
                     {context.error?.message ? 
                         context.error?.message?.map((message, index) => (
                                 <li key={index}>{message}</li>
                         ))
-                    : 'Oops.. an error occurred'}
+                    : 'Oops.. ocurrió un error..'}
                 </ol>
             </div>
         </div>
