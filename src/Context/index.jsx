@@ -35,7 +35,7 @@ import { createContext, useState, useEffect } from "react";
     const [searchByTitle, setSearchByTitle] = useState(null);
 
     useEffect(() => {
-        fetch('https://long-lime-indri-wig.cyclic.cloud/Products')
+        fetch('https://tame-ruby-rhinoceros-cap.cyclic.app/Products')
             .then(response => response.json()
             .then(data => {
                 setProducts(data.data)

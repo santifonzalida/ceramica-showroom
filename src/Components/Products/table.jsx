@@ -25,7 +25,7 @@ const TableProducts = ({products, setProducts})=> {
         let request = { productId: productoSeleccionado._id };
         const userStorage = localStorage.getItem('user');
 
-        fetch('https://long-lime-indri-wig.cyclic.cloud/Products', 
+        fetch('https://tame-ruby-rhinoceros-cap.cyclic.app/Products', 
             {
                 method: 'DELETE', 
                 body: JSON.stringify(request),

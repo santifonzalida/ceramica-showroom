@@ -12,7 +12,7 @@ const ProductsCRUD = () => {
 
     useEffect(() => {
         setShowSpinner(true);
-        fetch('https://long-lime-indri-wig.cyclic.cloud/Products', {method: 'GET',headers: { 'Content-Type': 'application/json ' }})
+        fetch('https://tame-ruby-rhinoceros-cap.cyclic.app/Products', {method: 'GET',headers: { 'Content-Type': 'application/json ' }})
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Se produjo un error al obtener los productos.')

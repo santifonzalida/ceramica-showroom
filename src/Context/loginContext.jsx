@@ -23,7 +23,7 @@ export const LoginContextProvider = ({children}) => {
             body: JSON.stringify({...credentials})
         };
 
-        const response = await fetch('https://long-lime-indri-wig.cyclic.cloud/auth/login', requestOptions);
+        const response = await fetch('https://tame-ruby-rhinoceros-cap.cyclic.app/auth/login', requestOptions);
         return await response.json();
     }
 
@@ -37,7 +37,7 @@ export const LoginContextProvider = ({children}) => {
                 'Authorization': `Bearer ${user.access_token}`},
         };
 
-        const response = await fetch(`https://long-lime-indri-wig.cyclic.cloud/users/${user.userId}`, requestOptions);
+        const response = await fetch(`https://tame-ruby-rhinoceros-cap.cyclic.app/users/${user.userId}`, requestOptions);
         return await response.json();
     }
 
@@ -57,7 +57,7 @@ export const LoginContextProvider = ({children}) => {
             body: JSON.stringify({...newUSer})
         };
 
-        const response = await fetch('https://long-lime-indri-wig.cyclic.cloud/users', requestOptions);
+        const response = await fetch('https://tame-ruby-rhinoceros-cap.cyclic.app/users', requestOptions);
         return await response.json();
     }
 
@@ -72,7 +72,7 @@ export const LoginContextProvider = ({children}) => {
             body: JSON.stringify(bodyRequest)
         };
 
-        const response = await fetch(`https://long-lime-indri-wig.cyclic.cloud/users/${userStorage.userId}`, requestOptions);
+        const response = await fetch(`https://tame-ruby-rhinoceros-cap.cyclic.app/users/${userStorage.userId}`, requestOptions);
         return await response.json();
     }
 

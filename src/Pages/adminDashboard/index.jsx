@@ -6,9 +6,6 @@ import { LoginContext } from "../../Context/loginContext";
 
 function AdminDashboard() {
   
-  const navigate = useNavigate();
-  const context = useContext(LoginContext);
-  const [showModal, setShowModal] = useState(false);
   const [showProducts, setShowProducts] = useState(true);
 
   const renderView = () => {

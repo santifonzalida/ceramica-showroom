@@ -22,7 +22,7 @@ const TableCategories = (props) => {
             },
         };
 
-        fetch(`https://long-lime-indri-wig.cyclic.cloud/Categories/${categoriaSeleccionada._id}`, requestOptions)
+        fetch(`https://tame-ruby-rhinoceros-cap.cyclic.app/Categories/${categoriaSeleccionada._id}`, requestOptions)
             .then(response => response.json()
                 .then(data => {
                     if (data && data.data) {
@@ -46,7 +46,7 @@ const TableCategories = (props) => {
         const userStorage = localStorage.getItem('user');
         let request = { name: nombre, image: 'http://imagen.ejemplo.com'};
 
-        fetch(`https://long-lime-indri-wig.cyclic.cloud/Categories/${id}`,
+        fetch(`https://tame-ruby-rhinoceros-cap.cyclic.app/Categories/${id}`,
             {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${userStorage.access_token}`},

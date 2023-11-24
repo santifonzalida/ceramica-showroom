@@ -20,7 +20,7 @@ const CreateProduct = ({setMostrarCrear, products, setProducts}) => {
 
       useEffect(() => {
         fetch(
-            'https://long-lime-indri-wig.cyclic.cloud/Categories', {method: 'GET',headers: { 'Content-Type': 'application/json ' }})
+            'https://tame-ruby-rhinoceros-cap.cyclic.app/Categories', {method: 'GET',headers: { 'Content-Type': 'application/json ' }})
             .then(response => response.json()
             .then(data => {
                 if(data.data.length > 0){
@@ -55,7 +55,7 @@ const CreateProduct = ({setMostrarCrear, products, setProducts}) => {
             category: producto.idCategoria
         }
 
-        fetch('https://long-lime-indri-wig.cyclic.cloud/Products', 
+        fetch('https://tame-ruby-rhinoceros-cap.cyclic.app/Products', 
             {
                 method: 'POST', 
                 body: JSON.stringify(request),
@@ -126,13 +126,12 @@ const CreateProduct = ({setMostrarCrear, products, setProducts}) => {
           });
     }
 
-
     const guardarImagen = (imageB64, nombre, extension, size, productIndex) => {
         resetStates(productIndex);
         let request = {data: imageB64, name: nombre, extention: extension, size: size};
         const userStorage = localStorage.getItem('user');
         
-        fetch('https://long-lime-indri-wig.cyclic.cloud/Firebase/guardarImagenes', 
+        fetch('https://tame-ruby-rhinoceros-cap.cyclic.app/Firebase/guardarImagenes', 
             {
                 method: 'POST', 
                 body: JSON.stringify(request),

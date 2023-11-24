@@ -8,7 +8,7 @@ const CategoryCRUD = () => {
 
     useEffect(() => {
         setShowSpinner(true);
-        fetch('https://long-lime-indri-wig.cyclic.cloud/Categories', {method: 'GET',headers: { 'Content-Type': 'application/json ' }})
+        fetch('https://tame-ruby-rhinoceros-cap.cyclic.app/Categories', {method: 'GET',headers: { 'Content-Type': 'application/json ' }})
             .then(response => response.json()
             .then(data => {
                 if(data.data.length > 0){

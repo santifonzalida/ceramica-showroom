@@ -14,7 +14,7 @@ const CreateCategory = (props) => {
         const userStorage = localStorage.getItem('user');
         let request = {name: nombreCategoria, image: 'http://fakeurl.com/img'};
 
-        fetch('https://long-lime-indri-wig.cyclic.cloud/Categories', 
+        fetch('https://tame-ruby-rhinoceros-cap.cyclic.app/Categories', 
             {
                 method: 'POST', 
                 body: JSON.stringify(request),
