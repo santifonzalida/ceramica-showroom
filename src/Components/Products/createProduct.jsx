@@ -68,7 +68,6 @@ const CreateProduct = ({setMostrarCrear, products, setProducts}) => {
                 return response.json();
             })
             .then(data => {
-                console.log(data);
                 let productos = [...products];
                 let newProduct = data.data;
                 productos.push(newProduct);
@@ -124,6 +123,7 @@ const CreateProduct = ({setMostrarCrear, products, setProducts}) => {
             images: [],
             idCategoria: ''
           });
+        setImagenes(['', '', '']);
     }
 
     const guardarImagen = (imageB64, nombre, extension, size, productIndex) => {

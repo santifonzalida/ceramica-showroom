@@ -43,6 +43,7 @@ const TableCategories = (props) => {
     }
 
     const modificar = (id, nombre) => {
+        setShowSpinner(true);
         const userStorage = localStorage.getItem('user');
         let request = { name: nombre, image: 'http://imagen.ejemplo.com'};
 
@@ -124,7 +125,7 @@ const TableCategories = (props) => {
                                 Editar
                             </button>
                             <button 
-                                className={`${mostrarEditar.show && mostrarEditar.id == categoria._id ? '' : 'hidden'} ${showSpinner ? 'cursor-not-allowed' : ''} bg-blue-500 text-white px-2 py-1 rounded gap-3`}
+                                className={`${mostrarEditar.show && mostrarEditar.id == categoria._id ? '' : 'hidden'} ${showSpinner ? 'cursor-not-allowed bg-blue-600' : ''} bg-blue-500 text-white px-2 py-1 rounded gap-3`}
                                 onClick={() => modificar(categoria._id, categoria.name)}
                                 disabled={showSpinner}>
                                 Guardar
