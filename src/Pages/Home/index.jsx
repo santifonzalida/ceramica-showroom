@@ -21,8 +21,8 @@ function Home() {
         )
       }else {
         return(
-          <div className="grid grid-cols-2 md:gap-4 md:grid-cols-4 w-full max-w-screen-lg">
-            <div>We dont have anything to show :(</div>
+          <div className="grid grid-cols-1 md:gap-4 md:grid-cols-1 w-full max-w-screen-lg">
+            <div>No se encontraron resultados :(</div>
           </div>
         )
       }
@@ -35,7 +35,6 @@ function Home() {
             ))}
           </div>
         )
-        
       }else {
         return (
           <div className="grid grid-cols-1 md:gap-4 md:grid-cols-1 w-full max-w-screen-lg">
@@ -43,14 +42,13 @@ function Home() {
           </div>
         )
       }
-      
     }
   }
 
   return (
     <Layout>
       <div className="flex items-center justify-center relativ w80 mb-4">
-        <h1 className="font-medium text-xl">Exclusive Products</h1>
+        <h1 className="font-medium text-xl">Productos exclusivos</h1>
       </div>
       <input 
         type="text" 
