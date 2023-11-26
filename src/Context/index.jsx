@@ -43,7 +43,7 @@ import { createContext, useState, useEffect } from "react";
     },[])
 
     const filteredProductsByTitle = (products, searchByTitle) => {
-        return products?.filter((product) => product.title.toLowerCase().includes(searchByTitle.toLowerCase()));
+        return products?.filter((product) => product.name.toLowerCase().includes(searchByTitle.toLowerCase()));
     }
 
     const filteredProductsByCategory = (products, idCategory) => {
