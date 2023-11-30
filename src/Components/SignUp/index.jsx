@@ -4,13 +4,23 @@ import { ArrowPathIcon } from '@heroicons/react/24/solid';
 
 const SignUp = (props) => {
 
+    const user = {
+        avatarUrl: 'http://example.com', role:"customer", fullName: '', email: '', password: '',
+        socialMedia: 
+        [
+            { name: "Twitter", url: "https://twitter.com" },
+            { name: "LinkedIn", url: "https://linkedin.com" },
+            { name: "GitHub", url: "https://github.com" }
+        ]
+    };
+
     useEffect(() => {
         nombreRef.current.focus();
     },[props.isSignUpOpen])
 
     const nombreRef = useRef()
     const context = useContext(LoginContext);
-    const [newUser, setNewUser] = useState({avatarUrl: 'http://example.com', role:"customer", fullName: '', email: '', password: ''});
+    const [newUser, setNewUser] = useState(user);
     const [success, setSuccess] = useState(false);
 
     const showSignUpPage =() => {
@@ -28,7 +38,7 @@ const SignUp = (props) => {
                 setSuccess(true);
                 setTimeout(() => {
                     props.updateState(false);
-                    setNewUser({avatarUrl: 'http://example.com', role:"customer", email: '', password: '', fullName: ''});
+                    setNewUser(user);
                     setSuccess(false);
                 },1500);
             }
