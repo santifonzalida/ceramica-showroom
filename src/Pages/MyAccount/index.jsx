@@ -11,6 +11,7 @@ function MyAccount() {
   const navigate = useNavigate();
   const context = useContext(LoginContext);
   const [showModal, setShowModal] = useState(false);
+  const [showEditPersonalInfo, setShowPersonalInfo] = useState(true);
 
   useEffect(() => {
     context.getUserInfo().then((data) => {
@@ -33,14 +34,17 @@ function MyAccount() {
     });
   }
 
-  const editarInformacionPersonal = (event) => {
-    console.log(socialMedia)
+  const OnSetShowPersonalInfoChange = (show) => {
+    setShowPersonalInfo(show)
   }
 
   return (
     <Layout>
 
-      <EditarInformacionPersonal user={context.user}></EditarInformacionPersonal>
+      <EditarInformacionPersonal 
+        showEditPersonalInfo={showEditPersonalInfo}
+        OnSetShowPersonalInfoChange={OnSetShowPersonalInfoChange}>
+      </EditarInformacionPersonal>
 
       {!showModal ?
         <div className="max-w-lg mx-auto my-10 bg-zinc-80 rounded-lg p-5">
@@ -49,15 +53,14 @@ function MyAccount() {
             <CameraIcon className="absolute top-1/2 left-1/2 mb-5 text-black py-2 px-4 w-16 h-16 opacity-90 mt-4 ml-5 bg-stone-400 rounded-full cursor-pointer" onClick={() => setShowModal(true)}> </CameraIcon>
           </div>
           <h2 className="text-center text-2xl font-semibold mt-3">{context.user?.fullName}</h2>
-          <a className="flex font-sans italic justify-center mt-2 cursor-pointer" onClick={editarInformacionPersonal}>Editar información personal <PencilIcon className="ml-2 mt-1 h-4 w-4"></PencilIcon></a>
-          {
-            context.user?.socialMedia?.map((sm) => (
-              <div className="flex justify-center mt-5">
-                <a href={sm.url} className="text-blue-500 hover:text-blue-700 mx-3">{sm.name}</a>
-              </div>
-            ))
-          }
-          
+          <a className="flex font-sans italic justify-center mt-2 cursor-pointer" onClick={() => setShowPersonalInfo(true)}>Editar información personal <PencilIcon className="ml-2 mt-1 h-4 w-4"></PencilIcon></a>
+          <div className="flex justify-center mt-5">
+            {
+              context.user?.socialMedia?.map((sm, index) => (
+                <a key={index} href={sm.url} className="text-blue-500 hover:text-blue-700 mx-3" target="_blank">{sm.name}</a>
+              ))
+            }
+          </div>
           <div className="mt-5">
             <h3 className="text-xl font-semibold">Bio</h3>
             <p className="text-gray-600 mt-2">{context.user?.fullName} is a software engineer with over 10 years of experience in developing web and mobile applications. He is skilled in JavaScript, React, and Node.js.</p>
