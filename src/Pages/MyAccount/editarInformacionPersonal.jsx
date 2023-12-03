@@ -47,17 +47,22 @@ const EditarInformacionPersonal = ({ showEditPersonalInfo, OnSetShowPersonalInfo
                     <XMarkIcon className='h-6 w-6 text-black cursor-pointer mt-2' onClick={() => OnSetShowPersonalInfoChange(false)}></XMarkIcon>
                 </div>
             </div>
+            <div className="flex items-center gap-4 mt-4">
+                    <span className="font-light mb-4">Nombre completo</span>
+                    <input className="border border-black rounded-md mb-4 focus:outline-none"
+                        type="text"
+                        value={context.user.fullName}
+                        onChange={(event) => context.setUser({ ...context.user, fullName: event.target.value })} />
+                </div>
             <p className="font-medium">Redes sociales</p>
             {
                 context.user?.socialMedia?.map((sm, index) => (
                     <div key={index} className="grid grid-cols-2">
                         <div className="mt-3">
                             <div className="flex">
-                                <label>Nombre:</label>
                                 <p className="ml-2 italic">{sm?.name}</p>
                             </div>
                             <div className="flex">
-                                <label>Url:</label>
                                 <p className="ml-2 italic">{sm?.url}</p>
                             </div>
                         </div>
