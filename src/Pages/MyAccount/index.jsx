@@ -41,12 +41,14 @@ function MyAccount() {
   return (
     <Layout>
 
-      <EditarInformacionPersonal 
-        showEditPersonalInfo={showEditPersonalInfo}
-        OnSetShowPersonalInfoChange={OnSetShowPersonalInfoChange}>
-      </EditarInformacionPersonal>
-
-      {!showModal ?
+      {
+        showEditPersonalInfo ? 
+          <EditarInformacionPersonal 
+            showEditPersonalInfo={showEditPersonalInfo}
+            OnSetShowPersonalInfoChange={OnSetShowPersonalInfoChange}>
+          </EditarInformacionPersonal> 
+        :
+        !showModal ?
         <div className="max-w-lg mx-auto my-10 bg-zinc-80 rounded-lg p-5">
           <div className="relative">
             <img className="w-40 h-40 rounded-full mx-auto" src={context.user?.avatarUrl} alt="User avatar" />
@@ -63,7 +65,7 @@ function MyAccount() {
           </div>
           <div className="mt-5">
             <h3 className="text-xl font-semibold">Bio</h3>
-            <p className="text-gray-600 mt-2">{context.user?.fullName} is a software engineer with over 10 years of experience in developing web and mobile applications. He is skilled in JavaScript, React, and Node.js.</p>
+            <p className="text-gray-600 mt-2">{context.user?.notes}</p>
           </div>
         </div>
         :

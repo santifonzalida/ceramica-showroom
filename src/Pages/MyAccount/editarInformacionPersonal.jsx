@@ -20,7 +20,11 @@ const EditarInformacionPersonal = ({ showEditPersonalInfo, OnSetShowPersonalInfo
     }
 
     const guardarCambios = () => {
-        console.log(socialMediaList);
+        context.updateUserInformation().then((data) => {
+            context.setUser(data.data);
+            setShowModal(false)
+            OnSetShowPersonalInfoChange(false);
+        });    
     }
 
     return (
@@ -33,10 +37,10 @@ const EditarInformacionPersonal = ({ showEditPersonalInfo, OnSetShowPersonalInfo
             </div>
             <p className="font-medium">Redes sociales</p>
             {
-                context.user?.socialMedia.map((sm, index) => (
+                context.user?.socialMedia?.map((sm, index) => (
                     <div key={index} className="mt-3">
                         <div className="flex">
-                            <label className="">Nombre:</label>
+                            <label>Nombre:</label>
                             <p className="ml-2 italic">{sm?.name}</p>
                         </div>
                         <div className="flex">
@@ -72,10 +76,10 @@ const EditarInformacionPersonal = ({ showEditPersonalInfo, OnSetShowPersonalInfo
                 <button className={`h-10 w-full rounded-lg bg-black text-white mb-4`} onClick={() => setShowCamposSocialMedia(false) }>Cancelar</button>
             </div>
             <div>
-                <span className="font-light items-center justify-center">Bio</span>
+                <span className="font-medium items-center justify-center">Bio</span>
                 <textarea 
                     className="border rounded-md border-black w-full h-28 p-1" 
-                    value={`${context.user ? context.user.fullName : ''} ${context.user ? context.user.notes : ''}`} 
+                    value={`${context.user ? context.user.notes : ''}`} 
                     onChange={(e) => context.setUser({...context.user, notes: e.target.value})}>    
                 </textarea>
             </div>
