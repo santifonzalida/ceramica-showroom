@@ -11,7 +11,7 @@ function MyAccount() {
   const navigate = useNavigate();
   const context = useContext(LoginContext);
   const [showModal, setShowModal] = useState(false);
-  const [showEditPersonalInfo, setShowPersonalInfo] = useState(true);
+  const [showEditPersonalInfo, setShowPersonalInfo] = useState(false);
 
   useEffect(() => {
     context.getUserInfo().then((data) => {
@@ -45,7 +45,8 @@ function MyAccount() {
         showEditPersonalInfo ? 
           <EditarInformacionPersonal 
             showEditPersonalInfo={showEditPersonalInfo}
-            OnSetShowPersonalInfoChange={OnSetShowPersonalInfoChange}>
+            OnSetShowPersonalInfoChange={OnSetShowPersonalInfoChange}
+            user={context.user}>
           </EditarInformacionPersonal> 
         :
         !showModal ?

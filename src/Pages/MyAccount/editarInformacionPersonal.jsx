@@ -2,15 +2,14 @@ import { useState, useContext } from "react";
 import { XMarkIcon } from '@heroicons/react/24/solid';
 import { LoginContext } from "../../Context/loginContext";
 
-const EditarInformacionPersonal = ({ showEditPersonalInfo, OnSetShowPersonalInfoChange }) => {
+const EditarInformacionPersonal = ({ showEditPersonalInfo, OnSetShowPersonalInfoChange, user }) => {
 
     const context = useContext(LoginContext);
     const [socialMedia, setSocialMedia] = useState({ name: '', url: '' });
     const [socialMediaList, setSocialMediaList] = useState([]);
     const [showCamposSocialMedia, setShowCamposSocialMedia] = useState(false);
 
-    const agregarSocialMedia = () => {
-        console.log(context.user)
+    const agregarSocialMedia = () => {        
         let SMList = [...context.user.socialMedia];
         SMList.push(socialMedia);
         setSocialMediaList(SMList);
