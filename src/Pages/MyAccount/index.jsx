@@ -1,7 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { CameraIcon } from '@heroicons/react/24/solid';
-import { PencilIcon } from '@heroicons/react/24/solid'
+import { CameraIcon, PencilIcon, XMarkIcon} from '@heroicons/react/24/solid';
 import { Layout } from "../../Components/Layout";
 import { LoginContext } from "../../Context/loginContext";
 import { EditarInformacionPersonal } from "./editarInformacionPersonal";
@@ -45,8 +44,7 @@ function MyAccount() {
         showEditPersonalInfo ? 
           <EditarInformacionPersonal 
             showEditPersonalInfo={showEditPersonalInfo}
-            OnSetShowPersonalInfoChange={OnSetShowPersonalInfoChange}
-            user={context.user}>
+            OnSetShowPersonalInfoChange={OnSetShowPersonalInfoChange}>
           </EditarInformacionPersonal> 
         :
         !showModal ?
@@ -81,6 +79,7 @@ function MyAccount() {
             <span className="font-light mb-4">Imagen url:</span>
             <input className="border border-black rounded-md mb-4 focus:outline-none"
               type="text"
+              placeholder="https://ejemplo.com/imagen"
               value={context.user?.avatarUrl}
               onChange={(event) => context.setUser({ ...context.user, avatarUrl: event.target.value })}
             />

@@ -1,18 +1,16 @@
 import { useState, useContext } from "react";
-import { XMarkIcon } from '@heroicons/react/24/solid';
+import { XMarkIcon, PencilIcon, TrashIcon} from '@heroicons/react/24/solid';
 import { LoginContext } from "../../Context/loginContext";
 
-const EditarInformacionPersonal = ({ showEditPersonalInfo, OnSetShowPersonalInfoChange, user }) => {
+const EditarInformacionPersonal = ({ showEditPersonalInfo, OnSetShowPersonalInfoChange }) => {
 
     const context = useContext(LoginContext);
     const [socialMedia, setSocialMedia] = useState({ name: '', url: '' });
-    const [socialMediaList, setSocialMediaList] = useState([]);
     const [showCamposSocialMedia, setShowCamposSocialMedia] = useState(false);
 
     const agregarSocialMedia = () => {        
         let SMList = [...context.user.socialMedia];
         SMList.push(socialMedia);
-        setSocialMediaList(SMList);
         context.setUser({...context.user, socialMedia: SMList});
         setSocialMedia({ name: '', url: '' });
         setShowCamposSocialMedia(false);
@@ -21,9 +19,24 @@ const EditarInformacionPersonal = ({ showEditPersonalInfo, OnSetShowPersonalInfo
     const guardarCambios = () => {
         context.updateUserInformation().then((data) => {
             context.setUser(data.data);
-            setShowModal(false)
             OnSetShowPersonalInfoChange(false);
         });    
+    }
+
+    const editarSocialMedia = (index) => {
+        let SMList = [...context.user.socialMedia];
+        let sm = SMList[index];
+        if(sm){
+            setSocialMedia({name: sm.name, url: sm.url});
+            setShowCamposSocialMedia(true);
+        }
+    }
+    const eliminarSocialMedia = (index) => {
+        let SMList = [...context.user.socialMedia];
+        SMList.splice(index, 1);
+        let editedUser = context.user;
+        editedUser.socialMedia = SMList;
+        context.setUser({...editedUser});
     }
 
     return (
@@ -37,14 +50,20 @@ const EditarInformacionPersonal = ({ showEditPersonalInfo, OnSetShowPersonalInfo
             <p className="font-medium">Redes sociales</p>
             {
                 context.user?.socialMedia?.map((sm, index) => (
-                    <div key={index} className="mt-3">
-                        <div className="flex">
-                            <label>Nombre:</label>
-                            <p className="ml-2 italic">{sm?.name}</p>
+                    <div key={index} className="grid grid-cols-2">
+                        <div className="mt-3">
+                            <div className="flex">
+                                <label>Nombre:</label>
+                                <p className="ml-2 italic">{sm?.name}</p>
+                            </div>
+                            <div className="flex">
+                                <label>Url:</label>
+                                <p className="ml-2 italic">{sm?.url}</p>
+                            </div>
                         </div>
-                        <div className="flex">
-                            <label>Url:</label>
-                            <p className="ml-2 italic">{sm?.url}</p>
+                        <div className="flex gap-6 items-center justify-end">
+                            <PencilIcon className="h-4 w-4 cursor-pointer" onClick={() => editarSocialMedia(index)}/>
+                            <TrashIcon className="h-4 w-4 cursor-pointer" onClick={() => eliminarSocialMedia(index)}/>
                         </div>
                     </div>
                 ))

@@ -62,8 +62,10 @@ export const LoginContextProvider = ({children}) => {
     }
 
     const updateUserInformation = async() => {
-        const userStorage = JSON.parse(localStorage.getItem("user"));
-        const bodyRequest = {"avatarUrl": user.avatarUrl};
+        const userStorage = localStorage.getItem("user");
+        const bodyRequest = user;
+        delete bodyRequest._id;
+        delete bodyRequest.__v;
         const requestOptions = {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json',
