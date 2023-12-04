@@ -1,5 +1,5 @@
 import { useState, useContext } from "react";
-import { XMarkIcon, PencilIcon, TrashIcon} from '@heroicons/react/24/solid';
+import { XMarkIcon, PencilIcon, TrashIcon, ArrowPathIcon} from '@heroicons/react/24/solid';
 import { LoginContext } from "../../Context/loginContext";
 
 const EditarInformacionPersonal = ({ showEditPersonalInfo, OnSetShowPersonalInfoChange }) => {
@@ -7,6 +7,7 @@ const EditarInformacionPersonal = ({ showEditPersonalInfo, OnSetShowPersonalInfo
     const context = useContext(LoginContext);
     const [socialMedia, setSocialMedia] = useState({ name: '', url: '' });
     const [showCamposSocialMedia, setShowCamposSocialMedia] = useState(false);
+    const [spinner, setSpinner] = useState(false);
 
     const agregarSocialMedia = () => {        
         let SMList = [...context.user.socialMedia];
@@ -17,9 +18,11 @@ const EditarInformacionPersonal = ({ showEditPersonalInfo, OnSetShowPersonalInfo
     }
 
     const guardarCambios = () => {
+        setSpinner(true);
         context.updateUserInformation().then((data) => {
             context.setUser(data.data);
             OnSetShowPersonalInfoChange(false);
+            setSpinner(false);
         });    
     }
 
@@ -108,10 +111,12 @@ const EditarInformacionPersonal = ({ showEditPersonalInfo, OnSetShowPersonalInfo
             </div>
 
             <div className="grid grid-cols-1 place-items-center pt-5">
-                <button className=" h-10 w-full rounded-lg bg-black text-white" onClick={guardarCambios}>Guardar cambios</button>
+                <button className={`${spinner ? 'hidden' : ''} h-10 w-full rounded-lg bg-black text-white`} onClick={guardarCambios}>Guardar cambios </button>
+                <button className={`${spinner ? '' : 'hidden'} flex h-10 w-full rounded-lg bg-black text-white items-center justify-center cursor-not-allowed disabled`} onClick={guardarCambios}>Actualizando... <ArrowPathIcon className="flex animate-spin h-6 w-6" /> </button>
             </div>
         </div>
     )
 }
 
 export { EditarInformacionPersonal }
+
