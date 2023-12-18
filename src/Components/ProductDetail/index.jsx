@@ -10,13 +10,11 @@ const ProductDetail = () => {
     const contentRef = useRef(null);
 
     useEffect(() => {
-        if(context.selectedProduct){
-            setSelectedImagen(context.selectedProduct.images ? context.selectedProduct.images[0] : '');
-        }
+        contentRef.current.scrollTo({ top: 0, behavior: 'smooth', });
     },[context.selectedProduct])
 
-    const setShowImage = (img) => {
-        setSelectedImagen(img);
+    const setShowImage = (index) => {
+        setSelectedImagen(index);
         contentRef.current.scrollTo(
             {
                 top: 0,
@@ -38,10 +36,10 @@ const ProductDetail = () => {
                     <div className="w-full px-4 md:w-1/2 ">
                         <div className="sticky top-0 z-50 overflow-hidden ">
                             <div className="relative mb-6 lg:mb-10 lg:h-2/4 ">
-                                <ImagesCarousel />
+                                <ImagesCarousel selectedImagenIndex={selectedImagen}/>
                             </div>
                             <div className="flex-wrap hidden md:flex ">
-                                {context.selectedProduct.images?.map(img => (
+                                {context.selectedProduct.images?.map((img, index) => (
                                     <div className="w-1/2 p-2 sm:w-1/4" key={img.imageUrl}>
                                     <a href="#"
                                         className="block border border-sky-300 dark:border-transparent dark:hover:border-sky-300 hover:border-sky-300 rounded-lg">
@@ -49,7 +47,7 @@ const ProductDetail = () => {
                                             src={img.imageUrl} 
                                             alt={img.name}
                                             className="object-cover w-full lg:h-20 rounded-lg"
-                                            onClick={() => setShowImage(img)}
+                                            onClick={() => setShowImage(index)}
                                             />
                                     </a>
                                 </div>

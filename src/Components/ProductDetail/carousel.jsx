@@ -1,20 +1,30 @@
 import { Carousel, initTE } from "tw-elements";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { ShoppingCartContext } from '../../Context';
 
-const ImagesCarousel = () => {
-
-    initTE({ Carousel });
+const ImagesCarousel = ({selectedImagenIndex}) => {
 
     const context = useContext(ShoppingCartContext);
+    
+    useEffect(() => {
+        initTE({ Carousel });
+        const myCarouselEl = document.getElementById("carouselImageControls");
+        const myCarousel = new Carousel(myCarouselEl);
+        myCarousel.to(0);   
+    },[context.selectedProduct]);
 
+    if(selectedImagenIndex === 0 || selectedImagenIndex === 1 || selectedImagenIndex === 2) {
+        const myCarouselEl = document.getElementById("carouselImageControls");
+        const myCarousel = new Carousel(myCarouselEl);
+        myCarousel.to(selectedImagenIndex);   
+    }
 
     return (
         <div
             id="carouselImageControls"
             className="relative"
             data-te-carousel-init
-            data-te-ride="carousel"
+            data-te-carousel-slide
             data-te-interval="false">
             {/* Carousel items */ }
             <div
@@ -27,7 +37,7 @@ const ImagesCarousel = () => {
                     <img 
                         className='w-full h-full rounded-lg' 
                         src={context.selectedProduct.images && context.selectedProduct.images.length > 0 ? context.selectedProduct.images[0].imageUrl : ''} 
-                        alt={context.selectedProduct.images && context.selectedProduct.images.length > 0 ? context.selectedProduct.images[0].name : 'ProductImg_0'} 
+                        alt="ProductImg_0" 
                     /> 
                 </div>
                 {/* Second item */ }
@@ -37,7 +47,7 @@ const ImagesCarousel = () => {
                     <img 
                         className='w-full h-full rounded-lg' 
                         src={context.selectedProduct.images && context.selectedProduct.images.length > 1 ? context.selectedProduct.images[1].imageUrl : ''} 
-                        alt={context.selectedProduct.images && context.selectedProduct.images.length > 1 ? context.selectedProduct.images[1].name : 'ProductImg_1'} 
+                        alt="ProductImg_1" 
                     /> 
                 </div>
                 {/* Third item */ }
@@ -47,7 +57,7 @@ const ImagesCarousel = () => {
                     <img 
                         className='w-full h-full rounded-lg' 
                         src={context.selectedProduct.images && context.selectedProduct.images.length > 1 ? context.selectedProduct.images[2].imageUrl : ''} 
-                        alt={context.selectedProduct.images && context.selectedProduct.images.length > 1 ? context.selectedProduct.images[2].name : 'ProductImg_2'} 
+                        alt="ProductImg_2" 
                     /> 
                 </div>
             </div>
@@ -74,31 +84,29 @@ const ImagesCarousel = () => {
                         </span>
                         <span className="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">Anterior</span>
                     </button>
-                
-                <button
-                    className="absolute bottom-0 right-0 top-0 z-[1] flex w-[15%] items-center justify-center border-0 bg-none p-0 text-center text-white opacity-50 transition-opacity duration-150 ease-[cubic-bezier(0.25,0.1,0.25,1.0)] hover:text-white hover:no-underline hover:opacity-90 hover:outline-none focus:text-white focus:no-underline focus:opacity-90 focus:outline-none motion-reduce:transition-none"
-                    type="button"
-                    data-te-target="#carouselImageControls"
-                    data-te-slide="next">
-                    <span className="inline-block h-8 w-8">
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            strokeWidth="1.5"
-                            stroke="currentColor"
-                            className="h-6 w-6">
-                            <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                d="M8.25 4.5l7.5 7.5-7.5 7.5" />
-                        </svg>
-                    </span>
-                    <span className="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">Siguiente</span>
-                </button>
-            </> ) : ''
+                    <button
+                        className="absolute bottom-0 right-0 top-0 z-[1] flex w-[15%] items-center justify-center border-0 bg-none p-0 text-center text-white opacity-50 transition-opacity duration-150 ease-[cubic-bezier(0.25,0.1,0.25,1.0)] hover:text-white hover:no-underline hover:opacity-90 hover:outline-none focus:text-white focus:no-underline focus:opacity-90 focus:outline-none motion-reduce:transition-none"
+                        type="button"
+                        data-te-target="#carouselImageControls"
+                        data-te-slide="next">
+                        <span className="inline-block h-8 w-8">
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                strokeWidth="1.5"
+                                stroke="currentColor"
+                                className="h-6 w-6">
+                                <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+                            </svg>
+                        </span>
+                        <span className="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">Siguiente</span>
+                    </button>
+                </>) : ''
             }
-            
         </div>
     )
 }
