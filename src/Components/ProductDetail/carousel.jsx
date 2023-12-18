@@ -28,37 +28,40 @@ const ImagesCarousel = ({selectedImagenIndex}) => {
             data-te-interval="false">
             {/* Carousel items */ }
             <div
-                className="relative w-full overflow-hidden after:clear-both after:block after:content-['']">
+                className="relative w-full h-96 overflow-hidden after:clear-both after:block after:content-[''] rounded-lg">
                 {/* First item */ }
                 <div
-                    className="relative float-left -mr-[100%] w-full transition-transform duration-[600ms] ease-in-out motion-reduce:transition-none"
+                    className="relative float-left -mr-[100%] w-full transition-transform duration-[600ms] ease-in-out motion-reduce:transition-none aspect-w-16 aspect-h-9"
                     data-te-carousel-item
                     data-te-carousel-active>
-                    <img 
-                        className='w-full h-full rounded-lg' 
-                        src={context.selectedProduct.images && context.selectedProduct.images.length > 0 ? context.selectedProduct.images[0].imageUrl : ''} 
-                        alt="ProductImg_0" 
-                    /> 
+                    <figure className="relative mb-2 w-full h-4/5">
+                        <img 
+                            className='object-cover w-full h-full ' 
+                            src={context.selectedProduct.images && context.selectedProduct.images.length > 0 ? context.selectedProduct.images[0].imageUrl : ''} 
+                            alt="ProductImg_0"/> 
+                    </figure>
                 </div>
                 {/* Second item */ }
                 <div
-                    className="relative float-left -mr-[100%] hidden w-full transition-transform duration-[600ms] ease-in-out motion-reduce:transition-none"
+                    className="relative float-left -mr-[100%] hidden w-full transition-transform duration-[600ms] ease-in-out motion-reduce:transition-none aspect-w-16 aspect-h-9"
                     data-te-carousel-item>
-                    <img 
-                        className='w-full h-full rounded-lg' 
-                        src={context.selectedProduct.images && context.selectedProduct.images.length > 1 ? context.selectedProduct.images[1].imageUrl : ''} 
-                        alt="ProductImg_1" 
-                    /> 
+                    <figure className="relative mb-2 w-full h-4/5">
+                        <img 
+                            className='object-cover w-full h-full' 
+                            src={context.selectedProduct.images && context.selectedProduct.images.length > 1 ? context.selectedProduct.images[1].imageUrl : ''} 
+                            alt="ProductImg_1" /> 
+                    </figure>
                 </div>
                 {/* Third item */ }
                 <div
-                className="relative float-left -mr-[100%] hidden w-full transition-transform duration-[600ms] ease-in-out motion-reduce:transition-none"
+                className="relative float-left -mr-[100%] hidden w-full transition-transform duration-[600ms] ease-in-out motion-reduce:transition-none aspect-w-16 aspect-h-9"
                 data-te-carousel-item>
-                    <img 
-                        className='w-full h-full rounded-lg' 
-                        src={context.selectedProduct.images && context.selectedProduct.images.length > 1 ? context.selectedProduct.images[2].imageUrl : ''} 
-                        alt="ProductImg_2" 
-                    /> 
+                    <figure className="relative mb-2 w-full h-4/5">
+                        <img 
+                            className='object-contain w-full h-full' 
+                            src={context.selectedProduct.images && context.selectedProduct.images.length > 1 ? context.selectedProduct.images[2].imageUrl : ''} 
+                            alt="ProductImg_2" /> 
+                    </figure>
                 </div>
             </div>
             { context.selectedProduct.images && context.selectedProduct.images.length > 1 ?  

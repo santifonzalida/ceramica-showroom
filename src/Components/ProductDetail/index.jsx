@@ -42,7 +42,7 @@ const ProductDetail = () => {
                                 {context.selectedProduct.images?.map((img, index) => (
                                     <div className="w-1/2 p-2 sm:w-1/4" key={img.imageUrl}>
                                     <a href="#"
-                                        className="block border border-sky-300 dark:border-transparent dark:hover:border-sky-300 hover:border-sky-300 rounded-lg">
+                                        className="block border dark:border-transparent dark:hover:border-sky-300 hover:border-sky-500 rounded-lg">
                                         <img 
                                             src={img.imageUrl} 
                                             alt={img.name}
