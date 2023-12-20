@@ -36,7 +36,7 @@ const ImagesCarousel = ({selectedImagenIndex}) => {
                     data-te-carousel-active>
                     <figure className="relative mb-2 w-full h-4/5">
                         <img 
-                            className='object-cover w-full h-full ' 
+                            className='object-contain w-full h-full rounded-lg' 
                             src={context.selectedProduct.images && context.selectedProduct.images.length > 0 ? context.selectedProduct.images[0].imageUrl : ''} 
                             alt="ProductImg_0"/> 
                     </figure>
@@ -47,7 +47,7 @@ const ImagesCarousel = ({selectedImagenIndex}) => {
                     data-te-carousel-item>
                     <figure className="relative mb-2 w-full h-4/5">
                         <img 
-                            className='object-cover w-full h-full' 
+                            className='object-contain w-full h-full rounded-lg' 
                             src={context.selectedProduct.images && context.selectedProduct.images.length > 1 ? context.selectedProduct.images[1].imageUrl : ''} 
                             alt="ProductImg_1" /> 
                     </figure>
@@ -58,7 +58,7 @@ const ImagesCarousel = ({selectedImagenIndex}) => {
                 data-te-carousel-item>
                     <figure className="relative mb-2 w-full h-4/5">
                         <img 
-                            className='object-contain w-full h-full' 
+                            className='object-contain w-full h-full rounded-lg' 
                             src={context.selectedProduct.images && context.selectedProduct.images.length > 1 ? context.selectedProduct.images[2].imageUrl : ''} 
                             alt="ProductImg_2" /> 
                     </figure>
