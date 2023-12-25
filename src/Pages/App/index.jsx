@@ -24,14 +24,14 @@ const AppRoutes = () => {
 
 function App() {
   return (
-      <ShoppingCartProvider>
-        <BrowserRouter>
+    <ShoppingCartProvider>
+      <BrowserRouter>
         <LoginContextProvider>
           <AppRoutes />
           <Navbar />
-          </LoginContextProvider>
-        </BrowserRouter>
-      </ShoppingCartProvider>
+        </LoginContextProvider>
+      </BrowserRouter>
+    </ShoppingCartProvider>
   )
 }
 

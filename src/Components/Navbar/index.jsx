@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Link, NavLink, useLocation } from "react-router-dom"
 import { ShoppingCartContext } from "../../Context";
 import { LoginContext } from "../../Context/loginContext";
@@ -10,6 +10,15 @@ const Navbar = () => {
     const context = useContext(ShoppingCartContext);
     const loginContext = useContext(LoginContext);
     const activeStyle = "underline underline-offset-4";
+    const [categories, setCategories] = useState(null);
+
+    useEffect(() => {
+        fetch('https://tame-ruby-rhinoceros-cap.cyclic.app/Categories')
+            .then(response => response.json()
+            .then(data => {
+                setCategories(data.data)
+            }));
+    },[])
 
     return (
         <nav className="flex justify-between items-center fixed z-10 top-0 w-full py-5 px-8 text-sm font-light bg-white opacity-90">
@@ -25,30 +34,17 @@ const Navbar = () => {
                         className={({isActive}) => isActive ? activeStyle : undefined}
                     > All </NavLink>
                 </li>
-                <li className={`${location.pathname === '/login' ? 'hidden' : ''} hidden md:flex`}>
-                    <NavLink 
-                        to={{ pathname:'/category/clothes'}} state={{id: 4}}
-                        className={({ isActive }) => isActive ? activeStyle : undefined}
-                    >Clothes</NavLink>
-                </li>
-                <li className={`${location.pathname === '/login' ? 'hidden' : ''} hidden md:flex`}>
-                    <NavLink 
-                        to={{ pathname:'/category/electronics'}} state={{id: 2}}
-                        className={({isActive}) => isActive ? activeStyle : undefined}
-                    >Electronics</NavLink>
-                </li>
-                <li className={`${location.pathname === '/login' ? 'hidden' : ''} hidden md:flex`}>
-                    <NavLink 
-                        to={{ pathname:'/category/fornitures'}} state={{id: 3}}
-                        className={({isActive}) => isActive ? activeStyle : undefined}
-                    >Fornitures</NavLink>
-                </li>
-                <li className={`${location.pathname === '/login' ? 'hidden' : ''} hidden md:flex`}>
-                    <NavLink 
-                        to={{ pathname:'/category/others'}} state={{id: 5}}
-                        className={({isActive}) => isActive ? activeStyle : undefined}
-                    >Others</NavLink>
-                </li>
+
+                {
+                    categories?.map((cat) => (
+                        <li key={cat._id} className={`${location.pathname === '/login' ? 'hidden' : ''} hidden md:flex`}>
+                            <NavLink 
+                                to={{ pathname:`/category/${cat.name}`}} state={{id: cat._id}}
+                                className={({ isActive }) => isActive ? activeStyle : undefined}
+                            >{cat.name}</NavLink>
+                        </li>
+                    ))
+                }
 
             </ul>
             <ul className="flex items-center gap-2 md:gap-3">

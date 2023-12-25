@@ -15,12 +15,12 @@ const Category = () => {
         if(productsFiltered?.length > 0) {
             return (
                 productsFiltered?.map((product) => (
-                    <Card key={product.id} data={product}/>
+                    <Card key={product._id} data={product}/>
                 ))
             );
         }else {
             return(
-              <div>We dont have anything to show :(</div>
+              <div>No se encontraron resultados :(</div>
             )
         }
     }
@@ -31,16 +31,15 @@ const Category = () => {
         if(productsFiltered?.length > 0) {
             return (
                 productsFiltered?.map((product) => (
-                    <Card key={product.id} data={product}/>
+                    <Card key={product._id} data={product}/>
                 ))
             );
         }else {
             return(
-                <div>We dont have anything to show :(</div>
+                <div>No se encontraron resultados :(</div>
               )
         }
     }
-
 
     return (
         <Layout>
