@@ -47,7 +47,7 @@ import { createContext, useState, useEffect } from "react";
     }
 
     const filteredProductsByCategory = (products, idCategory) => {
-        return products?.filter(product => product.category?.id == idCategory);
+        return products?.filter(product => product.category?._id == idCategory);
     }
 
     useEffect(() => {
