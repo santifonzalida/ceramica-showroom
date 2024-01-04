@@ -2,10 +2,18 @@ import { useContext, useEffect, useState } from "react";
 import { Link, NavLink, useLocation } from "react-router-dom"
 import { ShoppingCartContext } from "../../Context";
 import { LoginContext } from "../../Context/loginContext";
-import { ShoppingBagIcon, HomeIcon } from '@heroicons/react/24/solid'
-
-
+import { BellIcon, HomeIcon } from '@heroicons/react/24/solid'
+import {
+    Collapse,
+    Dropdown,
+    initTE,
+  } from "tw-elements";
+  
+  
 const Navbar = () => {
+
+    initTE({ Collapse, Dropdown });
+
     const location = useLocation();
     const context = useContext(ShoppingCartContext);
     const loginContext = useContext(LoginContext);
@@ -31,9 +39,9 @@ const Navbar = () => {
     }
 
     return (
-        <nav className="flex justify-between items-center fixed z-10 top-0 w-full py-5 px-8 text-sm font-light bg-white opacity-90">
+        <nav className="flex justify-between items-center fixed z-10 top-0 w-full py-5 px-4 md:px-8 text-sm font-light bg-white opacity-90">
             <ul className="flex items-center gap-3">
-                <li className="font-bold text-lg mr-2">
+                <li className="font-bold text-lg">
                     <NavLink 
                         to='/'
                     > { location.pathname === '/dashboard' ? <HomeIcon className='h-6 w-6' /> : 'Showroom' } </NavLink>
@@ -65,40 +73,71 @@ const Navbar = () => {
                     ))
                     : ''
                 }
+            </ul>
+            {
+                loginContext.isUserLogin ?   
 
-            </ul>
-            <ul className="flex items-center gap-2 md:gap-3">
-                <li className={`${loginContext.isUserLogin ? '' : 'hidden'} text-black/60 hidden md:flex`}>{loginContext.user?.email}</li>
-                <li className={`${loginContext.isUserLogin ? '' : 'hidden'}`}>
-                    <NavLink 
-                        to='/my-orders'
-                        className={({isActive}) => isActive ? activeStyle : undefined}
-                    >My orders</NavLink>
-                </li>
-                <li className={`${loginContext.isUserLogin ? '' : 'hidden'}`}>
-                    <NavLink 
-                        to='/my-account'
-                        className={({isActive}) => isActive ? activeStyle : undefined}
-                    >My account</NavLink>
-                </li>
-                <li className={`${loginContext.isUserLogin ? '' : 'hidden'}`}>
-                    <Link to='' onClick={() => loginContext.logout()}>
-                        Sign out 
-                    </Link>
-                </li>
-                <li className={`${loginContext.isUserLogin ? 'hidden' : ''}`}>
-                    <NavLink 
-                        to='/login'
-                        className={({isActive}) => isActive ? activeStyle : undefined}
-                    >Sign in</NavLink>
-                </li>
-                <li className={`${loginContext.isUserLogin ? 'flex' : 'hidden'} items-center`}>
-                    <ShoppingBagIcon className='h-6 w-6 text-black cursor-pointer' onClick={() => context.openCheckoutSideMenu()}></ShoppingBagIcon>
-                    <div>
-                        {context.cartCounter}
+                <ul className="flex items-center gap-3">
+                    <li className="text-black/60 hidden md:flex">{loginContext.user?.email}</li>
+                    <li className={`${loginContext.isUserLogin && location.pathname != '/dashboard' ? 'flex' : 'hidden'} items-center`}>
+                        <BellIcon className='h-6 w-6 text-black'></BellIcon>
+                        <div>
+                            {context.cartCounter}
+                        </div>
+                    </li>
+                    <div
+                        className="relative"
+                        data-te-dropdown-ref
+                        data-te-dropdown-alignment="end">
+                        <a
+                            className="hidden-arrow flex items-center whitespace-nowrap transition duration-150 ease-in-out motion-reduce:transition-none"
+                            href="#"
+                            id="dropdownMenuUser"
+                            role="button"
+                            data-te-dropdown-toggle-ref
+                            aria-expanded="false">
+                            <img
+                                src={loginContext.user?.avatarUrl}
+                                className="rounded-full"
+                                style={{height: '25px', width: '25px'}}
+                                alt=""
+                                loading="lazy" />
+                        </a>
+                        <ul
+                            className="absolute z-[1000] float-left m-0 hidden min-w-max list-none overflow-hidden rounded-lg border-none bg-white bg-clip-padding text-left text-base shadow-lg dark:bg-neutral-700 [&[data-te-dropdown-show]]:block"
+                            aria-labelledby="dropdownMenuUser"
+                            data-te-dropdown-menu-ref>
+                            <li>
+                                <a
+                                    className="block w-full whitespace-nowrap bg-transparent px-4 py-2 text-sm font-normal text-neutral-700 hover:bg-neutral-100 active:text-neutral-800 active:no-underline disabled:pointer-events-none disabled:bg-transparent disabled:text-neutral-400 dark:text-neutral-200 dark:hover:bg-white/30"
+                                    data-te-dropdown-item-ref>
+                                    <NavLink 
+                                        to='/my-account'
+                                        className={({isActive}) => isActive ? activeStyle : undefined}
+                                        >Mi cuenta
+                                    </NavLink>
+                                </a>
+                            </li>
+                            <li>
+                                <a
+                                    className="block w-full whitespace-nowrap bg-transparent px-4 py-2 text-sm font-normal text-neutral-700 hover:bg-neutral-100 active:text-neutral-800 active:no-underline disabled:pointer-events-none disabled:bg-transparent disabled:text-neutral-400 dark:text-neutral-200 dark:hover:bg-white/30"
+                                    data-te-dropdown-item-ref
+                                    onClick={() => loginContext.logOut()}
+                                >Cerrar sesión</a>
+                            </li>
+                        </ul>
                     </div>
-                </li>
-            </ul>
+                </ul>
+            : 
+                <ul>
+                    <li className={`${loginContext.isUserLogin ? 'hidden' : ''}`}>
+                        <NavLink 
+                            to='/login'
+                            className={({isActive}) => isActive ? activeStyle : undefined}
+                        >Iniciar sesión</NavLink>
+                    </li>
+                </ul>
+            }
         </nav>
     )
 }
