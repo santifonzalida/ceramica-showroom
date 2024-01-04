@@ -1,17 +1,16 @@
-import { useContext, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState, useContext } from "react";
 import { CategoryCRUD } from "../../Components/Categories";
 import { ProductsCRUD } from "../../Components/Products";
-import { LoginContext } from "../../Context/loginContext";
+import { ShoppingCartContext } from "../../Context/index";
 
 function AdminDashboard() {
   
-  const [showProducts, setShowProducts] = useState(true);
+  const context = useContext(ShoppingCartContext);
 
   const renderView = () => {
-    if(showProducts){
+    if(context.productoDashboard){
       return <ProductsCRUD />;
-    } else {
+    } else if(context.categoriaDashboard) {
       return <CategoryCRUD />
     }
   }
@@ -23,8 +22,8 @@ function AdminDashboard() {
             <h1 className="text-2xl font-semibold">Configuracion</h1>
         </div>
         <ul className="mt-6">
-            <li className="p-4 hover:bg-blue-700" onClick={() => setShowProducts(true)}>Productos</li>
-            <li className="p-4 hover:bg-blue-700" onClick={() => setShowProducts(false)}>Categorias</li>
+            <li className="p-4 hover:bg-blue-700" >Productos</li>
+            <li className="p-4 hover:bg-blue-700" >Categorias</li>
         </ul>
         </aside>
 

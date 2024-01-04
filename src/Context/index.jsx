@@ -18,6 +18,10 @@ import { createContext, useState, useEffect } from "react";
     const openCheckoutSideMenu = () => setIsCheckoutSideMenuOpen(true);
     const closeCheckoutSideMenu = () => setIsCheckoutSideMenuOpen(false);
 
+    //Navbar navigation product/cageroty
+    const [productoDashboard, setProductoDashboard] = useState(true);
+    const [categoriaDashboard, setCategoriaDashboard] = useState(false);
+
     //Produc Detail · Show product
     const [selectedProduct, setSelectedProduct] = useState({});
 
@@ -53,7 +57,7 @@ import { createContext, useState, useEffect } from "react";
     useEffect(() => {
         if(searchByTitle) setFilteredProducts(filteredProductsByTitle(products, searchByTitle))
       },[products, searchByTitle])
-  
+
     return (
         <ShoppingCartContext.Provider value={{
             cartCounter, 
@@ -77,6 +81,10 @@ import { createContext, useState, useEffect } from "react";
             setSearchByTitle,
             filteredProducts,
             filteredProductsByCategory,
+            productoDashboard, 
+            setProductoDashboard,
+            categoriaDashboard, 
+            setCategoriaDashboard
         }}>
             {children}
         </ShoppingCartContext.Provider>

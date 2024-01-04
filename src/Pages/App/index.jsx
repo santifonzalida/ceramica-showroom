@@ -27,8 +27,8 @@ function App() {
     <ShoppingCartProvider>
       <BrowserRouter>
         <LoginContextProvider>
-          <AppRoutes />
           <Navbar />
+          <AppRoutes />
         </LoginContextProvider>
       </BrowserRouter>
     </ShoppingCartProvider>

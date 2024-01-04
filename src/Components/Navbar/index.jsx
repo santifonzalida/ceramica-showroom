@@ -20,22 +20,36 @@ const Navbar = () => {
             }));
     },[])
 
+    const onCateogiriaClick = () => {
+        context.setCategoriaDashboard(true);
+    }
+
+    const onProductoClick = () => {
+        context.setProductoDashboard(true);
+    }
+
     return (
         <nav className="flex justify-between items-center fixed z-10 top-0 w-full py-5 px-8 text-sm font-light bg-white opacity-90">
             <ul className="flex items-center gap-3">
-                <li className="font-semibold text-lg">
+                <li className="font-bold text-lg mr-2">
                     <NavLink 
                         to='/'
-                    > Shopi </NavLink>
+                    > Showroom </NavLink>
                 </li>
-                <li className={`${location.pathname === '/login' ? 'hidden' : ''}`}>
+                <li className={`${location.pathname !== '/' && !location.pathname.includes('category') ? 'hidden' : ''}`}>
                     <NavLink 
                         to='/'
                         className={({isActive}) => isActive ? activeStyle : undefined}
-                    > All </NavLink>
+                    > Todo </NavLink>
                 </li>
-
+                <li className={`${location.pathname === '/dashboard' ? '' : 'hidden'} font-semibold`}>
+                    <a className="cursor-pointer" onClick={onProductoClick}>Productos</a>
+                </li>
+                <li className={`${location.pathname === '/dashboard' ? '' : 'hidden'} font-semibold`}>
+                    <a className="cursor-pointer" onClick={onCateogiriaClick}>Categorias</a>
+                </li>
                 {
+                    location.pathname != '/dashboard' ?
                     categories?.map((cat) => (
                         <li key={cat._id} className={`${location.pathname === '/login' ? 'hidden' : ''} hidden md:flex`}>
                             <NavLink 
@@ -44,6 +58,7 @@ const Navbar = () => {
                             >{cat.name}</NavLink>
                         </li>
                     ))
+                    : ''
                 }
 
             </ul>
