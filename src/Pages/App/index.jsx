@@ -1,4 +1,5 @@
 import { useRoutes, BrowserRouter } from 'react-router-dom';
+import '../../App.css'
 import { ShoppingCartProvider } from '../../Context'; 
 import { Home } from '../Home';
 import { MyAccount } from '../MyAccount';
@@ -6,7 +7,6 @@ import { Login } from '../Login';
 import { NotFound } from '../NotFound';
 import { Navbar } from '../../Components/Navbar';
 import { Category } from '../Category';
-import '../../App.css'
 import { LoginContextProvider } from '../../Context/loginContext';
 import { AdminDashboard } from '../adminDashboard';
 

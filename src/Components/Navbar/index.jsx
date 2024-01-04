@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import { Link, NavLink, useLocation } from "react-router-dom"
 import { ShoppingCartContext } from "../../Context";
 import { LoginContext } from "../../Context/loginContext";
-import { ShoppingBagIcon } from '@heroicons/react/24/solid'
+import { ShoppingBagIcon, HomeIcon } from '@heroicons/react/24/solid'
 
 
 const Navbar = () => {
@@ -21,10 +21,12 @@ const Navbar = () => {
     },[])
 
     const onCateogiriaClick = () => {
+        context.setProductoDashboard(false);
         context.setCategoriaDashboard(true);
     }
 
     const onProductoClick = () => {
+        context.setCategoriaDashboard(false);
         context.setProductoDashboard(true);
     }
 
@@ -34,7 +36,7 @@ const Navbar = () => {
                 <li className="font-bold text-lg mr-2">
                     <NavLink 
                         to='/'
-                    > Showroom </NavLink>
+                    > { location.pathname === '/dashboard' ? <HomeIcon className='h-6 w-6' /> : 'Showroom' } </NavLink>
                 </li>
                 <li className={`${location.pathname !== '/' && !location.pathname.includes('category') ? 'hidden' : ''}`}>
                     <NavLink 
@@ -43,9 +45,12 @@ const Navbar = () => {
                     > Todo </NavLink>
                 </li>
                 <li className={`${location.pathname === '/dashboard' ? '' : 'hidden'} font-semibold`}>
+                    <a>Configuración &gt; </a>
+                </li>
+                <li className={`${location.pathname === '/dashboard' ? '' : 'hidden'}`}>
                     <a className="cursor-pointer" onClick={onProductoClick}>Productos</a>
                 </li>
-                <li className={`${location.pathname === '/dashboard' ? '' : 'hidden'} font-semibold`}>
+                <li className={`${location.pathname === '/dashboard' ? '' : 'hidden'}`}>
                     <a className="cursor-pointer" onClick={onCateogiriaClick}>Categorias</a>
                 </li>
                 {
