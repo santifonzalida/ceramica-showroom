@@ -40,13 +40,14 @@ const Navbar = () => {
 
     return (
         <nav className="flex justify-between items-center fixed z-10 top-0 w-full py-5 px-4 md:px-8 text-sm font-light bg-white opacity-90">
+            
             <ul className="flex items-center gap-3">
                 <li className="font-bold text-lg">
                     <NavLink 
                         to='/'
                     > { location.pathname === '/dashboard' ? <HomeIcon className='h-6 w-6' /> : 'Showroom' } </NavLink>
                 </li>
-                <li className={`${location.pathname !== '/' && !location.pathname.includes('category') ? 'hidden' : ''}`}>
+                <li className={`${location.pathname !== '/dashboard' && location.pathname !== '/login' ? '' : 'hidden'}`}>
                     <NavLink 
                         to='/'
                         className={({isActive}) => isActive ? activeStyle : undefined}
@@ -64,9 +65,9 @@ const Navbar = () => {
                             data-te-dropdown-toggle-ref
                             aria-expanded="false"
                             data-te-ripple-init
-                            data-te-ripple-color="light"> 
-                            Configuración
-                            <span className="ml-2 w-2">
+                            data-te-ripple-color="light"> Configuración
+                            <span 
+                                className="ml-2 w-2">
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
                                     viewBox="0 0 20 20"
@@ -101,17 +102,17 @@ const Navbar = () => {
                     </div>
                     : ''
                 }
-                
-                {
-                    location.pathname != '/dashboard' ?
-                    categories?.map((cat) => (
-                        <li key={cat._id} className={`${location.pathname === '/login' ? 'hidden' : ''} hidden md:flex`}>
-                            <NavLink 
-                                to={{ pathname:`/category/${cat.name}`}} state={{id: cat._id}}
-                                className={({ isActive }) => isActive ? activeStyle : undefined}
-                            >{cat.name}</NavLink>
-                        </li>
-                    ))
+                    
+                {   /** Categorias */
+                    location.pathname !== '/dashboard' && location.pathname !== '/login' ?
+                        categories?.map((cat) => (
+                            <li key={cat._id} className={`${location.pathname === '/login' ? 'hidden' : ''} hidden md:flex`}>
+                                <NavLink 
+                                    to={{ pathname:`/category/${cat.name}`}} state={{id: cat._id}}
+                                    className={({ isActive }) => isActive ? activeStyle : undefined}
+                                >{cat.name}</NavLink>
+                            </li>
+                        ))
                     : ''
                 }
             </ul>
@@ -120,7 +121,7 @@ const Navbar = () => {
 
                 <ul className="flex items-center gap-3">
                     <li className="text-black/60 hidden md:flex">{loginContext.user?.email}</li>
-                    <li className={`${loginContext.isUserLogin && location.pathname != '/dashboard' ? 'flex' : 'hidden'} items-center`}>
+                    <li className={`${loginContext.isUserLogin ? 'flex' : 'hidden'} items-center cursor-pointer`}>
                         <BellIcon className='h-6 w-6 text-black'></BellIcon>
                         <div>
                             {context.cartCounter}
@@ -140,7 +141,7 @@ const Navbar = () => {
                             <img
                                 src={loginContext.user?.avatarUrl}
                                 className="rounded-full"
-                                style={{height: '25px', width: '25px'}}
+                                style={{height: '34px', width: '34px'}}
                                 alt=""
                                 loading="lazy" />
                         </a>
@@ -161,7 +162,7 @@ const Navbar = () => {
                             </li>
                             <li>
                                 <a
-                                    className="block w-full whitespace-nowrap bg-transparent px-4 py-2 text-sm font-normal text-neutral-700 hover:bg-neutral-100 active:text-neutral-800 active:no-underline disabled:pointer-events-none disabled:bg-transparent disabled:text-neutral-400 dark:text-neutral-200 dark:hover:bg-white/30"
+                                    className="block w-full whitespace-nowrap bg-transparent cursor-pointer px-4 py-2 text-sm font-normal text-neutral-700 hover:bg-neutral-100 active:text-neutral-800 active:no-underline disabled:pointer-events-none disabled:bg-transparent disabled:text-neutral-400 dark:text-neutral-200 dark:hover:bg-white/30"
                                     data-te-dropdown-item-ref
                                     onClick={() => loginContext.logOut()}
                                 >Cerrar sesión</a>

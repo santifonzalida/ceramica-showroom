@@ -1,8 +1,12 @@
 import { useState } from "react";
 import { Modal } from "../Common/Modal";
 import { useLocalStorage } from "../../Context/useLocalStorage";
+import { Datatable, initTE } from "tw-elements";
 
 const TableProducts = ({products, setProducts})=> {
+    
+    initTE({Datatable}, true);
+
     const localStorage = useLocalStorage();
     const [showSpinner, setShowSpinner] = useState(false);
     const [error, setError] = useState(null);
@@ -60,21 +64,21 @@ const TableProducts = ({products, setProducts})=> {
     };
 
     return (
-        <div>
-            <table className="w-full bg-white">
+        <div data-te-datatable-init>
+            <table>
                 <thead>
                     <tr>
-                        <th className="border p-4">Nro.</th>
-                        <th className="border p-4">Nombre</th>
-                        <th className="border p-4">Acciones</th>
+                        <th>Nro.</th>
+                        <th>Nombre</th>
+                        <th>Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
                     {products.map((producto, index) => (
                         <tr key={producto._id}>
-                            <td className="border p-4 text-center">{index + 1}</td>
-                            <td className="border text-center">{producto.name}</td>
-                            <td className="border p-4 text-center">
+                            <td>{index + 1}</td>
+                            <td>{producto.name}</td>
+                            <td>
                                 <button 
                                     className="bg-blue-500 text-white px-2 py-1 rounded gap-3 cursor-not-allowed" disabled>
                                     Editar
@@ -102,6 +106,8 @@ const TableProducts = ({products, setProducts})=> {
         </div>
         
     );
+
+    
 }
 
 export { TableProducts };

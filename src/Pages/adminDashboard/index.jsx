@@ -1,11 +1,27 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { CategoryCRUD } from "../../Components/Categories";
 import { ProductsCRUD } from "../../Components/Products";
 import { ShoppingCartContext } from "../../Context/index";
+import { LoginContext } from "../../Context/loginContext";
+
 
 function AdminDashboard() {
   
   const context = useContext(ShoppingCartContext);
+  const loginContext = useContext(LoginContext)
+
+  useEffect(() => {
+    loginContext.getUserInfo().then((data) => {
+      if (data.statusCode == 401) {
+        loginContext.setIsUserLogin(false);
+        loginContext.setError(data.message);
+      } else {
+        loginContext.setUser(data.data);
+        loginContext.setIsUserLogin(true);
+      }
+      loginContext.setIsLoading(false);
+    });
+  },[])
 
   const renderView = () => {
     if(context.productoDashboard){
@@ -17,7 +33,7 @@ function AdminDashboard() {
 
   return (
     <div className="mt-20">
-        <main className="">
+        <main>
             {renderView()}
         </main>
     </div>

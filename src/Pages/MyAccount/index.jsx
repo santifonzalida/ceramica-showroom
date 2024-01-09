@@ -39,7 +39,6 @@ function MyAccount() {
 
   return (
     <Layout>
-
       {
         showEditPersonalInfo ? 
           <EditarInformacionPersonal 
