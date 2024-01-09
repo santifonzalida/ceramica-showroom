@@ -8,7 +8,7 @@ const Modal = ({isOpen, title, message, onCancel, onConfirm, showSpinner}) => {
 
     return (
         <div className="fixed inset-0 flex items-center justify-center z-50 bg-slate-500 bg-opacity-40">
-            <div className="modal p-4 bg-white w-1/2 rounded-lg shadow-lg">
+            <div className="modal p-4 m-1 bg-white rounded-lg shadow-lg">
                 <p className="text-lg mb-2 font-bold">{title}</p>
                 <p className="text-lg mb-4">{message}</p>
                 <div className="flex justify-end">
