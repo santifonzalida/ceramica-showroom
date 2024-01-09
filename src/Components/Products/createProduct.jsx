@@ -165,8 +165,8 @@ const CreateProduct = ({setMostrarCrear, products, setProducts}) => {
     }    
 
     return (
-        <div className="mx-auto mt-10 p-4 border rounded-lg shadow-lg">
-            <h1 className="text-2xl font-semibold mb-4">Agregar Producto</h1>
+        <div className="mx-auto p-2">
+            <h1 className="text-lg md:text-xl font-semibold mb-4">Agregar Producto</h1>
             <form onSubmit={handleSubmit}>
                 <div className="mb-4">
                     <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="nombre">
@@ -220,7 +220,7 @@ const CreateProduct = ({setMostrarCrear, products, setProducts}) => {
 
                 <div className="mb-4">
                     <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="precio">
-                        Seleccionar imágenes
+                        Selección de imágenes
                     </label>
                     <div className="bg-gray-100 p-4">
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -291,10 +291,10 @@ const CreateProduct = ({setMostrarCrear, products, setProducts}) => {
                         required
                     />
                 </div>
-                <div className="flex mb-6 justify-end">
+                <div className="grid grid-cols-2">
                 {
                     isLoading 
-                        ? <button className="flex cursor-not-allowed disabled bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline`">Agregar producto<ArrowPathIcon className='flex h-5 w-5 ml-2 mt-1 animate-spin'/></button>
+                        ? <button className="flex cursor-not-allowed disabled bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Agregar producto<ArrowPathIcon className='flex h-5 w-5 ml-2 mt-1 animate-spin'/></button>
                         : <button className={` ${isImageLoading.some(x => x) ? 'cursor-not-allowed disabled' : ''} bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline`}
                             type="submit" >Agregar Producto </button>
                 }

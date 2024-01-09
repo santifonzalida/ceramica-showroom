@@ -36,7 +36,7 @@ const ProductsCRUD = () => {
         <div className="bg-gray-100 font-sans">
             <div className="mx-auto p-4">
                 <div className="grid grid-cols-2 items-center mb-2">
-                    <div>
+                    <div className={`${mostrarCrear ? 'hidden' : ''}`}>
                         <h1 className="text-sm md:text-xl font-semibold flex">Listado de Productos</h1>
                     </div>
                     <div className="flex justify-end">
@@ -45,7 +45,7 @@ const ProductsCRUD = () => {
                 </div>
                 { showSpinner ? <Spinner /> : 
                     <div>
-                        <div className={`${mostrarCrear ? '' : 'hidden'} row`}>
+                        <div className={`${mostrarCrear ? '' : 'hidden'}`}>
                             <CreateProduct setMostrarCrear={setMostrarCrear} products={productos} setProducts={setProductos}/>
                         </div>
                         <div className={`${mostrarCrear ? 'hidden' : ''}`}>
