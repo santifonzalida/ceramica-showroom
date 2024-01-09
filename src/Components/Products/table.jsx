@@ -1,8 +1,10 @@
 import { useState } from "react";
+import { PencilIcon, TrashIcon } from "@heroicons/react/24/solid";
 import { Modal } from "../Common/Modal";
 import { useLocalStorage } from "../../Context/useLocalStorage";
 
 const TableProducts = ({products, setProducts})=> {
+
     const localStorage = useLocalStorage();
     const [showSpinner, setShowSpinner] = useState(false);
     const [error, setError] = useState(null);
@@ -60,48 +62,46 @@ const TableProducts = ({products, setProducts})=> {
     };
 
     return (
-        <div>
-            <table className="w-full bg-white">
-                <thead>
-                    <tr>
-                        <th className="border p-4">Nro.</th>
-                        <th className="border p-4">Nombre</th>
-                        <th className="border p-4">Acciones</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {products.map((producto, index) => (
-                        <tr key={producto._id}>
-                            <td className="border p-4 text-center">{index + 1}</td>
-                            <td className="border text-center">{producto.name}</td>
-                            <td className="border p-4 text-center">
-                                <button 
-                                    className="bg-blue-500 text-white px-2 py-1 rounded gap-3 cursor-not-allowed" disabled>
-                                    Editar
-                                </button>
-                                
-                                <button 
-                                    className="bg-red-500 text-white px-2 py-1 rounded ml-2" 
-                                    onClick={() => handleEliminar(producto._id)}
-                                    required={showSpinner}>
-                                        Eliminar
-                                </button>
-                            </td>
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
-            <Modal
-                isOpen={showModal}
-                title={`¿Estás seguro de que deseas eliminar el producto ${productoSeleccionado ? productoSeleccionado.name : ''}?`}
-                message={'Al confirmar se eliminaran todas las imagenes asociadas.'}
-                onCancel={handleCancelarEliminar}
-                onConfirm={handleConfirmEliminar}
-                showSpinner={showSpinner}
-            />
+    <div className="flex flex-col">
+        <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
+            <div className="inline-block min-w-full py-2 sm:px-6 lg:px-8">
+                <div className="overflow-hidden">
+                    <table className="min-w-full text-left text-sm font-light">
+                        <thead className="border-b bg-white font-medium dark:border-neutral-500 dark:bg-neutral-600">
+                            <tr>
+                                <th scope="col" className="px-6 py-4">#</th>
+                                <th scope="col" className="px-6 py-4">Nombre</th>
+                                <th scope="col" className="px-6 py-4 float-right">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {products.map((producto, index) => (
+                                <tr key={producto._id} className={`${index %2 == 0 ? 'bg-neutral-200' : 'bg-neutral-300'} border-b dark:border-neutral-500 `}>
+                                    <td className="px-6 py-4">{index + 1}</td>
+                                    <td className="px-6 py-4">{producto.name}</td>
+                                    <td className="px-6 py-4 gap-4 flex float-right">
+                                        <PencilIcon className="h-5 w-5 cursor-not-allowed" disabled/>
+                                        <TrashIcon className="h-5 w-5 cursor-pointer" onClick={() => handleEliminar(producto._id)}/>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                    <Modal
+                        isOpen={showModal}
+                        title={`¿Estás seguro de que deseas eliminar el producto ${productoSeleccionado ? productoSeleccionado.name : ''}?`}
+                        message={'Al confirmar se eliminaran todas las imagenes asociadas.'}
+                        onCancel={handleCancelarEliminar}
+                        onConfirm={handleConfirmEliminar}
+                        showSpinner={showSpinner}
+                    />
+                </div>
+            </div>
         </div>
-        
+    </div>
     );
+
+    
 }
 
 export { TableProducts };

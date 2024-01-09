@@ -43,24 +43,25 @@ const CreateCategory = (props) => {
                     value={nombreCategoria}
                     onChange={(e) => setNombreCategoria(e.target.value)}
                     placeholder="Ingresa el nombre aquí" 
-                    required
-                />
+                    required/>
+
+                <button 
+                    type="button" 
+                    className={`${showSpinner ? 'cursor-not-allowed' : ''} bg-blue-500 text-white px-2 py-2 ml-4 rounded`} 
+                    disabled={showSpinner}
+                    onClick={create}>Guardar 
+                    <div className={`${showSpinner ? 'cursor-not-allowed' : 'hidden'} animate-spin ml-1`}>
+                        <ArrowPathIcon className="w-5 h-5"/>
+                    </div> 
+                </button>
+                <button 
+                    type="button" 
+                    className={`${!showSpinner ? '' : 'cursor-not-allowed'} bg-red-500 text-white px-2 py-1 ml-5 rounded`} 
+                    onClick={() => props.mostrarCrear(false)}
+                    disabled={showSpinner}>Cancelar
+                </button>
             </div>
             
-            <button 
-                type="button" 
-                className={`${showSpinner ? 'cursor-not-allowed' : ''} flex bg-blue-500 text-white px-2 py-2 ml-4 rounded`} 
-                disabled={showSpinner}
-                onClick={create}>Guardar 
-                <div className={`${showSpinner ? 'cursor-not-allowed' : 'hidden'} animate-spin ml-1`}>
-                    <ArrowPathIcon className="w-5 h-5"/>
-                </div> 
-            </button>
-            <button 
-                type="button" 
-                className={`${!showSpinner ? '' : 'cursor-not-allowed'} bg-red-500 text-white px-2 py-1 ml-5 rounded`} 
-                onClick={() => props.mostrarCrear(false)}
-                disabled={showSpinner}>Cancelar</button>
         </div>
     )
 }

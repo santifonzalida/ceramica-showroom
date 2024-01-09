@@ -4,7 +4,7 @@ import { TableProducts } from "./table";
 import { Spinner } from '../Common/Spinner';
 
 const ProductsCRUD = () => {
-
+    
     const [mostrarCrear, setMostrarCrear] = useState(false);
     const [productos, setProductos] = useState([]);
     const [showSpinner, setShowSpinner] = useState(false);
@@ -34,17 +34,21 @@ const ProductsCRUD = () => {
 
     return (
         <div className="bg-gray-100 font-sans">
-            <div className="container mx-auto p-8">
-                <div className="flex items-center mb-2" >
-                    <h1 className="text-3xl font-semibold">Lista de Productos</h1>
-                    <button className={`${mostrarCrear ? 'hidden' : ''} bg-blue-500 text-white px-2 py-1 ml-5 rounded`} onClick={() => setMostrarCrear(true)}>Nuevo</button>
+            <div className="mx-auto p-4">
+                <div className="grid grid-cols-2 items-center mb-2">
+                    <div className={`${mostrarCrear ? 'hidden' : ''}`}>
+                        <h1 className="text-sm md:text-xl font-semibold flex">Listado de Productos</h1>
+                    </div>
+                    <div className="flex justify-end">
+                        <button className={`${mostrarCrear ? 'hidden' : ''} bg-blue-500 text-white py-1 rounded px-2`} onClick={() => setMostrarCrear(true)}>Nuevo +</button>
+                    </div>
                 </div>
                 { showSpinner ? <Spinner /> : 
                     <div>
-                        <div className={`${mostrarCrear ? '' : 'hidden'} row`}>
+                        <div className={`${mostrarCrear ? '' : 'hidden'}`}>
                             <CreateProduct setMostrarCrear={setMostrarCrear} products={productos} setProducts={setProductos}/>
                         </div>
-                        <div className={`${mostrarCrear ? 'hidden' : 'row'}`}>
+                        <div className={`${mostrarCrear ? 'hidden' : ''}`}>
                             <TableProducts products={productos} setProducts={setProductos} />
                         </div>
                     </div>
