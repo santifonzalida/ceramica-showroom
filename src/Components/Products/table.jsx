@@ -69,17 +69,17 @@ const TableProducts = ({products, setProducts})=> {
                     <table className="min-w-full text-left text-sm font-light">
                         <thead className="border-b bg-white font-medium dark:border-neutral-500 dark:bg-neutral-600">
                             <tr>
-                                <th cope="col" className="px-6 py-4">#</th>
-                                <th cope="col" className="px-6 py-4">Nombre</th>
-                                <th cope="col" className="px-6 py-4 float-right">Acciones</th>
+                                <th scope="col" className="px-6 py-4">#</th>
+                                <th scope="col" className="px-6 py-4">Nombre</th>
+                                <th scope="col" className="px-6 py-4 float-right">Acciones</th>
                             </tr>
                         </thead>
                         <tbody>
                             {products.map((producto, index) => (
                                 <tr key={producto._id} className={`${index %2 == 0 ? 'bg-neutral-200' : 'bg-neutral-300'} border-b dark:border-neutral-500 `}>
-                                    <td className="whitespace-nowrap px-6 py-4">{index + 1}</td>
-                                    <td className="whitespace-nowrap px-6 py-4">{producto.name}</td>
-                                    <td className="whitespace-nowrap px-6 py-4 gap-4 flex float-right">
+                                    <td className="px-6 py-4">{index + 1}</td>
+                                    <td className="px-6 py-4">{producto.name}</td>
+                                    <td className="px-6 py-4 gap-4 flex float-right">
                                         <PencilIcon className="h-5 w-5 cursor-not-allowed" disabled/>
                                         <TrashIcon className="h-5 w-5 cursor-pointer" onClick={() => handleEliminar(producto._id)}/>
                                     </td>

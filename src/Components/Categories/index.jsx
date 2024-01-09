@@ -40,13 +40,15 @@ const CategoryCRUD = () => {
     return (
         <div>
             <div className="bg-gray-100 font-sans">
-                <div className="container mx-auto p-8">
-                    
-                    <div className="flex items-center mb-2" >
-                        <h1 className="text-3xl font-semibold">Lista de Categorias</h1>
-                        <button className="bg-blue-500 text-white px-2 py-1 ml-5 rounded" onClick={() => setMostrarCrear(true)}>Nueva</button>
+                <div className="mx-auto p-4">
+                    <div className="grid grid-cols-2 items-center mb-2">
+                        <div className={`${mostrarCrear ? 'hidden' : ''}`}>
+                            <h1 className="text-sm md:text-xl font-semibold flex">Lista de Categorias</h1>
+                        </div>
+                        <div className="flex justify-end">
+                            <button className={`${mostrarCrear ? 'hidden' : ''} bg-blue-500 text-white py-1 rounded px-2`} onClick={() => setMostrarCrear(true)}>Nuevo +</button>
+                        </div>
                     </div>
-                    
                     <div className={`${mostrarCrear ? '' : 'hidden'} row`}>
                         <CreateCategory mostrarCrear={setMostrarCrear} setCategory={setCategorias} categorias={categorias}/>
                     </div>
