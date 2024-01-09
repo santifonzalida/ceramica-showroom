@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { Link, NavLink, useLocation } from "react-router-dom"
+import { NavLink, useLocation, useNavigate } from "react-router-dom"
 import { ShoppingCartContext } from "../../Context";
 import { LoginContext } from "../../Context/loginContext";
 import { BellIcon, HomeIcon } from '@heroicons/react/24/solid'
@@ -12,9 +12,10 @@ import {
   
 const Navbar = () => {
 
-    initTE({ Collapse, Dropdown });
+    initTE({ Collapse, Dropdown }, true);
 
     const location = useLocation();
+    const navigation = useNavigate();
     const context = useContext(ShoppingCartContext);
     const loginContext = useContext(LoginContext);
     const activeStyle = "underline underline-offset-4";
@@ -59,9 +60,10 @@ const Navbar = () => {
                         className="relative font-semibold"
                         data-te-dropdown-ref
                         data-te-dropdown-alignment="end">
-                        <a
-                            className="flex items-center whitespace-nowrap cursor-pointer px-6 pb-2 pt-2.5 font-bold text-black  motion-reduce:transition-none dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]"
-                            id="dropdownMenuConfig"
+                        <button
+                            className="flex items-center whitespace-nowrap rounded px-6 pb-2 pt-2.5 font-medium leading-normal text-black"
+                            type="button"
+                            id="dropdownMenuButton1"
                             data-te-dropdown-toggle-ref
                             aria-expanded="false"
                             data-te-ripple-init
@@ -79,7 +81,7 @@ const Navbar = () => {
                                     clipRule="evenodd" />
                                 </svg>
                             </span>
-                        </a>
+                        </button>
                         <ul
                             className="absolute z-[1000] float-left m-0 hidden min-w-max list-none overflow-hidden rounded-lg border-none bg-white bg-clip-padding text-left text-base shadow-lg dark:bg-neutral-700 [&[data-te-dropdown-show]]:block"
                             aria-labelledby="dropdownMenuConfig"
@@ -152,12 +154,9 @@ const Navbar = () => {
                             <li>
                                 <a
                                     className="block w-full whitespace-nowrap bg-transparent px-4 py-2 text-sm font-normal text-neutral-700 hover:bg-neutral-100 active:text-neutral-800 active:no-underline disabled:pointer-events-none disabled:bg-transparent disabled:text-neutral-400 dark:text-neutral-200 dark:hover:bg-white/30"
-                                    data-te-dropdown-item-ref>
-                                    <NavLink 
-                                        to='/my-account'
-                                        className={({isActive}) => isActive ? activeStyle : undefined}
-                                        >Mi cuenta
-                                    </NavLink>
+                                    data-te-dropdown-item-ref
+                                    onClick={() => navigation('/my-account')}>
+                                    Mi cuenta
                                 </a>
                             </li>
                             <li>
@@ -165,7 +164,8 @@ const Navbar = () => {
                                     className="block w-full whitespace-nowrap bg-transparent cursor-pointer px-4 py-2 text-sm font-normal text-neutral-700 hover:bg-neutral-100 active:text-neutral-800 active:no-underline disabled:pointer-events-none disabled:bg-transparent disabled:text-neutral-400 dark:text-neutral-200 dark:hover:bg-white/30"
                                     data-te-dropdown-item-ref
                                     onClick={() => loginContext.logOut()}
-                                >Cerrar sesión</a>
+                                    >Cerrar sesión
+                                </a>
                             </li>
                         </ul>
                     </div>
