@@ -188,12 +188,12 @@ const CreateProduct = ({setMostrarCrear, products, setProducts}) => {
                     role="alert">{error.message}
                     <button
                         type="button"
-                        className="ml-auto box-content rounded-none border-none p-1 text-warning-900 opacity-50 hover:text-warning-900 hover:no-underline hover:opacity-75 focus:opacity-100 focus:shadow-none focus:outline-none"
+                        className="ml-auto box-content rounded-none border-none p-1 text-warning-900 opacity-50"
                         data-te-alert-dismiss
                         aria-label="Close"
                         onClick={() => setError({status: false, message: ''})}>
                         <span
-                        className="w-[1em] focus:opacity-100 disabled:pointer-events-none disabled:select-none disabled:opacity-25 [&.disabled]:pointer-events-none [&.disabled]:select-none [&.disabled]:opacity-25">
+                        className="w-[1em]">
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
                             viewBox="0 0 24 24"
@@ -217,7 +217,7 @@ const CreateProduct = ({setMostrarCrear, products, setProducts}) => {
                         Nombre
                     </label>
                     <input
-                        className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight"
                         type="text"
                         id="nombre"
                         name="nombre"
@@ -231,7 +231,7 @@ const CreateProduct = ({setMostrarCrear, products, setProducts}) => {
                         Descripción
                     </label>
                     <textarea
-                        className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight"
                         id="descripcion"
                         name="descripcion"
                         value={producto.descripcion}
@@ -246,7 +246,7 @@ const CreateProduct = ({setMostrarCrear, products, setProducts}) => {
                     <select
                         id="idCategoria"
                         name="idCategoria"
-                        className="w-full px-4 py-2 border rounded-md shadow-sm focus:outline-none focus:border-blue-500"
+                        className="w-full px-4 py-2 border rounded-md shadow-sm"
                         value={producto.idCategoria}
                         onChange={handleChange}
                         required
@@ -298,7 +298,7 @@ const CreateProduct = ({setMostrarCrear, products, setProducts}) => {
                                         {imagenesError[index] ? imagenesError[index].message : ''}
                                     </small>
                                 </label>
-                                <label htmlFor={`imagenInput-${index}`} className="mt-2 cursor-pointer text-blue-500">
+                                <label htmlFor={`imagenInput-${index}`} className="mt-2 cursor-pointer text-black">
                                     Cargar Imagen
                                 </label>
                             </div>
@@ -312,7 +312,7 @@ const CreateProduct = ({setMostrarCrear, products, setProducts}) => {
                         Precio
                     </label>
                     <input
-                        className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight"
                         type="text"
                         id="precio"
                         name="precio"
@@ -326,7 +326,7 @@ const CreateProduct = ({setMostrarCrear, products, setProducts}) => {
                         Stock
                     </label>
                     <input
-                        className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight"
                         type="text"
                         id="stock"
                         name="stock"
@@ -338,12 +338,12 @@ const CreateProduct = ({setMostrarCrear, products, setProducts}) => {
                 <div className="grid grid-cols-2">
                 {
                     isLoading 
-                        ? <button className="flex cursor-not-allowed disabled bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Agregar producto<ArrowPathIcon className='flex h-5 w-5 ml-2 mt-1 animate-spin'/></button>
-                        : <button className={` ${isImageLoading.some(x => x) ? 'cursor-not-allowed disabled' : ''} bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline`}
+                        ? <button className="flex cursor-not-allowed disabled bg-black text-white font-bold py-2 px-4 rounded">Agregar producto<ArrowPathIcon className='flex h-5 w-5 ml-2 mt-1 animate-spin'/></button>
+                        : <button className={` ${isImageLoading.some(x => x) ? 'cursor-not-allowed disabled' : ''} bg-black text-white font-bold py-2 px-4 rounded`}
                             type="submit" >Agregar Producto </button>
                 }
                     <button 
-                        className={`${isImageLoading.some(x => x) ? 'cursor-not-allowed disabled' : ''} bg-red-500 text-white font-bold py-2 px-4 rounded hover:bg-red-700 ml-5`}
+                        className={`${isImageLoading.some(x => x) ? 'cursor-not-allowed disabled' : ''} bg-black text-white font-bold py-2 px-4 rounded ml-5`}
                         onClick={cancelarGuardar}>Cancelar</button>
                 </div>
             </form>

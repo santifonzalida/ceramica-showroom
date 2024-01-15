@@ -105,36 +105,36 @@ const TableCategories = (props) => {
                 <div className="inline-block min-w-full py-2 sm:px-6 lg:px-8">
                     <div className="overflow-hidden">
                         <table className="min-w-full text-left text-sm font-light">
-                            <thead className="border-b bg-white font-medium dark:border-neutral-500 dark:bg-neutral-600">
+                            <thead className="border-b bg-white font-medium">
                                 <tr>
-                                    <th scope="col" className="px-6 py-4">Nro.</th>
-                                    <th scope="col" className="px-6 py-4">Nombre</th>
+                                    <th scope="col" className="px-6 py-4">#</th>
+                                    <th scope="col" className="py-4">Nombre</th>
                                     <th scope="col" className="px-6 py-4 float-right">Acciones</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {props.data.map((categoria, index) => (
-                                    <tr key={categoria._id} className={`${index %2 == 0 ? 'bg-neutral-200' : 'bg-neutral-300'} border-b dark:border-neutral-500 `}>
+                                    <tr key={categoria._id} className={`${index %2 == 0 ? 'bg-neutral-200' : 'bg-neutral-300'}`}>
                                         <td className="px-6 py-4">{index + 1}</td>
 
-                                        <td className={`${mostrarEditar.show && mostrarEditar.id == categoria._id ? '' : 'hidden'} flex items-center justify-center border p-5 text-center`}>
-                                            <input type="text" value={categoria.name} onChange={(e) => updateCategory(e, categoria._id)} className="border rounded"/>
+                                        <td className={`${mostrarEditar.show && mostrarEditar.id == categoria._id ? '' : 'hidden'} flex items-center justify-center p-5`}>
+                                            <input type="text" value={categoria.name} onChange={(e) => updateCategory(e, categoria._id)} className="rounded"/>
                                             <PencilIcon className="ml-2 w-5 h-5"/>
                                         </td>
-                                        <td className={`${mostrarEditar.id == categoria._id ? 'hidden' : ''} border text-center`}>{categoria.name}</td>
+                                        <td className={`${mostrarEditar.id == categoria._id ? 'hidden' : ''}`}>{categoria.name}</td>
 
-                                        <td className="flex items-center justify-center gap-4 p-4">
+                                        <td className="flex float-right items-center justify-center gap-4 p-4">
                                             <PencilIcon className={`${mostrarEditar.show ? 'hidden' : ''} h-5 w-5 cursor-not-allowed`} onClick={() => setMostrarEditar({show: true, id: categoria._id})}/>
                                             <TrashIcon className={`${mostrarEditar.show ? 'hidden' : ''} ${showSpinner ? 'cursor-not-allowed' : ''} h-5 w-5 cursor-pointer`} onClick={() => handleEliminar(categoria._id)}/>
                                             
-                                            <div className="flex gap-6">
+                                            <div className="flex gap-4">
                                                 <CheckCircleIcon 
-                                                    className={`${mostrarEditar.show && mostrarEditar.id == categoria._id ? '' : 'hidden'} ${showSpinner ? 'cursor-not-allowed bg-blue-600' : ''} text-green-700 h-6 w-6 cursor-pointer` }
+                                                    className={`${mostrarEditar.show && mostrarEditar.id == categoria._id ? '' : 'hidden'} ${showSpinner ? 'cursor-not-allowed' : ''} text-black h-7 w-7 cursor-pointer` }
                                                     onClick={() => modificar(categoria._id, categoria.name)}
                                                     disabled={showSpinner}/>
                                             
                                                 <XCircleIcon 
-                                                    className={`${mostrarEditar.show && mostrarEditar.id == categoria._id ? '' : 'hidden'} ${showSpinner ? 'cursor-not-allowed' : ''} text-red-700 h-6 w-6 cursor-pointer`}
+                                                    className={`${mostrarEditar.show && mostrarEditar.id == categoria._id ? '' : 'hidden'} ${showSpinner ? 'cursor-not-allowed' : ''} text-black h-7 w-7 cursor-pointer`}
                                                     onClick={() => setMostrarEditar({show:false, id: 0})} 
                                                     required={showSpinner}/>
                                             </div>

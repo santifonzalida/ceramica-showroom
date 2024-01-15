@@ -88,14 +88,14 @@ const Navbar = () => {
                             data-te-dropdown-menu-ref>
                             <li>
                                 <a
-                                    className="block w-full whitespace-nowrap bg-transparent cursor-pointer px-4 py-2 text-sm font-normal text-neutral-700 hover:bg-neutral-100 active:text-neutral-800 active:no-underline disabled:pointer-events-none disabled:bg-transparent disabled:text-neutral-400 dark:text-neutral-200 dark:hover:bg-white/30"
+                                    className="block w-full whitespace-nowrap bg-transparent cursor-pointer px-4 py-2 text-sm font-normal text-neutral-900"
                                     data-te-dropdown-item-ref
                                     onClick={onProductoClick}
                                 >Productos</a>
                             </li>
                             <li>
                                 <a
-                                    className="block w-full whitespace-nowrap bg-transparent cursor-pointer px-4 py-2 text-sm font-normal text-neutral-700 hover:bg-neutral-100 active:text-neutral-800 active:no-underline disabled:pointer-events-none disabled:bg-transparent disabled:text-neutral-400 dark:text-neutral-200 dark:hover:bg-white/30"
+                                    className="block w-full whitespace-nowrap bg-transparent cursor-pointer px-4 py-2 text-sm font-normal text-neutral-900"
                                     data-te-dropdown-item-ref
                                     onClick={onCateogiriaClick}
                                 >Categoria</a>
@@ -148,12 +148,12 @@ const Navbar = () => {
                                 loading="lazy" />
                         </a>
                         <ul
-                            className="absolute z-[1000] float-left m-0 hidden min-w-max list-none overflow-hidden rounded-lg border-none bg-white bg-clip-padding text-left text-base shadow-lg dark:bg-neutral-700 [&[data-te-dropdown-show]]:block"
+                            className="absolute z-[1000] float-left m-0 hidden min-w-max list-none overflow-hidden rounded-lg border-none bg-white bg-clip-padding text-left text-base shadow-lg [&[data-te-dropdown-show]]:block"
                             aria-labelledby="dropdownMenuUser"
                             data-te-dropdown-menu-ref>
                             <li>
                                 <a
-                                    className="block w-full whitespace-nowrap bg-transparent px-4 py-2 text-sm font-normal text-neutral-700 hover:bg-neutral-100 active:text-neutral-800 active:no-underline disabled:pointer-events-none disabled:bg-transparent disabled:text-neutral-400 dark:text-neutral-200 dark:hover:bg-white/30"
+                                    className="block w-full whitespace-nowrap bg-transparent px-4 py-2 text-sm font-normal text-neutral-900"
                                     data-te-dropdown-item-ref
                                     onClick={() => navigation('/my-account')}>
                                     Mi cuenta
@@ -161,7 +161,7 @@ const Navbar = () => {
                             </li>
                             <li>
                                 <a
-                                    className="block w-full whitespace-nowrap bg-transparent cursor-pointer px-4 py-2 text-sm font-normal text-neutral-700 hover:bg-neutral-100 active:text-neutral-800 active:no-underline disabled:pointer-events-none disabled:bg-transparent disabled:text-neutral-400 dark:text-neutral-200 dark:hover:bg-white/30"
+                                    className="block w-full whitespace-nowrap bg-transparent cursor-pointer px-4 py-2 text-sm font-normal text-neutral-900"
                                     data-te-dropdown-item-ref
                                     onClick={() => loginContext.logOut()}
                                     >Cerrar sesión
