@@ -132,6 +132,7 @@ const CreateProduct = ({setMostrarCrear, products, setProducts}) => {
             idCategoria: ''
           });
         setImagenes(['', '', '']);
+        setImagenesError([null, null, null]);
     }
 
     const guardarImagen = (imageB64, nombre, extension, size, productIndex) => {
@@ -172,8 +173,10 @@ const CreateProduct = ({setMostrarCrear, products, setProducts}) => {
         );
     }    
 
-    const cerrarAlert = () => {
+    const cancelarGuardar = () => {
         setError({status: false, message: ''});
+        resetProduct();
+        setMostrarCrear(false);
     }
 
     return (
@@ -188,7 +191,7 @@ const CreateProduct = ({setMostrarCrear, products, setProducts}) => {
                         className="ml-auto box-content rounded-none border-none p-1 text-warning-900 opacity-50 hover:text-warning-900 hover:no-underline hover:opacity-75 focus:opacity-100 focus:shadow-none focus:outline-none"
                         data-te-alert-dismiss
                         aria-label="Close"
-                        onClick={cerrarAlert}>
+                        onClick={() => setError({status: false, message: ''})}>
                         <span
                         className="w-[1em] focus:opacity-100 disabled:pointer-events-none disabled:select-none disabled:opacity-25 [&.disabled]:pointer-events-none [&.disabled]:select-none [&.disabled]:opacity-25">
                         <svg
@@ -341,7 +344,7 @@ const CreateProduct = ({setMostrarCrear, products, setProducts}) => {
                 }
                     <button 
                         className={`${isImageLoading.some(x => x) ? 'cursor-not-allowed disabled' : ''} bg-red-500 text-white font-bold py-2 px-4 rounded hover:bg-red-700 ml-5`}
-                        onClick={() => setMostrarCrear(false)}>Cancelar</button>
+                        onClick={cancelarGuardar}>Cancelar</button>
                 </div>
             </form>
         </div>

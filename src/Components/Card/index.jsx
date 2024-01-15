@@ -56,7 +56,7 @@ const Card = (data) => {
                         {renderIcon(data.data._id)}
                 </figure>
              : 
-                <div className="animate-pulse flex">
+                <div className="animate-pulse cursor-not-allowed">
                     <div className="flex-1 space-y-1">
                         <div className="rounded-lg bg-slate-200 "></div>
                         <div className="h-48 bg-slate-500 rounded-lg"></div>
