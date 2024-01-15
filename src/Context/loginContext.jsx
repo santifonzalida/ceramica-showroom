@@ -42,7 +42,7 @@ export const LoginContextProvider = ({children}) => {
     }
 
     const logOut = () => {
-        localStorage.saveItem('tokens', {});
+        localStorage.saveItem('user', {});
         setIsUserLogin(false);
         setUser(null);
         navigate('/login');
