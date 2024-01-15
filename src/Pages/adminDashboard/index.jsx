@@ -3,10 +3,12 @@ import { CategoryCRUD } from "../../Components/Categories";
 import { ProductsCRUD } from "../../Components/Products";
 import { ShoppingCartContext } from "../../Context/index";
 import { LoginContext } from "../../Context/loginContext";
+import { useNavigate } from "react-router-dom";
 
 
 function AdminDashboard() {
   
+  const navegar = useNavigate();
   const context = useContext(ShoppingCartContext);
   const loginContext = useContext(LoginContext)
 
@@ -15,6 +17,7 @@ function AdminDashboard() {
       if (data.statusCode == 401) {
         loginContext.setIsUserLogin(false);
         loginContext.setError(data.message);
+        navegar('/login');
       } else {
         loginContext.setUser(data.data);
         loginContext.setIsUserLogin(true);

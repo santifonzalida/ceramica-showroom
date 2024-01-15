@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { CheckIcon, ArrowPathIcon, XCircleIcon } from '@heroicons/react/24/solid';
+import { CheckIcon, ArrowPathIcon, XCircleIcon, XMarkIcon } from '@heroicons/react/24/solid';
 import { useLocalStorage } from '../../Context/useLocalStorage';
 const CreateProduct = ({setMostrarCrear, products, setProducts}) => {
 
@@ -17,6 +17,7 @@ const CreateProduct = ({setMostrarCrear, products, setProducts}) => {
       const [isImageLoading, setIsImageLoading] = useState([false, false, false]);
       const [isLoading, setIsLoading] = useState(false);
       const [categorias, setCategorias] = useState([]);
+      const [error, setError] = useState({status: false, message: ''});
 
       useEffect(() => {
         fetch(
@@ -53,6 +54,13 @@ const CreateProduct = ({setMostrarCrear, products, setProducts}) => {
             stock: producto.stock,
             images: producto.images,
             category: producto.idCategoria
+        }
+
+        if(request.images.length == 0){
+            setError({status: true, message: 'Debe agregar al menos una imagen.'});
+            setIsLoading(false);
+            window.scrollTo({ top: 0, left:0, behavior: 'smooth' });
+            return;
         }
 
         fetch('https://tame-ruby-rhinoceros-cap.cyclic.app/Products', 
@@ -124,6 +132,7 @@ const CreateProduct = ({setMostrarCrear, products, setProducts}) => {
             idCategoria: ''
           });
         setImagenes(['', '', '']);
+        setImagenesError([null, null, null]);
     }
 
     const guardarImagen = (imageB64, nombre, extension, size, productIndex) => {
@@ -164,8 +173,43 @@ const CreateProduct = ({setMostrarCrear, products, setProducts}) => {
         );
     }    
 
+    const cancelarGuardar = () => {
+        setError({status: false, message: ''});
+        resetProduct();
+        setMostrarCrear(false);
+    }
+
     return (
         <div className="mx-auto p-2">
+
+            { error.status ? 
+                <div
+                    className="flex mb-4 rounded-lg bg-danger-100 px-6 py-5 text-base text-danger-700"
+                    role="alert">{error.message}
+                    <button
+                        type="button"
+                        className="ml-auto box-content rounded-none border-none p-1 text-warning-900 opacity-50 hover:text-warning-900 hover:no-underline hover:opacity-75 focus:opacity-100 focus:shadow-none focus:outline-none"
+                        data-te-alert-dismiss
+                        aria-label="Close"
+                        onClick={() => setError({status: false, message: ''})}>
+                        <span
+                        className="w-[1em] focus:opacity-100 disabled:pointer-events-none disabled:select-none disabled:opacity-25 [&.disabled]:pointer-events-none [&.disabled]:select-none [&.disabled]:opacity-25">
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 24 24"
+                            fill="currentColor"
+                            className="h-6 w-6">
+                            <path
+                            fillRule="evenodd"
+                            d="M5.47 5.47a.75.75 0 011.06 0L12 10.94l5.47-5.47a.75.75 0 111.06 1.06L13.06 12l5.47 5.47a.75.75 0 11-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 01-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 010-1.06z"
+                            clipRule="evenodd" />
+                        </svg>
+                        </span>
+                    </button>
+                </div>
+                : ''
+            }
+            
             <h1 className="text-lg md:text-xl font-semibold mb-4">Agregar Producto</h1>
             <form onSubmit={handleSubmit}>
                 <div className="mb-4">
@@ -300,7 +344,7 @@ const CreateProduct = ({setMostrarCrear, products, setProducts}) => {
                 }
                     <button 
                         className={`${isImageLoading.some(x => x) ? 'cursor-not-allowed disabled' : ''} bg-red-500 text-white font-bold py-2 px-4 rounded hover:bg-red-700 ml-5`}
-                        onClick={() => setMostrarCrear(false)}>Cancelar</button>
+                        onClick={cancelarGuardar}>Cancelar</button>
                 </div>
             </form>
         </div>
