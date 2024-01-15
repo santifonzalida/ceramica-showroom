@@ -188,12 +188,12 @@ const CreateProduct = ({setMostrarCrear, products, setProducts}) => {
                     role="alert">{error.message}
                     <button
                         type="button"
-                        className="ml-auto box-content rounded-none border-none p-1 text-warning-900 opacity-50 hover:text-warning-900 hover:no-underline hover:opacity-75 focus:opacity-100 focus:shadow-none focus:outline-none"
+                        className="ml-auto box-content rounded-none border-none p-1 text-warning-900 opacity-50"
                         data-te-alert-dismiss
                         aria-label="Close"
                         onClick={() => setError({status: false, message: ''})}>
                         <span
-                        className="w-[1em] focus:opacity-100 disabled:pointer-events-none disabled:select-none disabled:opacity-25 [&.disabled]:pointer-events-none [&.disabled]:select-none [&.disabled]:opacity-25">
+                        className="w-[1em]">
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
                             viewBox="0 0 24 24"
