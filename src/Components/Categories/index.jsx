@@ -46,7 +46,7 @@ const CategoryCRUD = () => {
                             <h1 className="text-sm md:text-xl font-semibold flex">Lista de Categorias</h1>
                         </div>
                         <div className="flex justify-end">
-                            <button className={`${mostrarCrear ? 'hidden' : ''} bg-blue-500 text-white py-1 rounded px-2`} onClick={() => setMostrarCrear(true)}>Nuevo +</button>
+                            <button className={`${mostrarCrear ? 'hidden' : ''} bg-black text-white py-1 rounded px-2`} onClick={() => setMostrarCrear(true)}>Nuevo +</button>
                         </div>
                     </div>
                     <div className={`${mostrarCrear ? '' : 'hidden'} row`}>
