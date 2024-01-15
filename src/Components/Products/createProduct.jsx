@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { CheckIcon, ArrowPathIcon, XCircleIcon, XMarkIcon } from '@heroicons/react/24/solid';
 import { useLocalStorage } from '../../Context/useLocalStorage';
 const CreateProduct = ({setMostrarCrear, products, setProducts}) => {
@@ -17,8 +17,7 @@ const CreateProduct = ({setMostrarCrear, products, setProducts}) => {
       const [isImageLoading, setIsImageLoading] = useState([false, false, false]);
       const [isLoading, setIsLoading] = useState(false);
       const [categorias, setCategorias] = useState([]);
-      const [error, setError] = useState({status: false, menssage: ''});
-      const messageRef = useRef(null);
+      const [error, setError] = useState({status: false, message: ''});
 
       useEffect(() => {
         fetch(
@@ -60,7 +59,7 @@ const CreateProduct = ({setMostrarCrear, products, setProducts}) => {
         if(request.images.length == 0){
             setError({status: true, message: 'Debe agregar al menos una imagen.'});
             setIsLoading(false);
-            messageRef.current.scrollTo({ top: 0, behavior: 'smooth' });
+            window.scrollTo({ top: 0, left:0, behavior: 'smooth' });
             return;
         }
 
@@ -181,7 +180,7 @@ const CreateProduct = ({setMostrarCrear, products, setProducts}) => {
         <div className="mx-auto p-2">
 
             { error.status ? 
-                <div ref={messageRef}
+                <div
                     className="flex mb-4 rounded-lg bg-danger-100 px-6 py-5 text-base text-danger-700"
                     role="alert">{error.message}
                     <button
