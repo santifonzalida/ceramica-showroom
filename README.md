@@ -1,2 +1,2 @@
-# Ceramica Showroom
-NestJS app
+# Showroom
+Vite - React app
