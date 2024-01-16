@@ -7,24 +7,9 @@ import { EditarInformacionPersonal } from "./editarInformacionPersonal";
 
 function MyAccount() {
 
-  const navigate = useNavigate();
   const context = useContext(LoginContext);
   const [showModal, setShowModal] = useState(false);
   const [showEditPersonalInfo, setShowPersonalInfo] = useState(false);
-
-  useEffect(() => {
-    context.getUserInfo().then((data) => {
-      if (data.statusCode == 401) {
-        context.setIsUserLogin(false);
-        context.setError(data.message);
-        navigate('/login');
-      } else {
-        context.setUser(data.data);
-        context.setIsUserLogin(true);
-      }
-      context.setIsLoading(false);
-    });
-  }, [])
 
   const uploadImage = () => {
     context.updateUserInformation().then((data) => {
