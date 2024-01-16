@@ -15,7 +15,11 @@ export const LoginContextProvider = ({children}) => {
     const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
-        if(location.pathname == '/dashboard' || location.pathname == '/my-account' ){
+        let userInfo = localStorage.getItem('userInfo');
+        if(userInfo.fullName) {
+            setUser(userInfo);
+            setIsUserLogin(true);
+        }else if(location.pathname == '/dashboard' || location.pathname == '/my-account' ){
             getUserInfo().then((response) => {
                 if(response.statusCode == 401){
                     setIsUserLogin(false);
@@ -23,6 +27,7 @@ export const LoginContextProvider = ({children}) => {
                 } else {
                     setIsUserLogin(true);
                     setUser(response.data);
+                    localStorage.saveItem("userInfo", response.data);
                 }
             }).catch(() => {
                 setIsUserLogin(false);
@@ -70,6 +75,7 @@ export const LoginContextProvider = ({children}) => {
 
     const logOut = () => {
         localStorage.saveItem('user', {});
+        localStorage.saveItem('userInfo', {});
         setIsUserLogin(false);
         setIsLoading(false);
         setUser(null);
