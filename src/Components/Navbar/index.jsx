@@ -22,11 +22,13 @@ const Navbar = () => {
     const [categories, setCategories] = useState(null);
 
     useEffect(() => {
-        fetch('https://tame-ruby-rhinoceros-cap.cyclic.app/Categories')
+        if(location.pathname == '/'){
+            fetch('https://tame-ruby-rhinoceros-cap.cyclic.app/Categories')
             .then(response => response.json()
             .then(data => {
                 setCategories(data.data)
             }));
+        }
     },[])
 
     const onCateogiriaClick = () => {

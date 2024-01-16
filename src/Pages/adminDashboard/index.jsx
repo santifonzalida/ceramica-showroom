@@ -1,30 +1,11 @@
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 import { CategoryCRUD } from "../../Components/Categories";
 import { ProductsCRUD } from "../../Components/Products";
 import { ShoppingCartContext } from "../../Context/index";
-import { LoginContext } from "../../Context/loginContext";
-import { useNavigate } from "react-router-dom";
-
 
 function AdminDashboard() {
   
-  const navegar = useNavigate();
   const context = useContext(ShoppingCartContext);
-  const loginContext = useContext(LoginContext)
-
-  useEffect(() => {
-    loginContext.getUserInfo().then((data) => {
-      if (data.statusCode == 401) {
-        loginContext.setIsUserLogin(false);
-        loginContext.setError(data.message);
-        navegar('/login');
-      } else {
-        loginContext.setUser(data.data);
-        loginContext.setIsUserLogin(true);
-      }
-      loginContext.setIsLoading(false);
-    });
-  },[])
 
   const renderView = () => {
     if(context.productoDashboard){

@@ -1,6 +1,5 @@
 import { createContext, useState, useEffect } from "react";
 
-
  export const ShoppingCartContext = createContext();
 
  export const ShoppingCartProvider = ({children}) => {
@@ -40,10 +39,10 @@ import { createContext, useState, useEffect } from "react";
 
     useEffect(() => {
         fetch('https://tame-ruby-rhinoceros-cap.cyclic.app/Products')
-            .then(response => response.json()
-            .then(data => {
-                setProducts(data.data)
-            }));
+        .then(response => response.json()
+        .then(data => {
+            setProducts(data.data)
+        }));
     },[])
 
     const filteredProductsByTitle = (products, searchByTitle) => {

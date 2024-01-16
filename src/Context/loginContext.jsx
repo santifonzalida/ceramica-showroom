@@ -1,5 +1,5 @@
-import { createContext, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { createContext, useEffect, useState } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useLocalStorage } from "../Context/useLocalStorage";
 
 export const LoginContext = createContext();
@@ -8,10 +8,30 @@ export const LoginContextProvider = ({children}) => {
 
     const localStorage = useLocalStorage();
     const navigate = useNavigate();
+    const location = useLocation();
     const [isUserLogin, setIsUserLogin] = useState(false);
     const [user, setUser] = useState(null);
     const [error, setError] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
+
+    useEffect(() => {
+        if(location.pathname == '/dashboard' || location.pathname == '/my-account' ){
+            getUserInfo().then((response) => {
+                if(response.statusCode == 401){
+                    setIsUserLogin(false);
+                    setUser(null);
+                } else {
+                    setIsUserLogin(true);
+                    setUser(response.data);
+                }
+            }).catch(() => {
+                setIsUserLogin(false);
+                setUser(null);
+            }).finally(() => {
+                setIsLoading(false);
+            });
+        }
+    },[navigate])
 
     const login = async(credentials) => {
         setIsLoading(true);
@@ -30,6 +50,13 @@ export const LoginContextProvider = ({children}) => {
     const getUserInfo = async() => {
         setIsLoading(true);
         const user = localStorage.getItem('user');
+
+        if(!user.access_token) {
+            setIsLoading(false);
+            navigate('/login');
+            return;
+        }
+
         const requestOptions = {
             method: 'GET',
             headers: { 
@@ -44,6 +71,7 @@ export const LoginContextProvider = ({children}) => {
     const logOut = () => {
         localStorage.saveItem('user', {});
         setIsUserLogin(false);
+        setIsLoading(false);
         setUser(null);
         navigate('/login');
     }
