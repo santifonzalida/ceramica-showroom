@@ -29,7 +29,7 @@ function Home() {
     }else {
       if(context.products && context.products.length > 0){
         return (
-          <div className="grid grid-cols-2 md:gap-4 md:grid-cols-4 w-full max-w-screen-lg">
+          <div className="grid grid-cols-2 md:gap-4 md:grid-cols-4 w-full max-w-screen-lg p-2">
             {context.products?.map((product) => (
               <Card key={product._id} data={product}/> 
             ))}

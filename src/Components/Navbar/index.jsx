@@ -153,6 +153,14 @@ const Navbar = () => {
                             className="absolute z-[1000] float-left m-0 hidden min-w-max list-none overflow-hidden rounded-lg border-none bg-white bg-clip-padding text-left text-base shadow-lg [&[data-te-dropdown-show]]:block"
                             aria-labelledby="dropdownMenuUser"
                             data-te-dropdown-menu-ref>
+                            <li className={`${loginContext.user?.role == 'admin' && location.pathname != '/dashboard'  ? '' : 'hidden'}`}>
+                                <a
+                                    className="block w-full whitespace-nowrap bg-transparent px-4 py-2 text-sm font-normal text-neutral-900"
+                                    data-te-dropdown-item-ref
+                                    onClick={() => navigation('/dashboard')}>
+                                    Configuración
+                                </a>
+                            </li>
                             <li>
                                 <a
                                     className="block w-full whitespace-nowrap bg-transparent px-4 py-2 text-sm font-normal text-neutral-900"
