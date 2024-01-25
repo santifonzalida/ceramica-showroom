@@ -1,5 +1,5 @@
 import { useContext, useEffect, useRef, useState } from 'react';
-import { XMarkIcon } from '@heroicons/react/24/solid'
+import { XMarkIcon, HeartIcon } from '@heroicons/react/24/outline'
 import { ShoppingCartContext } from '../../Context';
 import { ImagesCarousel } from './carousel';
 import './styles.css';
@@ -35,7 +35,7 @@ const ProductDetail = () => {
                 <div className="flex flex-wrap -mx-4">
                     <div className="w-full px-4 md:w-1/2 ">
                         <div className="sticky top-0 z-50 overflow-hidden ">
-                            <div className="relative mb-6 lg:mb-10 lg:h-2/4 ">
+                            <div className="relative mb-4 lg:mb-10 lg:h-2/4 ">
                                 <ImagesCarousel selectedImagenIndex={selectedImagen}/>
                             </div>
                             <div className="flex-wrap hidden md:flex ">
@@ -58,17 +58,20 @@ const ProductDetail = () => {
                     <div className="w-full px-4 md:w-1/2 ">
                         <div className="lg:pl-20">
                             <div className="mb-8">
-                                <h2 className="max-w-xl text-2xl font-bold md:text-4xl flex gap-2">
-                                    {context.selectedProduct.name}
-                                    <span className="pt-1 text-xs font-medium text-rose-500">Nuevo</span>
-                                </h2>
+                                <div className='flex justify-between items-center'>
+                                    <h2 className="max-w-xl text-2xl font-bold md:text-4xl flex gap-2">
+                                        {context.selectedProduct.name}
+                                        <span className="pt-1 text-xs font-medium text-rose-500">Nuevo</span>
+                                    </h2>
+                                    <HeartIcon className='h-6 w-6'/>
+                                </div>
+
                                 <p className="max-w-md mb-8 text-gray-700 ">
                                     {context.selectedProduct.description ? context.selectedProduct.description : 'Sin descripción'}
                                 </p>
                                 <p className="inline-block mb-8 text-4xl font-bold text-gray-700 ">
                                     <span>${context.selectedProduct.price}</span>
                                 </p>
-                                <p className="text-green-600 ">{context.selectedProduct.stock} en stock</p>
                             </div>
                         </div>
                     </div>
