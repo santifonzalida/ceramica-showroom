@@ -43,7 +43,7 @@ const Card = (data) => {
     }
 
     return ( 
-        <div className="bg-white cursor-pointer md:w-56 md:h-60 md:mb-0 w-44 h-48 ml-2 mb-2 rounded-lg">
+        <div className="bg-white cursor-pointer md:w-56 md:h-60 h-52 rounded-lg">
             {isLoaded ?     
                 <figure className="relative mb-2 w-full h-4/5">
                     <span className="absolute bottom-0 left-0 bg-white/60 rounded-lg text-black text-xs m-2 px-3 py-0.5">{data.data.category ? data.data.category.name : 'Sin categoria'}</span>
@@ -53,13 +53,15 @@ const Card = (data) => {
                             alt={data.data.images[0]?.name}
                             onClick={() => openProductDetail(data.data)} 
                         />
-                        {renderIcon(data.data._id)}
+                        { /*
+                            renderIcon(data.data._id)
+                        */}
                 </figure>
              : 
                 <div className="animate-pulse cursor-not-allowed">
                     <div className="flex-1 space-y-1">
                         <div className="rounded-lg bg-slate-200 "></div>
-                        <div className="h-48 bg-slate-500 rounded-lg"></div>
+                        <div className="h-52 bg-slate-500 rounded-lg"></div>
                     </div>
                 </div>
             }
