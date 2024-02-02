@@ -21,7 +21,7 @@ function Home() {
         )
       }else {
         return(
-          <div className="grid grid-cols-1 md:gap-4 md:grid-cols-1 w-full max-w-screen-lg">
+          <div className="grid grid-cols-1 gap-2 md:gap-4 md:grid-cols-1 w-full max-w-screen-lg px-2">
             <div>No se encontraron resultados :(</div>
           </div>
         )
@@ -29,7 +29,7 @@ function Home() {
     }else {
       if(context.products && context.products.length > 0){
         return (
-          <div className="grid grid-cols-2 md:gap-4 md:grid-cols-4 w-full max-w-screen-lg p-2">
+          <div className="grid grid-cols-2 gap-4 md:grid-cols-4 w-full max-w-screen-lg px-2">
             {context.products?.map((product) => (
               <Card key={product._id} data={product}/> 
             ))}
@@ -37,7 +37,7 @@ function Home() {
         )
       }else {
         return (
-          <div className="grid grid-cols-1 md:gap-4 md:grid-cols-1 w-full max-w-screen-lg">
+          <div className="grid grid-cols-1 md:gap-4 gap-2 md:grid-cols-1 w-full max-w-screen-lg px-2">
             <Spinner />
           </div>
         )
