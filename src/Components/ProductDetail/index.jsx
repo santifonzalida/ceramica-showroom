@@ -58,7 +58,7 @@ const ProductDetail = () => {
                     <div className="w-full px-4 md:w-1/2 ">
                         <div className="lg:pl-20">
                             <div className="mb-8">
-                                <div className='flex justify-between items-center'>
+                                <div className='flex justify-between items-center mb-3'>
                                     <h2 className="max-w-xl text-2xl font-bold md:text-4xl flex gap-2">
                                         {context.selectedProduct.name}
                                         <span className="pt-1 text-xs font-medium text-rose-500">Nuevo</span>
