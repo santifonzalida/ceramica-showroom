@@ -124,7 +124,7 @@ const TableCategories = (props) => {
                                         <td className={`${mostrarEditar.id == categoria._id ? 'hidden' : ''}`}>{categoria.name}</td>
 
                                         <td className="flex float-right items-center justify-center gap-4 p-4">
-                                            <PencilIcon className={`${mostrarEditar.show ? 'hidden' : ''} h-5 w-5 cursor-not-allowed`} onClick={() => setMostrarEditar({show: true, id: categoria._id})}/>
+                                            <PencilIcon className={`${mostrarEditar.show ? 'hidden' : ''} h-5 w-5 cursor-pointer`} onClick={() => setMostrarEditar({show: true, id: categoria._id})}/>
                                             <TrashIcon className={`${mostrarEditar.show ? 'hidden' : ''} ${showSpinner ? 'cursor-not-allowed' : ''} h-5 w-5 cursor-pointer`} onClick={() => handleEliminar(categoria._id)}/>
                                             
                                             <div className="flex gap-4">

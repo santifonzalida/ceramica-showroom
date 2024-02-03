@@ -28,7 +28,7 @@ const ImagesCarousel = ({selectedImagenIndex}) => {
             data-te-interval="false">
             {/* Carousel items */ }
             <div
-                className="relative w-full h-96 overflow-hidden after:clear-both after:block after:content-[''] rounded-lg">
+                className="relative w-full md:h-96 max-h-96 overflow-hidden after:clear-both after:block after:content-[''] rounded-lg">
                 {/* First item */ }
                 <div
                     className="relative float-left -mr-[100%] w-full transition-transform duration-[600ms] ease-in-out motion-reduce:transition-none aspect-w-16 aspect-h-9"

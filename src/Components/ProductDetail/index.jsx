@@ -1,11 +1,14 @@
 import { useContext, useEffect, useRef, useState } from 'react';
 import { XMarkIcon, HeartIcon } from '@heroicons/react/24/outline'
+import { HeartIcon as HeartIconSolid  } from '@heroicons/react/24/solid';
 import { ShoppingCartContext } from '../../Context';
+import { LoginContext } from '../../Context/loginContext';
 import { ImagesCarousel } from './carousel';
 import './styles.css';
 
 const ProductDetail = () => {
     const context = useContext(ShoppingCartContext);
+    const contextUser = useContext(LoginContext)
     const [selectedImagen, setSelectedImagen] = useState('');
     const contentRef = useRef(null);
 
@@ -23,10 +26,44 @@ const ProductDetail = () => {
         );
     }
 
+    const guardarProducto = (idProduct) => {
+
+        if(!contextUser.user || !idProduct) {
+            return;
+        }
+
+        let productsLikes = contextUser.user.productsLikes ? [...contextUser.user.productsLikes] : [];
+        if(productsLikes.some(x => x == idProduct)) return;
+
+        let user = contextUser.user;
+        productsLikes.push(idProduct);
+        user.productsLikes = productsLikes;
+        contextUser.setUser({...user});
+
+        contextUser.updateUserInformation();
+    }
+
+    const mostrarEtiquetaNuevo = ( cantDias ) => {
+        
+        if(!cantDias || !context.selectedProduct || !context.selectedProduct.created) return;
+        
+        let fechaProducto = new Date(context.selectedProduct.created);
+        let fechaActual = new Date();
+
+        const diferenciaMilisegundos = fechaActual - fechaProducto;
+        const diferenciaDias = diferenciaMilisegundos / (1000 * 60 * 60 * 24);
+
+        if (diferenciaDias < cantDias) {
+            return true;
+        } else { 
+            return false;
+        }
+    }
+
     return (
         <aside className={`${context.isProductDetailOpen ? 'flex' : 'hidden'} product-detail flex-col fixed right-0 border border-black rounded-lg bg-white`}>
             <div className='flex justify-between items-center'>
-                <h2 className='font-medium text-xl p-4'>Detail</h2>
+                <h2 className='font-medium text-xl p-4'>Detalle</h2>
                 <div className='p-4'>
                     <XMarkIcon className='h-6 w-6 text-black cursor-pointer' onClick={context.closeProductDetail}></XMarkIcon>
                 </div>
@@ -58,12 +95,21 @@ const ProductDetail = () => {
                     <div className="w-full px-4 md:w-1/2 ">
                         <div className="lg:pl-20">
                             <div className="mb-8">
-                                <div className='flex justify-between items-center'>
+                                <div className='flex justify-between items-center mb-3'>
                                     <h2 className="max-w-xl text-2xl font-bold md:text-4xl flex gap-2">
                                         {context.selectedProduct.name}
-                                        <span className="pt-1 text-xs font-medium text-rose-500">Nuevo</span>
+                                        {
+                                            mostrarEtiquetaNuevo(10) ?  
+                                                <span className="pt-1 text-xs font-medium text-rose-500">Nuevo</span> :
+                                                ''
+                                        }
+                                        
                                     </h2>
-                                    <HeartIcon className='h-6 w-6'/>
+                                    {
+                                        contextUser.user?.productsLikes && contextUser.user.productsLikes.some(x => x == context.selectedProduct._id) ? 
+                                        <HeartIconSolid className='h-7 w-7 mr-4'/> :
+                                        <HeartIcon className='h-7 w-7 cursor-pointer mr-4' onClick={() => guardarProducto(context.selectedProduct._id)}/>
+                                    }
                                 </div>
 
                                 <p className="max-w-md mb-8 text-gray-700 ">
