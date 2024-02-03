@@ -155,7 +155,7 @@ const Navbar = () => {
                             data-te-dropdown-menu-ref>
                             <li className={`${loginContext.user?.role == 'admin' && location.pathname != '/dashboard'  ? '' : 'hidden'}`}>
                                 <a
-                                    className="block w-full whitespace-nowrap bg-transparent px-4 py-2 text-sm font-normal text-neutral-900"
+                                    className="block w-full whitespace-nowrap bg-transparent px-4 py-2 text-sm font-normal text-neutral-900 cursor-pointer"
                                     data-te-dropdown-item-ref
                                     onClick={() => navigation('/dashboard')}>
                                     Configuración
@@ -163,7 +163,7 @@ const Navbar = () => {
                             </li>
                             <li>
                                 <a
-                                    className="block w-full whitespace-nowrap bg-transparent px-4 py-2 text-sm font-normal text-neutral-900"
+                                    className="block w-full whitespace-nowrap bg-transparent px-4 py-2 text-sm font-normal text-neutral-900 cursor-pointer"
                                     data-te-dropdown-item-ref
                                     onClick={() => navigation('/my-account')}>
                                     Mi cuenta
