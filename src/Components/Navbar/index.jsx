@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import { NavLink, useLocation, useNavigate } from "react-router-dom"
 import { ShoppingCartContext } from "../../Context";
 import { LoginContext } from "../../Context/loginContext";
-import { BellIcon, HomeIcon } from '@heroicons/react/24/solid'
+import { BellIcon, HomeIcon, ArrowPathIcon } from '@heroicons/react/24/solid'
 import {
     Collapse,
     Dropdown,
@@ -20,6 +20,7 @@ const Navbar = () => {
     const loginContext = useContext(LoginContext);
     const activeStyle = "underline underline-offset-4";
     const [categories, setCategories] = useState(null);
+    const [isImageLoaded, setIsImageLoaded] = useState(false);
 
     useEffect(() => {
         if(location.pathname == '/'){
@@ -39,6 +40,10 @@ const Navbar = () => {
     const onProductoClick = () => {
         context.setCategoriaDashboard(false);
         context.setProductoDashboard(true);
+    }
+
+    const handleImageLoad = () => {
+        setIsImageLoaded(true);
     }
 
     return (
@@ -142,12 +147,24 @@ const Navbar = () => {
                             role="button"
                             data-te-dropdown-toggle-ref
                             aria-expanded="false">
-                            <img
-                                src={loginContext.user?.avatarUrl}
-                                className="rounded-full"
-                                style={{height: '34px', width: '34px'}}
-                                alt=""
-                                loading="lazy" />
+                            {
+                                isImageLoaded ? 
+                                <img
+                                    src={loginContext.user?.avatarUrl}
+                                    className="rounded-full"
+                                    style={{height: '34px', width: '34px'}}
+                                    alt=""
+                                    loading="lazy" />
+                                :
+                                <div className="flex justify-center items-center">
+                                    <ArrowPathIcon className="h-4 w-4 animate-spin"/>
+                                </div> 
+                            }
+                                <img
+                                    src={loginContext.user?.avatarUrl}
+                                    alt="hidden image"
+                                    style={{display: 'none'}}
+                                    onLoad={handleImageLoad}/>
                         </a>
                         <ul
                             className="absolute z-[1000] float-left m-0 hidden min-w-max list-none overflow-hidden rounded-lg border-none bg-white bg-clip-padding text-left text-base shadow-lg [&[data-te-dropdown-show]]:block"

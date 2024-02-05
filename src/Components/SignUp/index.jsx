@@ -8,9 +8,9 @@ const SignUp = (props) => {
         avatarUrl: 'http://example.com', role:"customer", fullName: '', email: '', password: '',
         socialMedia: 
         [
-            { name: "Twitter", url: "https://twitter.com" },
+            { name: "Facebook", url: "https://facebook.com" },
             { name: "LinkedIn", url: "https://linkedin.com" },
-            { name: "GitHub", url: "https://github.com" }
+            { name: "Instagram", url: "https://instagram.com" }
         ],
         productsLikes: []
     };
