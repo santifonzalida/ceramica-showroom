@@ -162,7 +162,7 @@ const Navbar = () => {
                                     <ArrowPathIcon className="h-4 w-4 animate-spin"/>
                                 </div> 
                                 :
-                                <UserCircleIcon className="h-6 w-6"/>
+                                <UserCircleIcon className="h-7 w-7"/>
                             }
                                 <img
                                     src={loginContext.user?.avatarUrl}
