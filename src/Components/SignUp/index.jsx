@@ -5,7 +5,7 @@ import { ArrowPathIcon } from '@heroicons/react/24/solid';
 const SignUp = (props) => {
 
     const user = {
-        avatarUrl: 'http://example.com', role:"customer", fullName: '', email: '', password: '',
+        avatarUrl: '', role:"customer", fullName: '', email: '', password: '',
         socialMedia: 
         [
             { name: "Facebook", url: "https://facebook.com" },

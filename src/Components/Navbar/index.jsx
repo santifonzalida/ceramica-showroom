@@ -3,6 +3,7 @@ import { NavLink, useLocation, useNavigate } from "react-router-dom"
 import { ShoppingCartContext } from "../../Context";
 import { LoginContext } from "../../Context/loginContext";
 import { BellIcon, HomeIcon, ArrowPathIcon } from '@heroicons/react/24/solid'
+import { UserCircleIcon } from '@heroicons/react/24/outline';
 import {
     Collapse,
     Dropdown,
@@ -147,7 +148,8 @@ const Navbar = () => {
                             role="button"
                             data-te-dropdown-toggle-ref
                             aria-expanded="false">
-                            {
+                            {   
+                                loginContext.user?.avatarUrl ? 
                                 isImageLoaded ? 
                                 <img
                                     src={loginContext.user?.avatarUrl}
@@ -159,6 +161,8 @@ const Navbar = () => {
                                 <div className="flex justify-center items-center">
                                     <ArrowPathIcon className="h-4 w-4 animate-spin"/>
                                 </div> 
+                                :
+                                <UserCircleIcon className="h-6 w-6"/>
                             }
                                 <img
                                     src={loginContext.user?.avatarUrl}

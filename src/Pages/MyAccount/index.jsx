@@ -1,5 +1,6 @@
 import { useContext, useState } from "react";
 import { CameraIcon, PencilIcon, XMarkIcon, ArrowPathIcon} from '@heroicons/react/24/solid';
+import { UserCircleIcon } from '@heroicons/react/24/outline';
 import { Layout } from "../../Components/Layout";
 import { LoginContext } from "../../Context/loginContext";
 import { EditarInformacionPersonal } from "./editarInformacionPersonal";
@@ -38,15 +39,18 @@ function MyAccount() {
         !showModal ?
         <div className="max-w-lg mx-auto my-10 bg-zinc-80 rounded-lg p-5">
           <div className="relative">
-            {
+            { context.user?.avatarUrl ?
               isImageLoaded ?
                 <img className="w-40 h-40 rounded-full mx-auto" src={context.user?.avatarUrl} alt="User avatar" /> 
               :
                 <div className="flex justify-center items-center">
                   <ArrowPathIcon className="h-8 w-8 animate-spin"/>
                 </div> 
+              :
+              <div className="flex items-center justify-center">
+                <UserCircleIcon className="h-12 w-12"/>
+              </div>
             }
-
             <CameraIcon className="absolute top-1/2 left-1/2 mb-5 text-black py-2 px-4 w-16 h-16 opacity-90 mt-4 ml-5 bg-stone-400 rounded-full cursor-pointer" onClick={() => setShowModal(true)}> </CameraIcon>
           </div>
           <h2 className="text-center text-2xl font-semibold mt-3">{context.user?.fullName}</h2>
