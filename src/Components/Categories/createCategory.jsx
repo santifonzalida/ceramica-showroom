@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useLocalStorage } from "../../Context/useLocalStorage";
-import { XCircleIcon, CheckCircleIcon } from '@heroicons/react/24/solid';
+import { XCircleIcon, CheckCircleIcon, ArrowPathIcon } from '@heroicons/react/24/solid';
 
 const CreateCategory = (props) => {
 
@@ -54,7 +54,7 @@ const CreateCategory = (props) => {
                     placeholder="Ingresa el nombre aquí" 
                     required/>
                 
-                <div className="flex items-center gap-2">
+                <div className={`${showSpinner ? 'hidden' : ''} flex items-center gap-2`}>
                     <CheckCircleIcon className="h-8 w-8 ml-3" disabled={showSpinner} onClick={create} /> 
                     <XCircleIcon className="h-8 w-8" onClick={() => {
                         props.mostrarCrear(false);
@@ -62,6 +62,9 @@ const CreateCategory = (props) => {
                         setError("");}
                         }
                         disabled={showSpinner}/>
+                </div>
+                <div className={`${showSpinner ? '' : 'hidden'} flex items-center px-8`}>
+                    <ArrowPathIcon className="w-5 h-5 animate-spin" />
                 </div>
             </div>
             <span className={`${error ? '' : 'hidden'} font-light text-xs text-red-600`}>Campo requerido</span>

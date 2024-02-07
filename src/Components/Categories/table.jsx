@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useLocalStorage } from "../../Context/useLocalStorage";
-import { PencilIcon, TrashIcon, XCircleIcon, CheckCircleIcon } from '@heroicons/react/24/solid'
+import { PencilIcon, TrashIcon, XCircleIcon, CheckCircleIcon, ArrowPathIcon } from '@heroicons/react/24/solid'
 import { Modal } from "../Common/Modal";
 
 const TableCategories = (props) => {
@@ -117,9 +117,11 @@ const TableCategories = (props) => {
                                     <tr key={categoria._id} className={`${index %2 == 0 ? 'bg-neutral-200' : 'bg-neutral-300'}`}>
                                         <td className="px-6 py-4">{index + 1}</td>
 
-                                        <td className={`${mostrarEditar.show && mostrarEditar.id == categoria._id ? '' : 'hidden'} flex items-center justify-center p-5`}>
-                                            <input type="text" value={categoria.name} onChange={(e) => updateCategory(e, categoria._id)} className="rounded"/>
-                                            <PencilIcon className="ml-2 w-5 h-5"/>
+                                        <td className={`${mostrarEditar.show && mostrarEditar.id == categoria._id ? '' : 'hidden'}`}>
+                                            <div className="flex items-center justify-center py-5">
+                                                <input type="text" value={categoria.name} onChange={(e) => updateCategory(e, categoria._id)} className="rounded"/>
+                                                <PencilIcon className="ml-2 w-5 h-5"/>
+                                            </div>
                                         </td>
                                         <td className={`${mostrarEditar.id == categoria._id ? 'hidden' : ''}`}>{categoria.name}</td>
 
@@ -127,7 +129,7 @@ const TableCategories = (props) => {
                                             <PencilIcon className={`${mostrarEditar.show ? 'hidden' : ''} h-5 w-5 cursor-pointer`} onClick={() => setMostrarEditar({show: true, id: categoria._id})}/>
                                             <TrashIcon className={`${mostrarEditar.show ? 'hidden' : ''} ${showSpinner ? 'cursor-not-allowed' : ''} h-5 w-5 cursor-pointer`} onClick={() => handleEliminar(categoria._id)}/>
                                             
-                                            <div className="flex gap-4">
+                                            <div className={`${showSpinner ? 'hidden' : ''} flex gap-4`}>
                                                 <CheckCircleIcon 
                                                     className={`${mostrarEditar.show && mostrarEditar.id == categoria._id ? '' : 'hidden'} ${showSpinner ? 'cursor-not-allowed' : ''} text-black h-7 w-7 cursor-pointer` }
                                                     onClick={() => modificar(categoria._id, categoria.name)}
@@ -137,6 +139,10 @@ const TableCategories = (props) => {
                                                     className={`${mostrarEditar.show && mostrarEditar.id == categoria._id ? '' : 'hidden'} ${showSpinner ? 'cursor-not-allowed' : ''} text-black h-7 w-7 cursor-pointer`}
                                                     onClick={() => setMostrarEditar({show:false, id: 0})} 
                                                     required={showSpinner}/>
+                                            </div>
+
+                                            <div className={`${showSpinner && categoria._id == mostrarEditar.id ? '' : 'hidden'} pr-5`}>
+                                                <ArrowPathIcon className="w-5 h-5 animate-spin" />
                                             </div>
                                             
                                         </td>
