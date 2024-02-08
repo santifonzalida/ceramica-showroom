@@ -10,7 +10,6 @@ import {
     initTE,
   } from "tw-elements";
   
-  
 const Navbar = () => {
 
     initTE({ Collapse, Dropdown }, true);
@@ -149,20 +148,20 @@ const Navbar = () => {
                             data-te-dropdown-toggle-ref
                             aria-expanded="false">
                             {   
-                                loginContext.user?.avatarUrl ? 
-                                isImageLoaded ? 
-                                <img
-                                    src={loginContext.user?.avatarUrl}
-                                    className="rounded-full"
-                                    style={{height: '34px', width: '34px'}}
-                                    alt=""
-                                    loading="lazy" />
+                                loginContext.isLoading ? 
+                                    <div className="flex justify-center items-center">
+                                        <ArrowPathIcon className="h-4 w-4 animate-spin"/>
+                                    </div> 
                                 :
-                                <div className="flex justify-center items-center">
-                                    <ArrowPathIcon className="h-4 w-4 animate-spin"/>
-                                </div> 
-                                :
-                                <UserCircleIcon className="h-7 w-7"/>
+                                    loginContext.user?.avatarUrl ?                                
+                                    <img
+                                        src={loginContext.user?.avatarUrl}
+                                        className="rounded-full"
+                                        style={{height: '34px', width: '34px'}}
+                                        alt=""
+                                        loading="lazy" />
+                                    :
+                                    <UserCircleIcon className="h-7 w-7"/>
                             }
                                 <img
                                     src={loginContext.user?.avatarUrl}

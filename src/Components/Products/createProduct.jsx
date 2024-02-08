@@ -210,7 +210,7 @@ const CreateProduct = ({setMostrarCrear, products, setProducts}) => {
                 : ''
             }
             
-            <h1 className="text-lg md:text-xl font-semibold mb-4">Agregar Producto</h1>
+            <h1 className="text-lg md:text-xl font-semibold mb-4">{producto._id ? 'Editar' : 'Nuevo'} Producto</h1>
             <form onSubmit={handleSubmit}>
                 <div className="mb-4">
                     <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="nombre">

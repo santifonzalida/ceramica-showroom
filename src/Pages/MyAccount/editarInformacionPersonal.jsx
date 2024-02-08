@@ -10,7 +10,7 @@ const EditarInformacionPersonal = ({ showEditPersonalInfo, OnSetShowPersonalInfo
     const [spinner, setSpinner] = useState(false);
 
     const agregarSocialMedia = () => {        
-        let SMList = [...context.user.socialMedia];
+        let SMList = context.user.socialMedia ? [...context.user.socialMedia] : [];
         SMList.push(socialMedia);
         context.setUser({...context.user, socialMedia: SMList});
         setSocialMedia({ name: '', url: '' });
