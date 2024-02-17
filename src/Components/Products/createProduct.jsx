@@ -335,7 +335,7 @@ const CreateProduct = ({setMostrarCrear, products, setProducts}) => {
                             type="submit" >Agregar Producto </button>
                 }
                     <button 
-                        className={`${isImageLoading.some(x => x) ? 'cursor-not-allowed disabled' : ''} bg-black text-white font-bold py-2 px-4 rounded ml-5`}
+                        className={`${isImageLoading.some(x => x) || isLoading ? 'cursor-not-allowed disabled' : ''} bg-black text-white font-bold py-2 px-4 rounded ml-5`}
                         onClick={cancelarGuardar}>Cancelar</button>
                 </div>
             </form>
