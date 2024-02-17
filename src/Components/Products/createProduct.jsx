@@ -1,16 +1,17 @@
 import { useState, useEffect } from "react";
 import { CheckIcon, ArrowPathIcon, XCircleIcon, XMarkIcon } from '@heroicons/react/24/solid';
 import { useLocalStorage } from '../../Context/useLocalStorage';
+
 const CreateProduct = ({setMostrarCrear, products, setProducts}) => {
 
     const localStorage = useLocalStorage();
     const [producto, setProducto] = useState({
-        nombre: '',
-        descripcion: '',
-        precio: '',
+        name: '',
+        description: '',
+        price: '',
         stock: '',
         images: [],
-        idCategoria: ''
+        category: ''
       });
       const [imagenesError, setImagenesError] = useState([null, null, null])
       const [imagenes, setImagenes] = useState(['', '', '']);
@@ -45,18 +46,10 @@ const CreateProduct = ({setMostrarCrear, products, setProducts}) => {
     const handleSubmit = (e) => {
         e.preventDefault();
         setIsLoading(true);
+
         const userStorage = localStorage.getItem('user');
 
-        let request = { 
-            name: producto.nombre,
-            description: producto.descripcion,
-            price: producto.precio,
-            stock: producto.stock,
-            images: producto.images,
-            category: producto.idCategoria
-        }
-
-        if(request.images.length == 0){
+        if(producto.images.length == 0){
             setError({status: true, message: 'Debe agregar al menos una imagen.'});
             setIsLoading(false);
             window.scrollTo({ top: 0, left:0, behavior: 'smooth' });
@@ -66,7 +59,7 @@ const CreateProduct = ({setMostrarCrear, products, setProducts}) => {
         fetch('https://tame-ruby-rhinoceros-cap.cyclic.app/Products', 
             {
                 method: 'POST', 
-                body: JSON.stringify(request),
+                body: JSON.stringify(producto),
                 headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${userStorage.access_token}` },
             })
             .then(response => {
@@ -88,7 +81,6 @@ const CreateProduct = ({setMostrarCrear, products, setProducts}) => {
                 setIsLoading(false);
             }
         );
-
     };
 
     const handleImagenChange = (e, index) => {
@@ -124,12 +116,12 @@ const CreateProduct = ({setMostrarCrear, products, setProducts}) => {
 
     const resetProduct = () => {
         setProducto({
-            nombre: '',
-            descripcion: '',
-            precio: '',
+            name: '',
+            description: '',
+            price: '',
             stock: '',
             images: [],
-            idCategoria: ''
+            category: ''
           });
         setImagenes(['', '', '']);
         setImagenesError([null, null, null]);
@@ -213,41 +205,41 @@ const CreateProduct = ({setMostrarCrear, products, setProducts}) => {
             <h1 className="text-lg md:text-xl font-semibold mb-4">{producto._id ? 'Editar' : 'Nuevo'} Producto</h1>
             <form onSubmit={handleSubmit}>
                 <div className="mb-4">
-                    <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="nombre">
+                    <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="name">
                         Nombre
                     </label>
                     <input
                         className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight"
                         type="text"
-                        id="nombre"
-                        name="nombre"
-                        value={producto.nombre}
+                        id="name"
+                        name="name"
+                        value={producto.name}
                         onChange={handleChange}
                         required
                     />
                 </div>
                 <div className="mb-4">
-                    <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="descripcion">
+                    <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="description">
                         Descripción
                     </label>
                     <textarea
                         className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight"
-                        id="descripcion"
-                        name="descripcion"
-                        value={producto.descripcion}
+                        id="description"
+                        name="description"
+                        value={producto.description}
                         onChange={handleChange}
                         required
                     ></textarea>
                 </div>
                 <div className="mb-4">
-                    <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="idCategoria">
+                    <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="category">
                         Categoria
                     </label>
                     <select
-                        id="idCategoria"
-                        name="idCategoria"
+                        id="category"
+                        name="category"
                         className="w-full px-4 py-2 border rounded-md shadow-sm"
-                        value={producto.idCategoria}
+                        value={producto.category}
                         onChange={handleChange}
                         required
                     >
@@ -263,7 +255,7 @@ const CreateProduct = ({setMostrarCrear, products, setProducts}) => {
                 </div>
 
                 <div className="mb-4">
-                    <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="precio">
+                    <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="price">
                         Selección de imágenes
                     </label>
                     <div className="bg-gray-100 p-4">
@@ -308,15 +300,15 @@ const CreateProduct = ({setMostrarCrear, products, setProducts}) => {
 
                 </div>
                 <div className="mb-4">
-                    <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="precio">
+                    <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="price">
                         Precio
                     </label>
                     <input
                         className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight"
                         type="text"
-                        id="precio"
-                        name="precio"
-                        value={producto.precio}
+                        id="price"
+                        name="price"
+                        value={producto.price}
                         onChange={handleChange}
                         required
                     />
