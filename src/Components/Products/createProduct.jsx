@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { CheckIcon, ArrowPathIcon, XCircleIcon, XMarkIcon } from '@heroicons/react/24/solid';
 import { useLocalStorage } from '../../Context/useLocalStorage';
 
-const CreateProduct = ({setMostrarCrear, products, setProducts}) => {
+const CreateProduct = ({setMostrarCrear, products, setProducts, selectedProduct}) => {
 
     const localStorage = useLocalStorage();
     const [producto, setProducto] = useState({
@@ -21,6 +21,13 @@ const CreateProduct = ({setMostrarCrear, products, setProducts}) => {
       const [error, setError] = useState({status: false, message: ''});
 
       useEffect(() => {
+        if(selectedProduct && selectedProduct._id.length > 0){
+            setProducto(selectedProduct);
+            if(selectedProduct.images.length > 0) {
+                setImagenes(selectedProduct.images);
+            }
+        }
+
         fetch(
             'https://tame-ruby-rhinoceros-cap.cyclic.app/Categories', {method: 'GET',headers: { 'Content-Type': 'application/json ' }})
             .then(response => response.json()
@@ -32,7 +39,7 @@ const CreateProduct = ({setMostrarCrear, products, setProducts}) => {
                 setCategorias([]);
                 throw new Error("No se pudo obtener las categorias.") 
             });
-    },[])
+    },[selectedProduct?._id])
 
 
     const handleChange = (e) => {
@@ -56,9 +63,17 @@ const CreateProduct = ({setMostrarCrear, products, setProducts}) => {
             return;
         }
 
-        fetch('https://tame-ruby-rhinoceros-cap.cyclic.app/Products', 
+        let request = producto;
+
+        if(selectedProduct?._id){
+            delete request._id;
+            delete request.__v;
+            request.category = producto.category._id;
+        }
+
+        fetch(`https://tame-ruby-rhinoceros-cap.cyclic.app/Products${selectedProduct?._id ? `/${selectedProduct._id}` : ''}`, 
             {
-                method: 'POST', 
+                method: `${selectedProduct?._id ? 'PUT' : 'POST'}`, 
                 body: JSON.stringify(producto),
                 headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${userStorage.access_token}` },
             })
@@ -69,9 +84,16 @@ const CreateProduct = ({setMostrarCrear, products, setProducts}) => {
                 return response.json();
             })
             .then(data => {
+                
                 let productos = [...products];
                 let newProduct = data.data;
-                productos.push(newProduct);
+                
+                if(data.data._id == selectedProduct._id) {
+                    let prodIdx = productos.findIndex(p => data.data._id == p._id);
+                    productos[prodIdx] = data.data;
+                }else {
+                    productos.push(newProduct);
+                }
                 setProducts(productos);
                 setMostrarCrear(false);
                 setIsLoading(false)
@@ -239,7 +261,7 @@ const CreateProduct = ({setMostrarCrear, products, setProducts}) => {
                         id="category"
                         name="category"
                         className="w-full px-4 py-2 border rounded-md shadow-sm"
-                        value={producto.category}
+                        value={`${producto.category?._id ? producto.category._id : producto.category}`}
                         onChange={handleChange}
                         required
                     >
@@ -264,7 +286,7 @@ const CreateProduct = ({setMostrarCrear, products, setProducts}) => {
                             <div key={index} className="bg-white p-4 rounded-lg border border-gray-300 flex flex-col items-center justify-center">
                                 {imagen ? (
                                     <figure className="relative mb-2 w-full h-4/5">
-                                        <img src={imagen} alt={`Imagen ${index}`} className="w-full h-full object-cover rounded-lg"/>
+                                        <img src={selectedProduct.images.length > 0 ? imagen.imageUrl : imagen} alt={`Imagen ${index}`} className="w-full h-full object-cover rounded-lg"/>
                                         <div className="absolute top-0 right-0 flex justify-center items-center bg-white w-6 h-6 rounded-full m-2 p-1" >
                                             <CheckIcon className={`${imagenesError[index] || isImageLoading[index] ? 'hidden' : ''} h-6 w-6 text-green-600`}></CheckIcon>
                                             <ArrowPathIcon className={`${isImageLoading[index] ? 'animate-spin' : 'hidden'} h-6 w-6 text-black"`}></ArrowPathIcon>
@@ -291,7 +313,7 @@ const CreateProduct = ({setMostrarCrear, products, setProducts}) => {
                                     </small>
                                 </label>
                                 <label htmlFor={`imagenInput-${index}`} className="mt-2 cursor-pointer text-black">
-                                    Cargar Imagen
+                                    {`${imagen || imagen.imageUrl ? 'Cambiar' : 'Cargar'}`} Imagen
                                 </label>
                             </div>
                             ))}
@@ -332,7 +354,7 @@ const CreateProduct = ({setMostrarCrear, products, setProducts}) => {
                     isLoading 
                         ? <button className="flex cursor-not-allowed disabled bg-black text-white font-bold py-2 px-4 rounded">Agregar producto<ArrowPathIcon className='flex h-5 w-5 ml-2 mt-1 animate-spin'/></button>
                         : <button className={` ${isImageLoading.some(x => x) ? 'cursor-not-allowed disabled' : ''} bg-black text-white font-bold py-2 px-4 rounded`}
-                            type="submit" >Agregar Producto </button>
+                            type="submit" >{`${selectedProduct?._id ? 'Modificar' : 'Agregar'}`} Producto </button>
                 }
                     <button 
                         className={`${isImageLoading.some(x => x) || isLoading ? 'cursor-not-allowed disabled' : ''} bg-black text-white font-bold py-2 px-4 rounded ml-5`}
