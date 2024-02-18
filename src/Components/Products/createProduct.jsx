@@ -88,7 +88,7 @@ const CreateProduct = ({setMostrarCrear, products, setProducts, selectedProduct}
                 let productos = [...products];
                 let newProduct = data.data;
                 
-                if(data.data._id == selectedProduct._id) {
+                if(selectedProduct && data.data._id == selectedProduct._id) {
                     let prodIdx = productos.findIndex(p => data.data._id == p._id);
                     productos[prodIdx] = data.data;
                 }else {
@@ -286,7 +286,7 @@ const CreateProduct = ({setMostrarCrear, products, setProducts, selectedProduct}
                             <div key={index} className="bg-white p-4 rounded-lg border border-gray-300 flex flex-col items-center justify-center">
                                 {imagen ? (
                                     <figure className="relative mb-2 w-full h-4/5">
-                                        <img src={selectedProduct.images.length > 0 ? imagen.imageUrl : imagen} alt={`Imagen ${index}`} className="w-full h-full object-cover rounded-lg"/>
+                                        <img src={selectedProduct?.images.length > 0 ? imagen.imageUrl : imagen} alt={`Imagen ${index}`} className="w-full h-full object-cover rounded-lg"/>
                                         <div className="absolute top-0 right-0 flex justify-center items-center bg-white w-6 h-6 rounded-full m-2 p-1" >
                                             <CheckIcon className={`${imagenesError[index] || isImageLoading[index] ? 'hidden' : ''} h-6 w-6 text-green-600`}></CheckIcon>
                                             <ArrowPathIcon className={`${isImageLoading[index] ? 'animate-spin' : 'hidden'} h-6 w-6 text-black"`}></ArrowPathIcon>

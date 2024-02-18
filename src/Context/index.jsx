@@ -9,7 +9,10 @@ import { createContext, useState, useEffect } from "react";
 
     //Product Detail · Open/Close
     const [isProductDetailOpen, setIsProductDetailOpen] = useState(false);
-    const closeProductDetail = () => setIsProductDetailOpen(false);
+    const closeProductDetail = () => {
+        setIsProductDetailOpen(false);
+        setSelectedProduct({});
+    }
     const openProductDetail = () => setIsProductDetailOpen(true);
     
      // Checkout Side Menu · Open/Close
