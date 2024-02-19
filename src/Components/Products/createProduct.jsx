@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { CheckIcon, ArrowPathIcon, XCircleIcon, XMarkIcon } from '@heroicons/react/24/solid';
+import { CheckIcon, ArrowPathIcon, XCircleIcon, TrashIcon } from '@heroicons/react/24/solid';
 import { useLocalStorage } from '../../Context/useLocalStorage';
 
 const CreateProduct = ({setMostrarCrear, products, setProducts, selectedProduct}) => {
@@ -193,6 +193,12 @@ const CreateProduct = ({setMostrarCrear, products, setProducts, selectedProduct}
         setMostrarCrear(false);
     }
 
+    const deleteImageFromArray = (index) => {
+        let nuevaLista = [...imagenes];
+        nuevaLista[index] = "";
+        setImagenes(nuevaLista);
+    }
+
     return (
         <div className="mx-auto p-2">
 
@@ -287,11 +293,13 @@ const CreateProduct = ({setMostrarCrear, products, setProducts, selectedProduct}
                                 {imagen ? (
                                     <figure className="relative mb-2 w-full h-4/5">
                                         <img src={selectedProduct?.images.length > 0 ? imagen.imageUrl : imagen} alt={`Imagen ${index}`} className="w-full h-full object-cover rounded-lg"/>
+                                        
                                         <div className="absolute top-0 right-0 flex justify-center items-center bg-white w-6 h-6 rounded-full m-2 p-1" >
                                             <CheckIcon className={`${imagenesError[index] || isImageLoading[index] ? 'hidden' : ''} h-6 w-6 text-green-600`}></CheckIcon>
                                             <ArrowPathIcon className={`${isImageLoading[index] ? 'animate-spin' : 'hidden'} h-6 w-6 text-black"`}></ArrowPathIcon>
                                             <XCircleIcon className={`${imagenesError[index] ? '' : 'hidden'} h-6 w-6 fill-red-700 cursor-pointer`}></XCircleIcon>
                                         </div>
+
                                     </figure>
                                 ) : (
                                 <div className="text-4xl text-gray-400">
@@ -307,14 +315,19 @@ const CreateProduct = ({setMostrarCrear, products, setProducts, selectedProduct}
                                     className="hidden"
                                     id={`imagenInput-${index}`}
                                 />
-                                <label className={`${imagenesError[index] ? '' : 'hidden'} text-red-600 mt-2`}>
-                                    <small>
-                                        {imagenesError[index] ? imagenesError[index].message : ''}
-                                    </small>
-                                </label>
-                                <label htmlFor={`imagenInput-${index}`} className="mt-2 cursor-pointer text-black">
-                                    {`${imagen || imagen.imageUrl ? 'Cambiar' : 'Cargar'}`} Imagen
-                                </label>
+                                <div className="flex items-center justify-center gap-20">
+                                    <label className={`${imagenesError[index] ? '' : 'hidden'} text-red-600 mt-2`}>
+                                        <small>
+                                            {imagenesError[index] ? imagenesError[index].message : ''}
+                                        </small>
+                                    </label>
+                                    <label htmlFor={`imagenInput-${index}`} className="mt-2 cursor-pointer text-black">
+                                        {`${imagen || imagen.imageUrl ? 'Cambiar' : 'Cargar'}`} Imagen
+                                    </label>
+                                    <div className={`${imagen.imageUrl ? '' : 'hidden'} flex items-center justify-end`}>
+                                         <TrashIcon className="h-7 w-7 fill-black cursor-pointer" onClick={() => deleteImageFromArray(index)}></TrashIcon>
+                                    </div>
+                                </div>
                             </div>
                             ))}
                         </div>
