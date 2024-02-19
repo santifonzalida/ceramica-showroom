@@ -13,9 +13,9 @@ function Home() {
     if(context.searchByTitle?.length > 0) {
       if(context.filteredProducts?.length > 0){
         return(
-          <div className="grid grid-cols-2 md:gap-4 md:grid-cols-4 w-full max-w-screen-lg">
+          <div className="grid grid-cols-2 gap-4 md:grid-cols-4 w-full max-w-screen-lg px-2">
           {context.filteredProducts?.map((product) => (           
-              <Card key={product.id} data={product}/>
+              <Card key={product._id} data={product}/>
           ))}
           </div>
         )
@@ -48,7 +48,7 @@ function Home() {
   return (
     <Layout>
       <div className="flex items-center justify-center relativ w80 mb-4">
-        <h1 className="font-medium text-xl">Productos exclusivos</h1>
+        <h1 className="font-medium text-xl">Productos únicos</h1>
       </div>
       <input 
         type="text" 
