@@ -7,6 +7,7 @@ const ProductsCRUD = () => {
     
     const [mostrarCrear, setMostrarCrear] = useState(false);
     const [productos, setProductos] = useState([]);
+    const [productoSeleccionado, setProductoSeleccionado] = useState(null);
     const [showSpinner, setShowSpinner] = useState(false);
     const [error, setError] = useState(null);
 
@@ -46,10 +47,21 @@ const ProductsCRUD = () => {
                 { showSpinner ? <Spinner /> : 
                     <div>
                         <div className={`${mostrarCrear ? '' : 'hidden'}`}>
-                            <CreateProduct setMostrarCrear={setMostrarCrear} products={productos} setProducts={setProductos}/>
+                            <CreateProduct 
+                                setMostrarCrear={setMostrarCrear} 
+                                products={productos} 
+                                setProducts={setProductos} 
+                                selectedProduct={productoSeleccionado}
+                                setSelectedProduct={setProductoSeleccionado} 
+                            />
                         </div>
                         <div className={`${mostrarCrear ? 'hidden' : ''}`}>
-                            <TableProducts products={productos} setProducts={setProductos} />
+                            <TableProducts 
+                                products={productos}
+                                setProducts={setProductos}
+                                setSelectedProduct={setProductoSeleccionado}
+                                setMostrarCrear={setMostrarCrear}
+                            />
                         </div>
                     </div>
                 }

@@ -59,7 +59,7 @@ const ImagesCarousel = ({selectedImagenIndex}) => {
                     <figure className="relative mb-2 w-full h-4/5">
                         <img 
                             className='object-contain w-full h-full rounded-lg' 
-                            src={context.selectedProduct.images && context.selectedProduct.images.length > 1 ? context.selectedProduct.images[2].imageUrl : ''} 
+                            src={context.selectedProduct.images && context.selectedProduct.images.length > 2 ? context.selectedProduct.images[2].imageUrl : ''} 
                             alt="ProductImg_2" /> 
                     </figure>
                 </div>

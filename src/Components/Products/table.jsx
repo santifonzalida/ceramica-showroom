@@ -3,7 +3,7 @@ import { PencilIcon, TrashIcon } from "@heroicons/react/24/solid";
 import { Modal } from "../Common/Modal";
 import { useLocalStorage } from "../../Context/useLocalStorage";
 
-const TableProducts = ({products, setProducts})=> {
+const TableProducts = ({products, setProducts, setSelectedProduct, setMostrarCrear})=> {
 
     const localStorage = useLocalStorage();
     const [showSpinner, setShowSpinner] = useState(false);
@@ -80,7 +80,10 @@ const TableProducts = ({products, setProducts})=> {
                                     <td className="px-6 py-4">{index + 1}</td>
                                     <td className="px-6 py-4">{producto.name}</td>
                                     <td className="px-6 py-4 gap-4 flex float-right">
-                                        <PencilIcon className="h-5 w-5 cursor-not-allowed" disabled/>
+                                        <PencilIcon className="h-5 w-5 cursor-pointer" onClick={() => {
+                                            setSelectedProduct(producto);
+                                            setMostrarCrear(true);
+                                        }}/>
                                         <TrashIcon className="h-5 w-5 cursor-pointer" onClick={() => handleEliminar(producto._id)}/>
                                     </td>
                                 </tr>

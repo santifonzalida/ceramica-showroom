@@ -1,16 +1,17 @@
 import { useState, useEffect } from "react";
-import { CheckIcon, ArrowPathIcon, XCircleIcon, XMarkIcon } from '@heroicons/react/24/solid';
+import { CheckIcon, ArrowPathIcon, XCircleIcon, TrashIcon } from '@heroicons/react/24/solid';
 import { useLocalStorage } from '../../Context/useLocalStorage';
-const CreateProduct = ({setMostrarCrear, products, setProducts}) => {
+
+const CreateProduct = ({setMostrarCrear, products, setProducts, selectedProduct}) => {
 
     const localStorage = useLocalStorage();
     const [producto, setProducto] = useState({
-        nombre: '',
-        descripcion: '',
-        precio: '',
+        name: '',
+        description: '',
+        price: '',
         stock: '',
         images: [],
-        idCategoria: ''
+        category: ''
       });
       const [imagenesError, setImagenesError] = useState([null, null, null])
       const [imagenes, setImagenes] = useState(['', '', '']);
@@ -20,6 +21,13 @@ const CreateProduct = ({setMostrarCrear, products, setProducts}) => {
       const [error, setError] = useState({status: false, message: ''});
 
       useEffect(() => {
+        if(selectedProduct && selectedProduct._id.length > 0){
+            setProducto(selectedProduct);
+            if(selectedProduct.images.length > 0) {
+                setImagenes(selectedProduct.images);
+            }
+        }
+
         fetch(
             'https://tame-ruby-rhinoceros-cap.cyclic.app/Categories', {method: 'GET',headers: { 'Content-Type': 'application/json ' }})
             .then(response => response.json()
@@ -31,7 +39,7 @@ const CreateProduct = ({setMostrarCrear, products, setProducts}) => {
                 setCategorias([]);
                 throw new Error("No se pudo obtener las categorias.") 
             });
-    },[])
+    },[selectedProduct?._id])
 
 
     const handleChange = (e) => {
@@ -45,28 +53,28 @@ const CreateProduct = ({setMostrarCrear, products, setProducts}) => {
     const handleSubmit = (e) => {
         e.preventDefault();
         setIsLoading(true);
+
         const userStorage = localStorage.getItem('user');
 
-        let request = { 
-            name: producto.nombre,
-            description: producto.descripcion,
-            price: producto.precio,
-            stock: producto.stock,
-            images: producto.images,
-            category: producto.idCategoria
-        }
-
-        if(request.images.length == 0){
+        if(producto.images.length == 0){
             setError({status: true, message: 'Debe agregar al menos una imagen.'});
             setIsLoading(false);
             window.scrollTo({ top: 0, left:0, behavior: 'smooth' });
             return;
         }
 
-        fetch('https://tame-ruby-rhinoceros-cap.cyclic.app/Products', 
+        let request = producto;
+
+        if(selectedProduct?._id){
+            delete request._id;
+            delete request.__v;
+            request.category = producto.category._id;
+        }
+
+        fetch(`https://tame-ruby-rhinoceros-cap.cyclic.app/Products${selectedProduct?._id ? `/${selectedProduct._id}` : ''}`, 
             {
-                method: 'POST', 
-                body: JSON.stringify(request),
+                method: `${selectedProduct?._id ? 'PUT' : 'POST'}`, 
+                body: JSON.stringify(producto),
                 headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${userStorage.access_token}` },
             })
             .then(response => {
@@ -76,9 +84,16 @@ const CreateProduct = ({setMostrarCrear, products, setProducts}) => {
                 return response.json();
             })
             .then(data => {
+                
                 let productos = [...products];
                 let newProduct = data.data;
-                productos.push(newProduct);
+                
+                if(selectedProduct && data.data._id == selectedProduct._id) {
+                    let prodIdx = productos.findIndex(p => data.data._id == p._id);
+                    productos[prodIdx] = data.data;
+                }else {
+                    productos.push(newProduct);
+                }
                 setProducts(productos);
                 setMostrarCrear(false);
                 setIsLoading(false)
@@ -88,7 +103,6 @@ const CreateProduct = ({setMostrarCrear, products, setProducts}) => {
                 setIsLoading(false);
             }
         );
-
     };
 
     const handleImagenChange = (e, index) => {
@@ -124,12 +138,12 @@ const CreateProduct = ({setMostrarCrear, products, setProducts}) => {
 
     const resetProduct = () => {
         setProducto({
-            nombre: '',
-            descripcion: '',
-            precio: '',
+            name: '',
+            description: '',
+            price: '',
             stock: '',
             images: [],
-            idCategoria: ''
+            category: ''
           });
         setImagenes(['', '', '']);
         setImagenesError([null, null, null]);
@@ -179,6 +193,12 @@ const CreateProduct = ({setMostrarCrear, products, setProducts}) => {
         setMostrarCrear(false);
     }
 
+    const deleteImageFromArray = (index) => {
+        let nuevaLista = [...imagenes];
+        nuevaLista[index] = "";
+        setImagenes(nuevaLista);
+    }
+
     return (
         <div className="mx-auto p-2">
 
@@ -210,44 +230,44 @@ const CreateProduct = ({setMostrarCrear, products, setProducts}) => {
                 : ''
             }
             
-            <h1 className="text-lg md:text-xl font-semibold mb-4">Agregar Producto</h1>
+            <h1 className="text-lg md:text-xl font-semibold mb-4">{producto._id ? 'Editar' : 'Nuevo'} Producto</h1>
             <form onSubmit={handleSubmit}>
                 <div className="mb-4">
-                    <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="nombre">
+                    <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="name">
                         Nombre
                     </label>
                     <input
                         className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight"
                         type="text"
-                        id="nombre"
-                        name="nombre"
-                        value={producto.nombre}
+                        id="name"
+                        name="name"
+                        value={producto.name}
                         onChange={handleChange}
                         required
                     />
                 </div>
                 <div className="mb-4">
-                    <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="descripcion">
+                    <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="description">
                         Descripción
                     </label>
                     <textarea
                         className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight"
-                        id="descripcion"
-                        name="descripcion"
-                        value={producto.descripcion}
+                        id="description"
+                        name="description"
+                        value={producto.description}
                         onChange={handleChange}
                         required
                     ></textarea>
                 </div>
                 <div className="mb-4">
-                    <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="idCategoria">
+                    <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="category">
                         Categoria
                     </label>
                     <select
-                        id="idCategoria"
-                        name="idCategoria"
+                        id="category"
+                        name="category"
                         className="w-full px-4 py-2 border rounded-md shadow-sm"
-                        value={producto.idCategoria}
+                        value={`${producto.category?._id ? producto.category._id : producto.category}`}
                         onChange={handleChange}
                         required
                     >
@@ -263,7 +283,7 @@ const CreateProduct = ({setMostrarCrear, products, setProducts}) => {
                 </div>
 
                 <div className="mb-4">
-                    <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="precio">
+                    <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="price">
                         Selección de imágenes
                     </label>
                     <div className="bg-gray-100 p-4">
@@ -272,12 +292,14 @@ const CreateProduct = ({setMostrarCrear, products, setProducts}) => {
                             <div key={index} className="bg-white p-4 rounded-lg border border-gray-300 flex flex-col items-center justify-center">
                                 {imagen ? (
                                     <figure className="relative mb-2 w-full h-4/5">
-                                        <img src={imagen} alt={`Imagen ${index}`} className="w-full h-full object-cover rounded-lg"/>
+                                        <img src={selectedProduct?.images.length > 0 ? imagen.imageUrl : imagen} alt={`Imagen ${index}`} className="w-full h-full object-cover rounded-lg"/>
+                                        
                                         <div className="absolute top-0 right-0 flex justify-center items-center bg-white w-6 h-6 rounded-full m-2 p-1" >
                                             <CheckIcon className={`${imagenesError[index] || isImageLoading[index] ? 'hidden' : ''} h-6 w-6 text-green-600`}></CheckIcon>
                                             <ArrowPathIcon className={`${isImageLoading[index] ? 'animate-spin' : 'hidden'} h-6 w-6 text-black"`}></ArrowPathIcon>
                                             <XCircleIcon className={`${imagenesError[index] ? '' : 'hidden'} h-6 w-6 fill-red-700 cursor-pointer`}></XCircleIcon>
                                         </div>
+
                                     </figure>
                                 ) : (
                                 <div className="text-4xl text-gray-400">
@@ -293,14 +315,19 @@ const CreateProduct = ({setMostrarCrear, products, setProducts}) => {
                                     className="hidden"
                                     id={`imagenInput-${index}`}
                                 />
-                                <label className={`${imagenesError[index] ? '' : 'hidden'} text-red-600 mt-2`}>
-                                    <small>
-                                        {imagenesError[index] ? imagenesError[index].message : ''}
-                                    </small>
-                                </label>
-                                <label htmlFor={`imagenInput-${index}`} className="mt-2 cursor-pointer text-black">
-                                    Cargar Imagen
-                                </label>
+                                <div className="flex items-center justify-center gap-20">
+                                    <label className={`${imagenesError[index] ? '' : 'hidden'} text-red-600 mt-2`}>
+                                        <small>
+                                            {imagenesError[index] ? imagenesError[index].message : ''}
+                                        </small>
+                                    </label>
+                                    <label htmlFor={`imagenInput-${index}`} className="mt-2 cursor-pointer text-black">
+                                        {`${imagen || imagen.imageUrl ? 'Cambiar' : 'Cargar'}`} Imagen
+                                    </label>
+                                    <div className={`${imagen.imageUrl ? '' : 'hidden'} flex items-center justify-end`}>
+                                         <TrashIcon className="h-7 w-7 fill-black cursor-pointer" onClick={() => deleteImageFromArray(index)}></TrashIcon>
+                                    </div>
+                                </div>
                             </div>
                             ))}
                         </div>
@@ -308,15 +335,15 @@ const CreateProduct = ({setMostrarCrear, products, setProducts}) => {
 
                 </div>
                 <div className="mb-4">
-                    <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="precio">
+                    <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="price">
                         Precio
                     </label>
                     <input
                         className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight"
                         type="text"
-                        id="precio"
-                        name="precio"
-                        value={producto.precio}
+                        id="price"
+                        name="price"
+                        value={producto.price}
                         onChange={handleChange}
                         required
                     />
@@ -340,10 +367,10 @@ const CreateProduct = ({setMostrarCrear, products, setProducts}) => {
                     isLoading 
                         ? <button className="flex cursor-not-allowed disabled bg-black text-white font-bold py-2 px-4 rounded">Agregar producto<ArrowPathIcon className='flex h-5 w-5 ml-2 mt-1 animate-spin'/></button>
                         : <button className={` ${isImageLoading.some(x => x) ? 'cursor-not-allowed disabled' : ''} bg-black text-white font-bold py-2 px-4 rounded`}
-                            type="submit" >Agregar Producto </button>
+                            type="submit" >{`${selectedProduct?._id ? 'Modificar' : 'Agregar'}`} Producto </button>
                 }
                     <button 
-                        className={`${isImageLoading.some(x => x) ? 'cursor-not-allowed disabled' : ''} bg-black text-white font-bold py-2 px-4 rounded ml-5`}
+                        className={`${isImageLoading.some(x => x) || isLoading ? 'cursor-not-allowed disabled' : ''} bg-black text-white font-bold py-2 px-4 rounded ml-5`}
                         onClick={cancelarGuardar}>Cancelar</button>
                 </div>
             </form>
