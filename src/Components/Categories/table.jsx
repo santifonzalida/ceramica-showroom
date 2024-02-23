@@ -25,7 +25,11 @@ const TableCategories = (props) => {
         fetch(`https://tame-ruby-rhinoceros-cap.cyclic.app/Categories/${categoriaSeleccionada._id}`, requestOptions)
             .then(response => response.json()
                 .then(data => {
-                    if (data && data.data) {
+                    if(data && data.statusCode == 401) {
+                        localStorage.saveItem('user', {});
+                        localStorage.saveItem('userInfo', {});
+                        navigate('/login');
+                    }else if(data.data){
                         let cat = props.data;
                         let idx = props.data.findIndex(c => c._id == data.data._id);
                         if (idx > -1) {
@@ -55,7 +59,11 @@ const TableCategories = (props) => {
             })
             .then(response => response.json()
                 .then(data => {
-                    if (data && data.data) {
+                    if(data && data.statusCode == 401) {
+                        localStorage.saveItem('user', {});
+                        localStorage.saveItem('userInfo', {});
+                        navigate('/login');
+                    }else if(data.data) {
                         let cat = [...props.data];
                         cat.forEach(categoria => {
                             if(categoria._id == data.data._id){

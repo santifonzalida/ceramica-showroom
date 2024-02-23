@@ -22,6 +22,9 @@ export const LoginContextProvider = ({children}) => {
         }else if(location.pathname == '/dashboard' || location.pathname == '/my-account' ){
             getUserInfo().then((response) => {
                 if(response.statusCode == 401){
+                    localStorage.saveItem('user', {});
+                    localStorage.saveItem('userInfo', {});
+                    navigate('/login');
                     setIsUserLogin(false);
                     setUser(null);
                 } else {
@@ -97,6 +100,11 @@ export const LoginContextProvider = ({children}) => {
 
     const updateUserInformation = async() => {
         const userStorage = localStorage.getItem("user");
+
+        if(!userStorage || !userStorage.access_token){
+            return;
+        }
+        
         const bodyRequest = user;
         delete bodyRequest._id;
         delete bodyRequest.__v;
