@@ -36,6 +36,7 @@ const CreateCategory = (props) => {
                     navigate('/login');
                 }else {
                     props.setCategory([...props.categorias, data.data]);
+                    props.mostrarCrear(false);
                 }
                 setShowSpinner(false);
                 setNombreCategoria("");
