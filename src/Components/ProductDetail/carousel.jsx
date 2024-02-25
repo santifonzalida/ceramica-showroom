@@ -53,16 +53,20 @@ const ImagesCarousel = ({selectedImagenIndex}) => {
                     </figure>
                 </div>
                 {/* Third item */ }
-                <div
-                className="relative float-left -mr-[100%] hidden w-full transition-transform duration-[600ms] ease-in-out motion-reduce:transition-none aspect-w-16 aspect-h-9"
-                data-te-carousel-item>
-                    <figure className="relative mb-2 w-full h-4/5">
-                        <img 
-                            className='object-contain w-full h-full rounded-lg' 
-                            src={context.selectedProduct.images && context.selectedProduct.images.length > 2 ? context.selectedProduct.images[2].imageUrl : ''} 
-                            alt="ProductImg_2" /> 
-                    </figure>
-                </div>
+                {context.selectedProduct.images && context.selectedProduct.images.length == 3 ? 
+                    <div
+                    className="relative float-left -mr-[100%] hidden w-full transition-transform duration-[600ms] ease-in-out motion-reduce:transition-none aspect-w-16 aspect-h-9"
+                    data-te-carousel-item>
+                        <figure className="relative mb-2 w-full h-4/5">
+                            <img 
+                                className='object-contain w-full h-full rounded-lg' 
+                                src={context.selectedProduct.images && context.selectedProduct.images.length > 2 ? context.selectedProduct.images[2].imageUrl : ''} 
+                                alt="ProductImg_2" /> 
+                        </figure>
+                    </div>
+                : ''
+                }
+                
             </div>
             { context.selectedProduct.images && context.selectedProduct.images.length > 1 ?  
                 (<>

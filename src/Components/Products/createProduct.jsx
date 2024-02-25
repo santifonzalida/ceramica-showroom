@@ -10,11 +10,10 @@ const CreateProduct = ({setMostrarCrear, products, setProducts, selectedProduct}
         description: '',
         price: '',
         stock: '',
-        images: [],
+        images: [{},{},{}],
         category: ''
       });
-      const [imagenesError, setImagenesError] = useState([null, null, null])
-      const [imagenes, setImagenes] = useState(['', '', '']);
+      const [imagenesError, setImagenesError] = useState([null, null, null]);
       const [isImageLoading, setIsImageLoading] = useState([false, false, false]);
       const [isLoading, setIsLoading] = useState(false);
       const [categorias, setCategorias] = useState([]);
@@ -22,10 +21,14 @@ const CreateProduct = ({setMostrarCrear, products, setProducts, selectedProduct}
 
       useEffect(() => {
         if(selectedProduct && selectedProduct._id.length > 0){
-            setProducto(selectedProduct);
-            if(selectedProduct.images.length > 0) {
-                setImagenes(selectedProduct.images);
+            let productEdit = {...producto};
+            productEdit = {...selectedProduct};
+            if(productEdit.images.length < 3){
+                for(let i = productEdit.images.length; i < 3; i++){
+                    productEdit.images.push({});
+                }
             }
+            setProducto(productEdit);
         }
 
         fetch(
@@ -41,7 +44,6 @@ const CreateProduct = ({setMostrarCrear, products, setProducts, selectedProduct}
             });
     },[selectedProduct?._id])
 
-
     const handleChange = (e) => {
         const { name, value } = e.target;
         setProducto({
@@ -56,7 +58,7 @@ const CreateProduct = ({setMostrarCrear, products, setProducts, selectedProduct}
 
         const userStorage = localStorage.getItem('user');
 
-        if(producto.images.length == 0){
+        if(producto.images.length == 0 || !producto.images.some(i => i.name)){
             setError({status: true, message: 'Debe agregar al menos una imagen.'});
             setIsLoading(false);
             window.scrollTo({ top: 0, left:0, behavior: 'smooth' });
@@ -64,6 +66,7 @@ const CreateProduct = ({setMostrarCrear, products, setProducts, selectedProduct}
         }
 
         let request = producto;
+        request.images = producto.images.filter((x) => x.name && x.imageUrl);
 
         if(selectedProduct?._id){
             delete request._id;
@@ -107,23 +110,24 @@ const CreateProduct = ({setMostrarCrear, products, setProducts, selectedProduct}
 
     const handleImagenChange = (e, index) => {
       const {size, type, name} = e.target.files[0];
-      if ((size / (1024 * 1024)) <= 2){
-        if (size && type && name) {
-            const reader = new FileReader();
-            reader.onload = (event) => {
-                const nuevasImagenes = [...imagenes];
-                nuevasImagenes[index] = event.target.result;
-                setImagenes(nuevasImagenes);
-                const imageB64 = event.target.result.split(',')[1];
-                guardarImagen( imageB64, name, type, size, index);
-            };
-            reader.readAsDataURL(e.target.files[0]);
-          }
-      }else {
-        const newImagenesError = [...imagenesError];
-        newImagenesError[index] = {message: 'La imagen seleccionada supera los 2MB.'};
-        setImagenesError(newImagenesError);
-      }
+        try{
+            if ((size / (1024 * 1024)) <= 2){
+                if (size && type && name) {
+                    const reader = new FileReader();
+                    reader.onload = (event) => {
+                        const imageB64 = event.target.result.split(',')[1];
+                        guardarImagen( imageB64, name, type, size, index);
+                    };
+                    reader.readAsDataURL(e.target.files[0]);
+                  }
+              }else {
+                const newImagenesError = [...imagenesError];
+                newImagenesError[index] = {message: 'La imagen seleccionada supera los 2MB.'};
+                setImagenesError(newImagenesError);
+              }
+        } catch (error) {
+            setError({status: true, message: e.message});
+        }
     };
 
     const resetStates = (index) => {
@@ -142,10 +146,9 @@ const CreateProduct = ({setMostrarCrear, products, setProducts, selectedProduct}
             description: '',
             price: '',
             stock: '',
-            images: [],
+            images: [{},{},{}],
             category: ''
           });
-        setImagenes(['', '', '']);
         setImagenesError([null, null, null]);
     }
 
@@ -169,7 +172,7 @@ const CreateProduct = ({setMostrarCrear, products, setProducts, selectedProduct}
             .then(data => {
                 const newProduct = {...producto};
                 const newImage = { name: nombre, imageUrl: data.data[0], extention: extension, size: size };
-                newProduct.images.push(newImage);
+                newProduct.images[productIndex] = newImage;
                 setProducto(newProduct);
                 
                 const loadingArray = [...isImageLoading];
@@ -194,9 +197,11 @@ const CreateProduct = ({setMostrarCrear, products, setProducts, selectedProduct}
     }
 
     const deleteImageFromArray = (index) => {
-        let nuevaLista = [...imagenes];
-        nuevaLista[index] = "";
-        setImagenes(nuevaLista);
+        const imagenesEditList = [...producto.images];
+        imagenesEditList[index] = '';
+        const editedProduct = {...producto};
+        editedProduct.images = imagenesEditList;
+        setProducto(editedProduct); 
     }
 
     return (
@@ -288,11 +293,11 @@ const CreateProduct = ({setMostrarCrear, products, setProducts, selectedProduct}
                     </label>
                     <div className="bg-gray-100 p-4">
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                            {imagenes.map((imagen, index) => (
+                            {producto.images?.map((imagen, index) => (
                             <div key={index} className="bg-white p-4 rounded-lg border border-gray-300 flex flex-col items-center justify-center">
-                                {imagen ? (
+                                {imagen.imageUrl || isImageLoading[index] ? (
                                     <figure className="relative mb-2 w-full h-4/5">
-                                        <img src={selectedProduct?.images.length > 0 ? imagen.imageUrl : imagen} alt={`Imagen ${index}`} className="w-full h-full object-cover rounded-lg"/>
+                                        {isImageLoading[index] ? '' : <img src={imagen.imageUrl} alt={`Imagen ${index}`} className="w-full h-full object-cover rounded-lg"/>}
                                         
                                         <div className="absolute top-0 right-0 flex justify-center items-center bg-white w-6 h-6 rounded-full m-2 p-1" >
                                             <CheckIcon className={`${imagenesError[index] || isImageLoading[index] ? 'hidden' : ''} h-6 w-6 text-green-600`}></CheckIcon>
@@ -322,7 +327,7 @@ const CreateProduct = ({setMostrarCrear, products, setProducts, selectedProduct}
                                         </small>
                                     </label>
                                     <label htmlFor={`imagenInput-${index}`} className="mt-2 cursor-pointer text-black">
-                                        {`${imagen || imagen.imageUrl ? 'Cambiar' : 'Cargar'}`} Imagen
+                                        {`${imagen.imageUrl ? 'Cambiar' : 'Cargar'}`} Imagen
                                     </label>
                                     <div className={`${imagen.imageUrl ? '' : 'hidden'} flex items-center justify-end`}>
                                          <TrashIcon className="h-7 w-7 fill-black cursor-pointer" onClick={() => deleteImageFromArray(index)}></TrashIcon>
