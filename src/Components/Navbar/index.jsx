@@ -32,14 +32,8 @@ const Navbar = () => {
         }
     },[])
 
-    const onCateogiriaClick = () => {
-        context.setProductoDashboard(false);
-        context.setCategoriaDashboard(true);
-    }
-
-    const onProductoClick = () => {
-        context.setCategoriaDashboard(false);
-        context.setProductoDashboard(true);
+    const onMenuDashboardClick = (component) => {
+        context.setDashboardView(component)
     }
 
     const handleImageLoad = () => {
@@ -97,15 +91,22 @@ const Navbar = () => {
                                 <a
                                     className="block w-full whitespace-nowrap bg-transparent cursor-pointer px-4 py-2 text-sm font-normal text-neutral-900"
                                     data-te-dropdown-item-ref
-                                    onClick={onProductoClick}
+                                    onClick={() => onMenuDashboardClick('Products')}
                                 >Productos</a>
                             </li>
                             <li>
                                 <a
                                     className="block w-full whitespace-nowrap bg-transparent cursor-pointer px-4 py-2 text-sm font-normal text-neutral-900"
                                     data-te-dropdown-item-ref
-                                    onClick={onCateogiriaClick}
+                                    onClick={() => onMenuDashboardClick('Categories')}
                                 >Categoria</a>
+                            </li>
+                            <li>
+                                <a
+                                    className="block w-full whitespace-nowrap bg-transparent cursor-pointer px-4 py-2 text-sm font-normal text-neutral-900"
+                                    data-te-dropdown-item-ref
+                                    onClick={() => onMenuDashboardClick('Users')}
+                                >Usuarios</a>
                             </li>
                         </ul>
                     </div>

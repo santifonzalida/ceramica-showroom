@@ -46,7 +46,7 @@ const ProductsCRUD = () => {
                 </div>
                 { showSpinner ? <Spinner /> : 
                     <div>
-                        <div className={`${mostrarCrear ? '' : 'hidden'}`}>
+                        {mostrarCrear ? 
                             <CreateProduct 
                                 setMostrarCrear={setMostrarCrear} 
                                 products={productos} 
@@ -54,15 +54,14 @@ const ProductsCRUD = () => {
                                 selectedProduct={productoSeleccionado}
                                 setSelectedProduct={setProductoSeleccionado} 
                             />
-                        </div>
-                        <div className={`${mostrarCrear ? 'hidden' : ''}`}>
+                        :
                             <TableProducts 
                                 products={productos}
                                 setProducts={setProductos}
                                 setSelectedProduct={setProductoSeleccionado}
                                 setMostrarCrear={setMostrarCrear}
                             />
-                        </div>
+                        }
                     </div>
                 }
             </div>

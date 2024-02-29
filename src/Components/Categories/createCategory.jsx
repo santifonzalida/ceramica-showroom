@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useLocalStorage } from "../../Context/useLocalStorage";
 import { XCircleIcon, CheckCircleIcon, ArrowPathIcon } from '@heroicons/react/24/solid';
 
@@ -8,6 +9,7 @@ const CreateCategory = (props) => {
     const [nombreCategoria, setNombreCategoria] = useState("")
     const [showSpinner, setShowSpinner] = useState(false);
     const [error, setError] = useState(false);
+    const navigate = useNavigate();
 
     const create = () => {
 
@@ -28,7 +30,14 @@ const CreateCategory = (props) => {
             })
             .then(response => response.json()
             .then(data => {
-                props.setCategory([...props.categorias, data.data]);
+                if(data && data.statusCode == 401) {
+                    localStorage.saveItem('user', {});
+                    localStorage.saveItem('userInfo', {});
+                    navigate('/login');
+                }else {
+                    props.setCategory([...props.categorias, data.data]);
+                    props.mostrarCrear(false);
+                }
                 setShowSpinner(false);
                 setNombreCategoria("");
             })).catch(error => {

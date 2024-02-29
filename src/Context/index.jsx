@@ -20,9 +20,8 @@ import { createContext, useState, useEffect } from "react";
     const openCheckoutSideMenu = () => setIsCheckoutSideMenuOpen(true);
     const closeCheckoutSideMenu = () => setIsCheckoutSideMenuOpen(false);
 
-    //Navbar navigation product/cageroty
-    const [productoDashboard, setProductoDashboard] = useState(true);
-    const [categoriaDashboard, setCategoriaDashboard] = useState(false);
+    //Navbar navigation products/categories/Users
+    const [dashboardView, setDashboardView] = useState('Products');
 
     //Produc Detail · Show product
     const [selectedProduct, setSelectedProduct] = useState({});
@@ -83,10 +82,8 @@ import { createContext, useState, useEffect } from "react";
             setSearchByTitle,
             filteredProducts,
             filteredProductsByCategory,
-            productoDashboard, 
-            setProductoDashboard,
-            categoriaDashboard, 
-            setCategoriaDashboard
+            dashboardView,
+            setDashboardView,
         }}>
             {children}
         </ShoppingCartContext.Provider>
