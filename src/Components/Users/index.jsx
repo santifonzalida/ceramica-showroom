@@ -58,6 +58,7 @@ const Users = () => {
                                     <th scope="col" className="px-6 py-4">#</th>
                                     <th scope="col" className="py-4">Nombre</th>
                                     <th scope="col" className="py-4">Creado</th>
+                                    <th scope="col" className="py-4">Rol</th>
                                     <th scope="col" className="px-6 py-4 float-right">Acciones</th>
                                 </tr>
                             </thead>
@@ -65,8 +66,9 @@ const Users = () => {
                                 {users?.map((user, index) => (
                                     <tr key={user._id} className={`${index %2 == 0 ? 'bg-neutral-200' : 'bg-neutral-300'}`}>
                                         <td className="px-6 py-4">{index + 1}</td>
-                                        <td>{user.fullName}</td>
-                                        <td>{user.created}</td>
+                                        <td>{ user.email }</td>
+                                        <td>{ new Date(user.created).toLocaleDateString() }</td>
+                                        <td>{user.role}</td>
                                         <td className="flex float-right items-center justify-center gap-4 p-4">
                                             <TrashIcon className={`${showSpinner ? 'cursor-not-allowed' : ''} h-5 w-5 cursor-pointer`} onClick={() => handleEliminar(user._id)}/>                                            
                                         </td>
