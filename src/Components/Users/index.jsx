@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Modal } from "../Common/Modal";
 import { TrashIcon } from '@heroicons/react/24/solid';
 import { useLocalStorage } from "../../Context/useLocalStorage";
+import { Spinner} from "../Common/Spinner";
 
 const Users = () => {
     const [users, setUsers] = useState(null);
@@ -48,8 +49,10 @@ const Users = () => {
     }
 
     return(
-        <div className="flex flex-col">
+        <div className="flex flex-col bg-gray-100">
+        { showSpinner ? <Spinner/> : 
             <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
+                <h1 className="text-sm md:text-xl font-semibold m-4 pl-4">Listado de usuarios</h1>
                 <div className="inline-block min-w-full py-2 sm:px-6 lg:px-8">
                     <div className="overflow-hidden">
                         <table className="min-w-full text-left text-sm font-light">
@@ -79,15 +82,16 @@ const Users = () => {
                     </div>
                 </div>
             </div>
-            <Modal
-                isOpen={showDeleteModal}
-                title={`¿Estás seguro de que deseas eliminar la cuenta ${selectedUser ? selectedUser.fullName : ''}?`}
-                message={'Al confirmar se eliminara definitivamente el usuario.'}
-                onCancel={handleCancelarEliminar}
-                onConfirm={handleConfirmEliminar}
-                showSpinner={showSpinner}
-            />
-        </div>
+        }
+        <Modal
+            isOpen={showDeleteModal}
+            title={`¿Estás seguro de que deseas eliminar la cuenta ${selectedUser ? selectedUser.fullName : ''}?`}
+            message={'Al confirmar se eliminara definitivamente el usuario.'}
+            onCancel={handleCancelarEliminar}
+            onConfirm={handleConfirmEliminar}
+            showSpinner={showSpinner}
+        />
+    </div>
     );
 }
 
