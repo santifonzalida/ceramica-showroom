@@ -45,7 +45,37 @@ const Users = () => {
     }
 
     const handleConfirmEliminar = () => {
-        console.log('se elimina usuario' + selectedUser.fullName);
+
+        setShowSpinner(true);
+        const userStorage = localStorage.getItem('user');
+
+        fetch('https://tame-ruby-rhinoceros-cap.cyclic.app/users/' + selectedUser._id, {
+            method: 'DELETE',
+            headers: { 
+                'Content-Type': 'application/json', 
+                'Authorization': `Bearer ${userStorage.access_token}`
+            }})
+            .then(response => response.json()
+            .then(data => {
+                if(data && data.statusCode == 401) {
+                    localStorage.saveItem('user', {});
+                    localStorage.saveItem('userInfo', {});
+                    navigate('/login');
+                }else if(data.data){
+                    let newUserList = [...users];
+                    let idx = newUserList.findIndex(u => u._id == data.data._id);
+                    if (idx > -1) {
+                        newUserList.splice(idx, 1);
+                        setUsers(newUserList);
+                    }
+                    setShowDeleteModal(false);
+                }
+                setShowSpinner(false);
+            })).catch(error => {
+                setUsers(null);
+                setShowSpinner(false);
+                throw new Error("No se pudo eliminar el usuario seleccionado.") 
+            });
     }
 
     return(
