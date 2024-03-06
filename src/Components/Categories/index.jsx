@@ -40,8 +40,8 @@ const CategoryCRUD = () => {
     return (
         <div>
             <div className="bg-gray-100 font-sans">
-                <div className="mx-auto p-4">
-                    <div className="grid grid-cols-2 items-center mb-2">
+                <div className="mx-auto">
+                    <div className="grid grid-cols-2 items-center mb-2 p-4">
                         <div className={`${mostrarCrear ? 'hidden' : ''}`}>
                             <h1 className="text-sm md:text-xl font-semibold flex">Lista de Categorias</h1>
                         </div>

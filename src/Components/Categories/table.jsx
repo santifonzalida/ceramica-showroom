@@ -30,11 +30,11 @@ const TableCategories = (props) => {
                         localStorage.saveItem('userInfo', {});
                         navigate('/login');
                     }else if(data.data){
-                        let cat = props.data;
-                        let idx = props.data.findIndex(c => c._id == data.data._id);
+                        let newCategoryList = [...props.data];
+                        let idx = newCategoryList.findIndex(c => c._id == data.data._id);
                         if (idx > -1) {
-                            cat.splice(idx, 1);
-                            props.setCategory(cat);
+                            newCategoryList.splice(idx, 1);
+                            props.setCategory(newCategoryList);
                         }
                     }
                     setShowSpinner(false);
