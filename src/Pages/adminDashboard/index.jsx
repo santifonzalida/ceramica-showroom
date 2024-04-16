@@ -3,6 +3,7 @@ import { CategoryCRUD } from "../../Components/Categories";
 import { ProductsCRUD } from "../../Components/Products";
 import { Users } from '../../Components/Users';
 import { ShoppingCartContext } from "../../Context/index";
+import { Statistics } from "../../Components/Statistics";
 
 function AdminDashboard() {
   
@@ -16,6 +17,8 @@ function AdminDashboard() {
       return <CategoryCRUD />;
     } else if(context.dashboardView == 'Users'){
       return <Users />;
+    } else if (context.dashboardView == 'Statistics') {
+      return <Statistics />;
     }
   }
 
