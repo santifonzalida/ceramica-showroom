@@ -1,5 +1,4 @@
 import { useRoutes, BrowserRouter } from 'react-router-dom';
-import { useEffect } from 'react';
 import '../../App.css'
 import { ShoppingCartProvider } from '../../Context'; 
 import { Home } from '../Home';
@@ -24,10 +23,6 @@ const AppRoutes = () => {
 }
 
 function App() {
-
-  useEffect(() => {
-    console.log('llamando a contador web');
-  }, [])
 
   return (
     <ShoppingCartProvider>

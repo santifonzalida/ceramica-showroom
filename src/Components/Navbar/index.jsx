@@ -108,6 +108,13 @@ const Navbar = () => {
                                     onClick={() => onMenuDashboardClick('Users')}
                                 >Usuarios</a>
                             </li>
+                            <li>
+                                <a
+                                    className="block w-full whitespace-nowrap bg-transparent cursor-pointer px-4 py-2 text-sm font-normal text-neutral-900"
+                                    data-te-dropdown-item-ref
+                                    onClick={() => onMenuDashboardClick('Statistics')}
+                                >Estadisticas</a>
+                            </li>
                         </ul>
                     </div>
                     : ''
