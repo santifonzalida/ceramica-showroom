@@ -40,7 +40,7 @@ const CreateProduct = ({setMostrarCrear, products, setProducts, selectedProduct}
                 }
             })).catch(error => {
                 setCategorias([]);
-                throw new Error("No se pudo obtener las categorias.") 
+                throw new Error("No se pudo obtener los productos.") 
             });
     },[selectedProduct?._id])
 

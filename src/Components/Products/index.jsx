@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect } from 'react';
 import { CreateProduct } from './createProduct';
 import { TableProducts } from "./table";
 import { Spinner } from '../Common/Spinner';

@@ -22,8 +22,6 @@ const AppRoutes = () => {
   return routes;
 }
 
-console.log(import.meta.env.VITE_WEB_URL);
-
 function App() {
 
   return (
