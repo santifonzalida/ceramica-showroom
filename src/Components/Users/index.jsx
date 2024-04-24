@@ -79,30 +79,32 @@ const Users = () => {
     }
 
     return(
-        <div className="flex flex-col bg-gray-100">
+        <div className="bg-gray-100">
         { showSpinner ? <Spinner/> : 
-            <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
-                <h1 className="text-sm md:text-xl font-semibold m-4 pl-4">Listado de usuarios</h1>
+            <div className="mx-auto">
+                <div className="grid grid-cols-2 items-center mb-2 p-4">
+                    <h1 className="text-sm md:text-xl font-semibold">Listado de usuarios</h1>
+                </div>
                 <div className="inline-block min-w-full py-2 sm:px-6 lg:px-8">
                     <div className="overflow-hidden">
                         <table className="min-w-full text-left text-sm font-light">
                             <thead className="border-b bg-white font-medium">
                                 <tr>
-                                    <th scope="col" className="px-6 py-4">#</th>
+                                    <th scope="col" className="px-3 py-4">#</th>
                                     <th scope="col" className="py-4">Nombre</th>
                                     <th scope="col" className="py-4">Creado</th>
-                                    <th scope="col" className="py-4">Rol</th>
+                                    <th scope="col" className="text-center">Rol</th>
                                     <th scope="col" className="px-6 py-4 float-right">Acciones</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {users?.map((user, index) => (
                                     <tr key={user._id} className={`${index %2 == 0 ? 'bg-neutral-200' : 'bg-neutral-300'}`}>
-                                        <td className="px-6 py-4">{index + 1}</td>
+                                        <td className="px-3 py-4">{index + 1}</td>
                                         <td>{ user.email }</td>
                                         <td>{ new Date(user.created).toLocaleDateString() }</td>
-                                        <td>{user.role}</td>
-                                        <td className="flex float-right items-center justify-center gap-4 p-4">
+                                        <td className="pl-6">{user.role}</td>
+                                        <td className="flex items-center justify-center gap-4 p-4">
                                             <TrashIcon className={`${showSpinner ? 'cursor-not-allowed' : ''} h-5 w-5 cursor-pointer`} onClick={() => handleEliminar(user._id)}/>                                            
                                         </td>
                                     </tr>
