@@ -3,6 +3,7 @@ import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Rectangle 
 import { useLocalStorage } from '../../Context/useLocalStorage';
 import { ShoppingCartContext } from '../../Context/index';
 import { Spinner } from '../Common/Spinner';
+import { CreatedUsersChart } from './createdUsersChart';
 import {
     Collapse,
     Dropdown,
@@ -69,12 +70,7 @@ const Statistics = () => {
                 width={400}
                 height={300}
                 data={productosLikeados}
-                margin={{
-                    top: 5,
-                    right: 30,
-                    left: 0,
-                    bottom: 5
-                }}
+                margin={{ top: 5, right: 30, left: 0, bottom: 5 }}
             >
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey='_id' />
@@ -144,14 +140,25 @@ const Statistics = () => {
     }
 
     return(
-        <div className="flex">
-            {isLoading ? <Spinner /> : 
-                <div className='items-center justify-between'>
-                    <h3 className='m-2'>Top {productLimit} productos likeados</h3>
-                    { renderLimitDropdown() }
-                    {productosLikeados && productosLikeados.length > 0 ? renderProductsLiked() : 'No se encontraron datos. '}
+        <div className="flex flex-col">
+            <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
+                <div className="inline-block min-w-full py-2 sm:px-6 lg:px-8">
+                    <div className="overflow-scroll">
+                        {isLoading ? <Spinner /> : 
+                            <>
+                                <div className='row mb-6'>
+                                    <h3 className='m-2'>Top {productLimit} productos likeados</h3>
+                                    { renderLimitDropdown() }
+                                    {productosLikeados && productosLikeados.length > 0 ? renderProductsLiked() : 'No se encontraron datos. '}
+                                </div>
+                                <div className='row'>
+                                    <CreatedUsersChart />
+                                </div>
+                            </>
+                        }
+                    </div>
                 </div>
-            }
+            </div>
         </div>
     )
 }
