@@ -45,7 +45,7 @@ const Card = (data) => {
     return ( 
         <div className="bg-white cursor-pointer md:w-56 md:h-60 h-52 rounded-lg">
             {isLoaded ?     
-                <figure className="relative mb-2 w-full h-4/5">
+                <figure className="relative mb-1 w-full h-4/5">
                     <span className="absolute bottom-0 left-0 bg-white/60 rounded-lg text-black text-xs m-2 px-3 py-0.5">{data.data.category ? data.data.category.name : 'Sin categoria'}</span>
                         <img 
                             className="w-full h-full object-cover rounded-lg" 
@@ -65,9 +65,9 @@ const Card = (data) => {
                     </div>
                 </div>
             }
-            <p className="flex justify-between">
-                <span className="text-sm font-light truncate pt-1" onClick={() => openProductDetail(data.data)}>{data.data.name}</span>
-                <span className="text-lg font-medium">${data.data.price}</span>
+            <p className="flex justify-between items-center">
+                <span className="text-gray-800 text-sm font-semibold capitalize pt-1" onClick={() => openProductDetail(data.data)}>{data.data.name}</span>
+                <span className="text-xs ">${data.data.price}</span>
             </p>
             <img
                 src={data.data.images[0]?.imageUrl}
