@@ -2,21 +2,22 @@ import { Carousel, initTE } from "tw-elements";
 import { useContext, useEffect } from "react";
 import { ShoppingCartContext } from '../../Context';
 
-const ImagesCarousel = ({selectedImagenIndex}) => {
+const ImagesCarousel = () => {
+
+    initTE({Carousel});
 
     const context = useContext(ShoppingCartContext);
     
     useEffect(() => {
-        initTE({ Carousel });
-        const myCarouselEl = document.getElementById("carouselImageControls");
-        const myCarousel = new Carousel(myCarouselEl);
-        myCarousel.to(0);   
+        if (context.isProductDetailOpen) {
+            setIndexImage(0);  
+        }
     },[context.selectedProduct]);
 
-    if(selectedImagenIndex === 0 || selectedImagenIndex === 1 || selectedImagenIndex === 2) {
+    const setIndexImage = (index) => {
         const myCarouselEl = document.getElementById("carouselImageControls");
         const myCarousel = new Carousel(myCarouselEl);
-        myCarousel.to(selectedImagenIndex);   
+        myCarousel.to(index);   
     }
 
     return (
@@ -34,9 +35,9 @@ const ImagesCarousel = ({selectedImagenIndex}) => {
                     className="relative float-left -mr-[100%] w-full transition-transform duration-[600ms] ease-in-out motion-reduce:transition-none aspect-w-16 aspect-h-9"
                     data-te-carousel-item
                     data-te-carousel-active>
-                    <figure className="relative mb-2 w-full h-4/5">
+                    <figure className="relative mb-2 w-full">
                         <img 
-                            className='object-contain w-full h-full rounded-lg' 
+                            className='object-contain w-full rounded-lg' 
                             src={context.selectedProduct.images && context.selectedProduct.images.length > 0 ? context.selectedProduct.images[0].imageUrl : ''} 
                             alt="ProductImg_0"/> 
                     </figure>
@@ -55,16 +56,16 @@ const ImagesCarousel = ({selectedImagenIndex}) => {
                 {/* Third item */ }
                 {context.selectedProduct.images && context.selectedProduct.images.length == 3 ? 
                     <div
-                    className="relative float-left -mr-[100%] hidden w-full transition-transform duration-[600ms] ease-in-out motion-reduce:transition-none aspect-w-16 aspect-h-9"
-                    data-te-carousel-item>
-                        <figure className="relative mb-2 w-full h-4/5">
-                            <img 
-                                className='object-contain w-full h-full rounded-lg' 
-                                src={context.selectedProduct.images && context.selectedProduct.images.length > 2 ? context.selectedProduct.images[2].imageUrl : ''} 
-                                alt="ProductImg_2" /> 
-                        </figure>
+                        className="relative float-left -mr-[100%] hidden w-full transition-transform duration-[600ms] ease-in-out motion-reduce:transition-none aspect-w-16 aspect-h-9"
+                        data-te-carousel-item>
+                            <figure className="relative mb-2 w-full h-4/5">
+                                <img 
+                                    className='object-contain w-full h-full rounded-lg' 
+                                    src={context.selectedProduct.images && context.selectedProduct.images.length > 2 ? context.selectedProduct.images[2].imageUrl : ''} 
+                                    alt="ProductImg_2" /> 
+                            </figure>
                     </div>
-                : ''
+                    : ''
                 }
                 
             </div>

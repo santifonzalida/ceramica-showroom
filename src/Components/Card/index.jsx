@@ -16,7 +16,7 @@ const Card = (data) => {
     
     const openProductDetail = (product) => {
         context.setSelectedProduct(product);
-        context.closeCheckoutSideMenu();
+        //context.closeCheckoutSideMenu();
         context.setIsProductDetailOpen(true);
     }
 

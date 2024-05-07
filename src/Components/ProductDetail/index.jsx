@@ -8,23 +8,13 @@ import './styles.css';
 
 const ProductDetail = () => {
     const context = useContext(ShoppingCartContext);
-    const contextUser = useContext(LoginContext)
-    const [selectedImagen, setSelectedImagen] = useState('');
+    const contextUser = useContext(LoginContext);
     const contentRef = useRef(null);
+    const [indexImage, setIndexImage] = useState(0)
 
     useEffect(() => {
         contentRef.current.scrollTo({ top: 0, behavior: 'smooth', });
     },[context.selectedProduct])
-
-    const setShowImage = (index) => {
-        setSelectedImagen(index);
-        contentRef.current.scrollTo(
-            {
-                top: 0,
-                behavior: 'smooth',
-            }
-        );
-    }
 
     const guardarProducto = (idProduct) => {
 
@@ -44,12 +34,10 @@ const ProductDetail = () => {
     }
 
     const mostrarEtiquetaNuevo = ( cantDias ) => {
-        
         if(!cantDias || !context.selectedProduct || !context.selectedProduct.created) return;
         
         let fechaProducto = new Date(context.selectedProduct.created);
         let fechaActual = new Date();
-
         const diferenciaMilisegundos = fechaActual - fechaProducto;
         const diferenciaDias = diferenciaMilisegundos / (1000 * 60 * 60 * 24);
 
@@ -60,12 +48,16 @@ const ProductDetail = () => {
         }
     }
 
+    const closeProductDetail = () => {
+        context.closeProductDetail();
+    }
+
     return (
         <aside className={`${context.isProductDetailOpen ? 'flex' : 'hidden'} product-detail flex-col fixed right-0 border border-black rounded-lg bg-white z-10`}>
             <div className='flex justify-between items-center'>
                 <h2 className='font-medium text-xl p-4'>Detalle</h2>
                 <div className='p-4'>
-                    <XMarkIcon className='h-6 w-6 text-black cursor-pointer' onClick={context.closeProductDetail}></XMarkIcon>
+                    <XMarkIcon className='h-6 w-6 text-black cursor-pointer' onClick={() => closeProductDetail()}></XMarkIcon>
                 </div>
             </div>
             <div ref={contentRef} className="max-w-6xl px-4 mx-auto lg:py-8 md:px-6">
@@ -73,22 +65,7 @@ const ProductDetail = () => {
                     <div className="w-full px-4 md:w-1/2 ">
                         <div className="sticky top-0 z-50">
                             <div className="relative mb-1 lg:mb-10 lg:h-2/4 ">
-                                <ImagesCarousel selectedImagenIndex={selectedImagen}/>
-                            </div>
-                            <div className="flex-wrap hidden md:flex ">
-                                {context.selectedProduct.images?.map((img, index) => (
-                                    <div className="w-1/2 p-2 sm:w-1/4" key={img.imageUrl}>
-                                    <a href="#"
-                                        className="block border rounded-lg">
-                                        <img 
-                                            src={img.imageUrl} 
-                                            alt={img.name}
-                                            className="object-cover w-full lg:h-20 rounded-lg"
-                                            onClick={() => setShowImage(index)}
-                                            />
-                                    </a>
-                                </div>
-                                ))}
+                                { context.isProductDetailOpen ? <ImagesCarousel/> : '' }
                             </div>
                         </div>
                     </div>
