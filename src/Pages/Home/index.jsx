@@ -56,7 +56,7 @@ function Home() {
         className="rounded-lg border border-black w-80 p-4 mb-4 focus:outline-none"
         onChange={(event) => context.setSearchByTitle(event.target.value)} />
         {
-          renderView()
+          context.isProductDetailOpen ? '' : renderView()
         }
       <ProductDetail />
     </Layout>
