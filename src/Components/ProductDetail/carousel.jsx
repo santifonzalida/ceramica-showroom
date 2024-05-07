@@ -24,6 +24,7 @@ const ImagesCarousel = () => {
         <div
             id="carouselImageControls"
             className="relative"
+            data-te-touch="false"
             data-te-carousel-init
             data-te-carousel-slide
             data-te-interval="false">
