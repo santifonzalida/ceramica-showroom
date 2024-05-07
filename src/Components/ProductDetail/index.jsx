@@ -1,6 +1,6 @@
 import { useContext, useEffect, useRef, useState } from 'react';
-import { XMarkIcon, HeartIcon } from '@heroicons/react/24/outline'
-import { HeartIcon as HeartIconSolid  } from '@heroicons/react/24/solid';
+import { XMarkIcon, HeartIcon, StarIcon as StarIconOutline } from '@heroicons/react/24/outline'
+import { HeartIcon as HeartIconSolid, StarIcon} from '@heroicons/react/24/solid';
 import { ShoppingCartContext } from '../../Context';
 import { LoginContext } from '../../Context/loginContext';
 import { ImagesCarousel } from './carousel';
@@ -61,25 +61,25 @@ const ProductDetail = () => {
     }
 
     return (
-        <aside className={`${context.isProductDetailOpen ? 'flex' : 'hidden'} product-detail flex-col fixed right-0 border border-black rounded-lg bg-white`}>
+        <aside className={`${context.isProductDetailOpen ? 'flex' : 'hidden'} product-detail flex-col fixed right-0 border border-black rounded-lg bg-white z-10`}>
             <div className='flex justify-between items-center'>
                 <h2 className='font-medium text-xl p-4'>Detalle</h2>
                 <div className='p-4'>
                     <XMarkIcon className='h-6 w-6 text-black cursor-pointer' onClick={context.closeProductDetail}></XMarkIcon>
                 </div>
             </div>
-            <div ref={contentRef} className="max-w-6xl px-4 py-4 mx-auto lg:py-8 md:px-6 overflow-scroll">
+            <div ref={contentRef} className="max-w-6xl px-4 mx-auto lg:py-8 md:px-6">
                 <div className="flex flex-wrap -mx-4">
                     <div className="w-full px-4 md:w-1/2 ">
-                        <div className="sticky top-0 z-50 overflow-hidden ">
-                            <div className="relative mb-4 lg:mb-10 lg:h-2/4 ">
+                        <div className="sticky top-0 z-50">
+                            <div className="relative mb-1 lg:mb-10 lg:h-2/4 ">
                                 <ImagesCarousel selectedImagenIndex={selectedImagen}/>
                             </div>
                             <div className="flex-wrap hidden md:flex ">
                                 {context.selectedProduct.images?.map((img, index) => (
                                     <div className="w-1/2 p-2 sm:w-1/4" key={img.imageUrl}>
                                     <a href="#"
-                                        className="block border dark:border-transparent dark:hover:border-sky-300 hover:border-sky-500 rounded-lg">
+                                        className="block border rounded-lg">
                                         <img 
                                             src={img.imageUrl} 
                                             alt={img.name}
@@ -95,15 +95,12 @@ const ProductDetail = () => {
                     <div className="w-full px-4 md:w-1/2 ">
                         <div className="lg:pl-20">
                             <div className="mb-8">
-                                <div className='flex justify-between items-center mb-3'>
-                                    <h2 className="max-w-xl text-2xl font-bold md:text-4xl flex gap-2">
+                                <div className='flex justify-between items-center mb-1'>
+                                    <h2 className="max-w-xl text-2xl font-bold text-gray-800 md:text-4xl gap-2">
                                         {context.selectedProduct.name}
                                         {
-                                            mostrarEtiquetaNuevo(10) ?  
-                                                <span className="pt-1 text-xs font-medium text-rose-500">Nuevo</span> :
-                                                ''
+                                            mostrarEtiquetaNuevo(10) ?  <span className="pt-1 text-xs font-medium text-rose-500">Nuevo</span> : ''
                                         }
-                                        
                                     </h2>
                                     {
                                         contextUser.user?.productsLikes && contextUser.user.productsLikes.some(x => x == context.selectedProduct._id) ? 
@@ -111,13 +108,15 @@ const ProductDetail = () => {
                                         <HeartIcon className='h-7 w-7 cursor-pointer mr-4' onClick={() => guardarProducto(context.selectedProduct._id)}/>
                                     }
                                 </div>
-
-                                <p className="max-w-md mb-8 text-gray-700 ">
+                                <p className="text-gray-700 mr-4">
                                     {context.selectedProduct.description ? context.selectedProduct.description : 'Sin descripción'}
                                 </p>
-                                <p className="inline-block mb-8 text-4xl font-bold text-gray-700 ">
-                                    <span>${context.selectedProduct.price}</span>
+                                <p className="text-gray-700 text-sm">
+                                    <span>${context.selectedProduct.price ? context.selectedProduct.price : 'N/A'}</span>
                                 </p>
+                                <div className='flex items-center'>
+                                   <StarIcon className='h-4 w-4'/><StarIcon className='h-4 w-4'/><StarIcon className='h-4 w-4'/><StarIcon className='h-4 w-4'/><StarIconOutline className='h-4 w-4'/> / reviews
+                                </div>
                             </div>
                         </div>
                     </div>
